@@ -5,15 +5,14 @@
  */
 package asteriods;
 
-import asteriods.rockengine.Container;
-import java.util.ArrayList;
+import asteriods.elements.Element;
+import asteriods.rockengine.CollisionDetector;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -21,11 +20,10 @@ import static org.junit.Assert.*;
  */
 public class RockEngineTest {
     
-    Container container;
-    List<Double> square;
-    double [] insidePoint;
-    double [] outsidePoint;
-    double [] edgePoint;
+    CollisionDetector detector;
+    Element square;
+    Element hexagon;
+    Element triangle;
     
     public RockEngineTest() {
     }
@@ -41,24 +39,16 @@ public class RockEngineTest {
     @Before
     public void setUp() {
         System.out.println("Setting up variables");
-        container = new Container();
-        square = new ArrayList<Double>();
+        detector = new CollisionDetector(600, 600);
+        triangle = new Element();
         
-        square.add(34.87);
-        square.add(100.2);
+        triangle.getPoints().addAll(new Double []{
+            34.87, 100.2,
+            34.87, 145.0,
+            20.1,  145.0
+        });
         
-        square.add(34.87);
-        square.add(145.0);
-        
-        square.add(20.1);
-        square.add(145.0);
-        
-        square.add(20.1); //x
-        square.add(100.2); //y
-
-        insidePoint = new double []{30.72, 123.39};
-        outsidePoint = new double []{18.2, 90.6};
-        edgePoint =  new double []{20.1, 100.2};
+        detector.addElement(triangle);
     }
     
     @After
@@ -72,20 +62,24 @@ public class RockEngineTest {
     // @Test
     // public void hello() {}
     @Test
-    public void insidePointTest(){
-        boolean r = container.isPointInPolygon(insidePoint[0], insidePoint[1], square);
-        assertEquals(true, r);
+    public void mapPolygonTest(){
+        CalculatePointsArea();
     }
     
-    @Test
-    public void outsidePointTest(){
-        boolean r = container.isPointInPolygon(outsidePoint[0], outsidePoint[1], square);
-        assertEquals(false, r);
-    }
-    
-    @Test
-    public void edgePointTest(){
-        boolean r = container.isPointInPolygon(edgePoint[0], edgePoint[1], square);
-        assertEquals(true, r);
+    private void CalculatePointsArea(){
+        
+        int totalPoints = 0;
+        detector.getCrashedElements();
+        List<List<List<Integer>>> testMap = detector.getMap();
+        for (List<List<Integer>> x: testMap){
+            for (List<Integer> y: x){
+                if (y.size()>0){
+                    for (Integer e: y){
+                        totalPoints++;
+                    }
+                }
+            }
+        }
+        System.out.println("Total Points: " + totalPoints);
     }
 }
