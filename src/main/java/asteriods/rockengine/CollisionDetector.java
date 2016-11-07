@@ -136,13 +136,32 @@ public class CollisionDetector {
     }
 
     protected List<Double> getPolyPointsInQuadrants (double x, double y, List<Double> polygonPoints){
+        List<Double> segmentPolygonPoints = new ArrayList<>();
+        List<Double> quadrantVectors = new ArrayList<>();
+        
+        quadrantVectors.add(1.0);
+        quadrantVectors.add(1.0);
+        
+        quadrantVectors.add(-1.0);
+        quadrantVectors.add(1.0);
+        
+        quadrantVectors.add(-1.0);
+        quadrantVectors.add(-1.0);
+        
+        quadrantVectors.add(1.0);
+        quadrantVectors.add(-1.0);
+        
         for (int i=3; i < polygonPoints.size(); i+=4){
             
-            double xi1 = polygonPoints.get(i - 1) - x;
-            double yi1 = polygonPoints.get(i) - y;
+            segmentPolygonPoints.add(polygonPoints.get(i - 3) - x);
+            segmentPolygonPoints.add(polygonPoints.get(i - 2) - y);
+            segmentPolygonPoints.add(polygonPoints.get(i - 1) - x);
+            segmentPolygonPoints.add(polygonPoints.get(i) - y);
             
-            double xi0 = polygonPoints.get(i - 3) - x;
-            double yi0 = polygonPoints.get(i - 2) - y;
+//            for (int k=0; k < 4; k++){
+//                LineEq line1 = LineEq.buildSegmentedLine(segmentPolygonPoints);
+//                LineEq line2 = LineEq.buidVectorLine();
+//            }
         }
         return new ArrayList<Double>();
     }
