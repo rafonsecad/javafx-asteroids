@@ -19,38 +19,6 @@ public class LineEq {
     private boolean segmentedLine;
     private double[] segmentsPoints;
 
-    public double getM() {
-        return m;
-    }
-
-    public double getB() {
-        return b;
-    }
-
-    public void setM(double m) {
-        this.m = m;
-    }
-
-    public void setB(double b) {
-        this.b = b;
-    }
-
-    public boolean isSegmentedLine() {
-        return segmentedLine;
-    }
-
-    public void setSegmentedLine(boolean segmentedLine) {
-        this.segmentedLine = segmentedLine;
-    }
-
-    public double[] getSegmentsPoints() {
-        return segmentsPoints;
-    }
-
-    public void setSegmentsPoints(double[] segmentsPoints) {
-        this.segmentsPoints = segmentsPoints;
-    }
-
     public LineEq() {
         this.segmentedLine = false;
     }
@@ -60,7 +28,11 @@ public class LineEq {
 
         double m = (points.get(3) - points.get(1)) / (points.get(2) - points.get(0));
         double b = points.get(1) - m*points.get(0);
-
+        
+        if (m == Double.POSITIVE_INFINITY || m == Double.NEGATIVE_INFINITY){
+            b = points.get(0);
+        }
+        
         line.setM(m);
         line.setB(b);
         return line;
@@ -135,9 +107,55 @@ public class LineEq {
     }
     
     public static double [] getIntersectedPoints(LineEq line1, LineEq line2){
-        double x = (line2.getB() - line1.getB()) / (line1.getM() - line2.getM());
-        double y = line1.getM() * x + line1.getB();
+        
+        double x, y;
+        
+        if (line1.getM() == Double.POSITIVE_INFINITY || line1.getM() == Double.NEGATIVE_INFINITY){
+            x = line1.getB();
+            y = line2.getM()*x + line2.getB();
+        }
+        
+        else if (line2.getM() == Double.POSITIVE_INFINITY || line2.getM() == Double.NEGATIVE_INFINITY){
+            x = line2.getB();
+            y = line1.getM()*x + line1.getB();
+        }
+        else{
+            x = (line2.getB() - line1.getB()) / (line1.getM() - line2.getM());
+            y = line1.getM() * x + line1.getB();
+        }
         
         return new double [] {x, y};
+    }
+    
+    public double getM() {
+        return m;
+    }
+
+    public double getB() {
+        return b;
+    }
+
+    public void setM(double m) {
+        this.m = m;
+    }
+
+    public void setB(double b) {
+        this.b = b;
+    }
+
+    public boolean isSegmentedLine() {
+        return segmentedLine;
+    }
+
+    public void setSegmentedLine(boolean segmentedLine) {
+        this.segmentedLine = segmentedLine;
+    }
+
+    public double[] getSegmentsPoints() {
+        return segmentsPoints;
+    }
+
+    public void setSegmentsPoints(double[] segmentsPoints) {
+        this.segmentsPoints = segmentsPoints;
     }
 }
