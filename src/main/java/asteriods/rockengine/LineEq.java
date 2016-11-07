@@ -59,7 +59,7 @@ public class LineEq {
         LineEq line = new LineEq();
 
         double m = (points.get(3) - points.get(1)) / (points.get(2) - points.get(0));
-        double b = m * (points.get(1) - points.get(0));
+        double b = points.get(1) - m*points.get(0);
 
         line.setM(m);
         line.setB(b);
@@ -85,25 +85,24 @@ public class LineEq {
         return LineEq.buildLine(vector);
     }
 
-    public static boolean areLinesIntersected(LineEq l1, LineEq l2) {
+    public static boolean areLinesIntersected(LineEq line1, LineEq line2) {
 
-        if (l1.getB() == l2.getB()) {
+        if (line1.getM() == line2.getM()) {
             return false;
         }
 
-        double x = -1 * (l1.getB() + l2.getB()) / (l1.getM() + l2.getB());
-        double y = l1.getM() * x + l1.getB();
+        double [] intersectedPoints = getIntersectedPoints(line1, line2);
         
-        if (l1.isSegmentedLine()) {
-            double[] points = l1.getSegmentsPoints();
-            if (LineEq.isPointOutside(x, y, points)){
+        if (line1.isSegmentedLine()) {
+            double[] points = line1.getSegmentsPoints();
+            if (LineEq.isPointOutside(intersectedPoints[0], intersectedPoints[1], points)){
                 return false;
             }
         }
         
-        if (l2.isSegmentedLine()) {
-            double[] points = l2.getSegmentsPoints();
-            if (LineEq.isPointOutside(x, y, points)){
+        if (line2.isSegmentedLine()) {
+            double[] points = line2.getSegmentsPoints();
+            if (LineEq.isPointOutside(intersectedPoints[0], intersectedPoints[1], points)){
                 return false;
             }
         }
@@ -133,5 +132,12 @@ public class LineEq {
         }
         
         return false;
+    }
+    
+    public static double [] getIntersectedPoints(LineEq line1, LineEq line2){
+        double x = (line2.getB() - line1.getB()) / (line1.getM() - line2.getM());
+        double y = line1.getM() * x + line1.getB();
+        
+        return new double [] {x, y};
     }
 }
