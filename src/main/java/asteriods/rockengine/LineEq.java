@@ -17,20 +17,22 @@ public class LineEq {
     private double m;
     private double b;
     private boolean segmentedLine;
-    private double[] segmentsPoints;
+    private Point[] segmentsPoints;
 
     public LineEq() {
         this.segmentedLine = false;
     }
 
-    public static LineEq buildLine(List<Double> points) {
+    public static LineEq buildLine(List<Point> points) {
         LineEq line = new LineEq();
 
-        double m = (points.get(3) - points.get(1)) / (points.get(2) - points.get(0));
-        double b = points.get(1) - m*points.get(0);
+        double m = (points.get(1).getY() - points.get(0).getY()) /
+                   (points.get(1).getX() - points.get(0).getX());
+        
+        double b = points.get(0).getY() - m*points.get(0).getX();
         
         if (m == Double.POSITIVE_INFINITY || m == Double.NEGATIVE_INFINITY){
-            b = points.get(0);
+            b = points.get(0).getX();
         }
         
         line.setM(m);
@@ -38,23 +40,26 @@ public class LineEq {
         return line;
     }
 
-    public static LineEq buildSegmentedLine(List<Double> points) {
+    public static LineEq buildSegmentedLine(List<Point> points) {
         LineEq line = LineEq.buildLine(points);
-        double[] segmentsPoints = points.stream().mapToDouble(Double::doubleValue).toArray();
-
+        Point [] segmentedPoints = new Point [points.size()];
+        
+        segmentedPoints[0] = new Point (points.get(0).getX(), points.get(0).getY());
+        segmentedPoints[1] = new Point (points.get(1).getX(), points.get(1).getY());
+        
         line.setSegmentedLine(true);
-        line.setSegmentsPoints(segmentsPoints);
+        line.setSegmentsPoints(segmentedPoints);
         return line;
     }
 
-    public static LineEq buidVectorLine(List<Double> vector) {
-        List<Double> points = new ArrayList<>();
-        points.add(vector.get(0));
-        points.add(vector.get(1));
-        points.add(0.0);
-        points.add(0.0);
+    public static LineEq buidVectorLine(Point vector) {
+        List<Point> points = new ArrayList<>();
+        
+        points.add(new Point(vector.getX(),
+                             vector.getY()));
+        points.add(new Point(0.0, 0.0));
 
-        return LineEq.buildLine(vector);
+        return LineEq.buildLine(points);
     }
 
     public static boolean areLinesIntersected(LineEq line1, LineEq line2) {
@@ -63,18 +68,18 @@ public class LineEq {
             return false;
         }
 
-        double [] intersectedPoints = getIntersectedPoints(line1, line2);
+        Point intersectedPoint = getIntersectedPoint(line1, line2);
         
         if (line1.isSegmentedLine()) {
-            double[] points = line1.getSegmentsPoints();
-            if (LineEq.isPointOutside(intersectedPoints[0], intersectedPoints[1], points)){
+            Point[] points = line1.getSegmentsPoints();
+            if (LineEq.isPointOutside(intersectedPoint, points)){
                 return false;
             }
         }
         
         if (line2.isSegmentedLine()) {
-            double[] points = line2.getSegmentsPoints();
-            if (LineEq.isPointOutside(intersectedPoints[0], intersectedPoints[1], points)){
+            Point[] points = line2.getSegmentsPoints();
+            if (LineEq.isPointOutside(intersectedPoint, points)){
                 return false;
             }
         }
@@ -82,23 +87,27 @@ public class LineEq {
         return true;
     }
 
-    protected static boolean isPointOutside(double x, double y, double[] points) {
-        if (points[0] < points[2]) {
-            if (points[0] > x || points[2] < x) {
+    protected static boolean isPointOutside(Point intersectedPoint, Point[] points) {
+        
+        double x = intersectedPoint.getX();
+        double y = intersectedPoint.getX();
+        
+        if (points[0].getX() < points[1].getX()) {
+            if (points[0].getX() > x || points[1].getX() < x) {
                 return true;
             }
         } else {
-            if (points[0] < x || points[2] > x) {
+            if (points[0].getX() < x || points[1].getX() > x) {
                 return true;
             }
         }
 
-        if (points[1] < points[3]) {
-            if (points[1] > y || points[3] < y) {
+        if (points[0].getY() < points[1].getY()) {
+            if (points[0].getY() > y || points[1].getY() < y) {
                 return true;
             }
         } else {
-            if (points[1] < y || points[3] > y) {
+            if (points[0].getY() < y || points[1].getY() > y) {
                 return true;
             }
         }
@@ -106,7 +115,7 @@ public class LineEq {
         return false;
     }
     
-    public static double [] getIntersectedPoints(LineEq line1, LineEq line2){
+    public static Point getIntersectedPoint(LineEq line1, LineEq line2){
         
         double x, y;
         
@@ -124,7 +133,7 @@ public class LineEq {
             y = line1.getM() * x + line1.getB();
         }
         
-        return new double [] {x, y};
+        return new Point (x, y);
     }
     
     public double getM() {
@@ -151,11 +160,12 @@ public class LineEq {
         this.segmentedLine = segmentedLine;
     }
 
-    public double[] getSegmentsPoints() {
+    public Point[] getSegmentsPoints() {
         return segmentsPoints;
     }
 
-    public void setSegmentsPoints(double[] segmentsPoints) {
+    public void setSegmentsPoints(Point[] segmentsPoints) {
         this.segmentsPoints = segmentsPoints;
     }
+
 }

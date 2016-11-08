@@ -41,11 +41,9 @@ public class LineEqTest extends LineEq{
 
     @Test
     public void buildLine_newLine_getMB (){
-        List<Double> points = new ArrayList<>();
-        points.add(1.0);
-        points.add(3.0);
-        points.add(-2.0);
-        points.add(5.0);
+        List<Point> points = new ArrayList<>();
+        points.add (new Point(1.0, 3.0));
+        points.add (new Point(-2.0, 5.0));
         LineEq line = LineEq.buildLine(points);
         assertEquals(line.getM(), ((double) -2/3), 0.001);
         assertEquals(line.getB(), ((double) 11/3), 0.001);
@@ -54,11 +52,9 @@ public class LineEqTest extends LineEq{
     
     @Test
     public void buildLine_inftySlope_getB (){
-        List<Double> points = new ArrayList<>();
-        points.add(2.0);
-        points.add(1.0);
-        points.add(2.0);
-        points.add(-2.0);
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(2.0, 1.0));
+        points.add(new Point(2.0,-2.0));
         LineEq line = LineEq.buildLine(points);
         assertEquals(2.0, line.getB(), 0.001);
         
@@ -66,19 +62,15 @@ public class LineEqTest extends LineEq{
     
     @Test
     public void areLineIntersected_parallelLines_false(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
-        
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(1.0);
-        pointsLine1.add(0.0);
-        
-        pointsLine2.add(0.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(1.0);
-        
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
+
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(1.0, 0.0));
+ 
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(1.0, 1.0));
+
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         boolean result = LineEq.areLinesIntersected(line1, line2);
@@ -87,18 +79,14 @@ public class LineEqTest extends LineEq{
     
     @Test
     public void areLineIntersected_linesWithDifferentSlopes_true(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(1.0);
-        pointsLine1.add(1.1);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(1.0, 1.1));
         
-        pointsLine2.add(0.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(0.0);
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(1.0, 0.0));
         
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
@@ -108,46 +96,40 @@ public class LineEqTest extends LineEq{
     
     @Test
     public void isPointOutside_pointInside_false(){
-        List<Double> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(1.0);
-        pointsLine1.add(1.1);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(1.0, 1.1));
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
-        boolean result = LineEq.isPointOutside(0.5,0.5,line1.getSegmentsPoints());
+        boolean result = LineEq.isPointOutside(new Point (0.5,0.5),
+                                                line1.getSegmentsPoints());
         assertEquals(false, result);
     }
     
     @Test
     public void isPointOutside_pointOutside_true(){
-        List<Double> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(-1.0);
-        pointsLine1.add(-1.0);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(-1.0, -1.0));
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
-        boolean result = LineEq.isPointOutside(0.5,0.5,line1.getSegmentsPoints());
+        boolean result = LineEq.isPointOutside(new Point (0.5,0.5),
+                                                line1.getSegmentsPoints());
         assertEquals(true, result);
     }
     
     @Test
     public void areLinesIntersected_intersectionOutsideSegmentation_false(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(-1.0);
-        pointsLine1.add(-1.0);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(-1.0, -1.0));
         
-        pointsLine2.add(0.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(0.0);
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(1.0, 0.0));
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
@@ -157,70 +139,58 @@ public class LineEqTest extends LineEq{
     
     @Test
     public void getIntersectedPoints_TwoLines_getPoints(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(-1.0);
-        pointsLine1.add(-1.0);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(-1.0, -1.0));
         
-        pointsLine2.add(0.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(0.0);
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(1.0, 0.0));
         
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        double [] intersectedPoints = LineEq.getIntersectedPoints(line1, line2);
-        assertEquals(0.5, intersectedPoints[0], 0.1);
-        assertEquals(0.5, intersectedPoints[1], 0.1);
+        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        assertEquals(0.5, intersectedPoint.getX(), 0.1);
+        assertEquals(0.5, intersectedPoint.getY(), 0.1);
     }
     
     @Test
     public void getIntersectedPoints_LineWithInftySlope_getPoints(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
         
-        pointsLine1.add(0.0);
-        pointsLine1.add(0.0);
-        pointsLine1.add(-1.0);
-        pointsLine1.add(-1.0);
+        pointsLine1.add(new Point(0.0, 0.0));
+        pointsLine1.add(new Point(-1.0, -1.0));
         
-        pointsLine2.add(2.0);
-        pointsLine2.add(1.0);
-        pointsLine2.add(2.0);
-        pointsLine2.add(-2.0);
+        pointsLine2.add(new Point(2.0, 1.0));
+        pointsLine2.add(new Point(2.0, -2.0));
         
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        double [] intersectedPoints = LineEq.getIntersectedPoints(line1, line2);
-        assertEquals(2.0, intersectedPoints[0], 0.1);
-        assertEquals(2.0, intersectedPoints[1], 0.1);
+        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        assertEquals(2.0, intersectedPoint.getX(), 0.1);
+        assertEquals(2.0, intersectedPoint.getY(), 0.1);
     }
     
     @Test
     public void getIntersectedPoints_LineWithInftySlope_getPoints2(){
-        List<Double> pointsLine1 = new ArrayList<>();
-        List<Double> pointsLine2 = new ArrayList<>();
+        List<Point> pointsLine1 = new ArrayList<>();
+        List<Point> pointsLine2 = new ArrayList<>();
         
-        pointsLine1.add(2.0);
-        pointsLine1.add(1.0);
-        pointsLine1.add(2.0);
-        pointsLine1.add(-2.0);
+        pointsLine1.add(new Point(2.0, 1.0));
+        pointsLine1.add(new Point(2.0, -2.0));
         
-        pointsLine2.add(0.0);
-        pointsLine2.add(0.0);
-        pointsLine2.add(-1.0);
-        pointsLine2.add(-1.0);
+        pointsLine2.add(new Point(0.0, 0.0));
+        pointsLine2.add(new Point(-1.0, -1.0));
         
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        double [] intersectedPoints = LineEq.getIntersectedPoints(line1, line2);
-        assertEquals(2.0, intersectedPoints[0], 0.1);
-        assertEquals(2.0, intersectedPoints[1], 0.1);
+        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        assertEquals(2.0, intersectedPoint.getX(), 0.1);
+        assertEquals(2.0, intersectedPoint.getY(), 0.1);
     }
 }

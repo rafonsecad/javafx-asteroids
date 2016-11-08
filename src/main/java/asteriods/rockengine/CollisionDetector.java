@@ -136,32 +136,28 @@ public class CollisionDetector {
     }
 
     protected List<Double> getPolyPointsInQuadrants (double x, double y, List<Double> polygonPoints){
-        List<Double> segmentPolygonPoints = new ArrayList<>();
-        List<Double> quadrantVectors = new ArrayList<>();
+        List<Point> segmentPolygonPoints = Point.buildList(polygonPoints);
+        List<Point> quadrantVectors = new ArrayList<>();
         
-        quadrantVectors.add(1.0);
-        quadrantVectors.add(1.0);
+        quadrantVectors.add(new Point(1.0, 1.0));
+        quadrantVectors.add(new Point(-1.0, 1.0));
+        quadrantVectors.add(new Point(-1.0, -1.0));
+        quadrantVectors.add(new Point(1.0, -1.0));
         
-        quadrantVectors.add(-1.0);
-        quadrantVectors.add(1.0);
+        List<Point> linesPoint;
         
-        quadrantVectors.add(-1.0);
-        quadrantVectors.add(-1.0);
-        
-        quadrantVectors.add(1.0);
-        quadrantVectors.add(-1.0);
-        
-        for (int i=3; i < polygonPoints.size(); i+=4){
+        for (int i=1; i < polygonPoints.size(); i+=2){
+            linesPoint = new ArrayList<>();
+            linesPoint.add(segmentPolygonPoints.get(i));
+            linesPoint.add(segmentPolygonPoints.get(i-1));
             
-            segmentPolygonPoints.add(polygonPoints.get(i - 3) - x);
-            segmentPolygonPoints.add(polygonPoints.get(i - 2) - y);
-            segmentPolygonPoints.add(polygonPoints.get(i - 1) - x);
-            segmentPolygonPoints.add(polygonPoints.get(i) - y);
-            
-//            for (int k=0; k < 4; k++){
-//                LineEq line1 = LineEq.buildSegmentedLine(segmentPolygonPoints);
-//                LineEq line2 = LineEq.buidVectorLine();
-//            }
+            for (int k=0; k < 4; k++){
+                LineEq line1 = LineEq.buildSegmentedLine(linesPoint);
+                LineEq line2 = LineEq.buidVectorLine(quadrantVectors.get(k));
+                if (LineEq.areLinesIntersected(line1, line2)){
+                    Point p = LineEq.getIntersectedPoint(line1, line2);
+                }
+            }
         }
         return new ArrayList<Double>();
     }
