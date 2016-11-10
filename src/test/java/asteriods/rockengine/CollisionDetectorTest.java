@@ -52,19 +52,64 @@ public class CollisionDetectorTest extends CollisionDetector{
              2.0, -2.0
         });
         
-        double [] expectedPoints = new double [] {
+        Double [] expectedDoubles = new Double [] {
             -4.0, 1.0,
              1.0, 1.0,
              2.0, 1.0,
              2.0, -2.0,
             -(2.0/3.0), -(2.0/3.0)
         };
-        
-        List<Double> points = getPolyPointsInQuadrants(0.0, 0.0, e.getPoints());
-        double [] pointsArray = points.stream().mapToDouble(Double::doubleValue).toArray();
+        Point [] expectedPoints = Point.build(expectedDoubles);
+        List<Point> points = getPolyPointsInQuadrants(0.0, 0.0, e.getPoints());
         for (int i=0; i<expectedPoints.length; i++){
-            assertEquals (expectedPoints[i], pointsArray[i], 0.01);
+            assertTrue (expectedPoints[i].equals(points.get(i)));
         }
     }
     
+    @Test
+    public void getMaxValues_Triangle_getMaxPoints(){
+        System.out.println("getMaxValues_Triangle_getMaxPoints");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+            -4.0, 1.0,
+             2.0, 1.0,
+             2.0, -2.0
+        });
+        
+        int [] maxPoints = getMaxValues(e);
+        assertEquals(-4, maxPoints[0]);
+        assertEquals(2, maxPoints[1]);
+        assertEquals(-2, maxPoints[2]);
+        assertEquals(1, maxPoints[3]);
+    }
+    
+    @Test
+    public void isPointInPolygon_PointOutsideSquare_false(){
+        System.out.println("isPointInPolygon_PointOutsideSquare_false");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+             1.0, 1.0,
+             -1.0, 1.0,
+             -1.0, -1.0,
+             1.0, -1.0
+        });
+        
+        boolean result = isPointInPolygon(5.0, 0.0, e.getPoints());
+        assertEquals(false, result);
+    }
+    
+    @Test
+    public void isPointInPolygon_PointInsideSquare_true(){
+        System.out.println("isPointInPolygon_PointInsideSquare_true");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+             1.0, 1.0,
+             -1.0, 1.0,
+             -1.0, -1.0,
+             1.0, -1.0
+        });
+        
+        boolean result = isPointInPolygon(0.0, 0.0, e.getPoints());
+        assertEquals(true, result);
+    }
 }

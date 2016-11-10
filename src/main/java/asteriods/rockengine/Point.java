@@ -73,12 +73,12 @@ public class Point {
         }
         
         final Point point = (Point) obj;
-        
-        if (this.getX() != point.getX()){
+        double delta = 0.001;
+        if ( this.getX() < (point.getX() - delta) || this.getX() > (point.getX() + delta)){
             return false;
         }
         
-        if (this.getY() != point.getY()){
+        if (this.getY() < (point.getY() - delta) || this.getY() > (point.getY() + delta)){
             return false;
         }
         

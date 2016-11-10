@@ -73,7 +73,7 @@ public class LineEqTest extends LineEq{
 
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
-        boolean result = LineEq.areLinesIntersected(line1, line2);
+        boolean result = line1.areLinesIntersected(line2);
         assertEquals(false, result);
     }
     
@@ -90,7 +90,7 @@ public class LineEqTest extends LineEq{
         
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
-        boolean result = LineEq.areLinesIntersected(line1, line2);
+        boolean result = line1.areLinesIntersected(line2);
         assertEquals(true, result);
     }
     
@@ -102,8 +102,7 @@ public class LineEqTest extends LineEq{
         pointsLine1.add(new Point(1.0, 1.1));
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
-        boolean result = LineEq.isPointOutside(new Point (0.5,0.5),
-                                                line1.getSegmentsPoints());
+        boolean result = line1.isPointOutside(new Point (0.5,0.5), line1.getSegmentsPoints());
         assertEquals(false, result);
     }
     
@@ -115,8 +114,7 @@ public class LineEqTest extends LineEq{
         pointsLine1.add(new Point(-1.0, -1.0));
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
-        boolean result = LineEq.isPointOutside(new Point (0.5,0.5),
-                                                line1.getSegmentsPoints());
+        boolean result = line1.isPointOutside(new Point (0.5,0.5), line1.getSegmentsPoints());
         assertEquals(true, result);
     }
     
@@ -133,7 +131,7 @@ public class LineEqTest extends LineEq{
         
         LineEq line1 = LineEq.buildSegmentedLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
-        boolean result = LineEq.areLinesIntersected(line1, line2);
+        boolean result = line1.areLinesIntersected(line2);
         assertEquals(false, result);
     }
     
@@ -151,7 +149,7 @@ public class LineEqTest extends LineEq{
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        Point intersectedPoint = line1.getIntersectedPoint(line2);
         assertEquals(0.5, intersectedPoint.getX(), 0.1);
         assertEquals(0.5, intersectedPoint.getY(), 0.1);
     }
@@ -170,7 +168,7 @@ public class LineEqTest extends LineEq{
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        Point intersectedPoint = line1.getIntersectedPoint(line2);
         assertEquals(2.0, intersectedPoint.getX(), 0.1);
         assertEquals(2.0, intersectedPoint.getY(), 0.1);
     }
@@ -189,8 +187,39 @@ public class LineEqTest extends LineEq{
         LineEq line1 = LineEq.buildLine(pointsLine1);
         LineEq line2 = LineEq.buildLine(pointsLine2);
         
-        Point intersectedPoint = LineEq.getIntersectedPoint(line1, line2);
+        Point intersectedPoint = line1.getIntersectedPoint(line2);
         assertEquals(2.0, intersectedPoint.getX(), 0.1);
         assertEquals(2.0, intersectedPoint.getY(), 0.1);
     }
+    
+    @Test
+    public void areLinesIntersected_OutsideVectorLine_false(){
+        List<Point> pointsLine2 = new ArrayList<>();
+        
+        Point vectorPoint = new Point(-1.0, -1.0);
+        
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(2.0, 0.0));
+        
+        LineEq line1 = LineEq.buidVectorLine(vectorPoint);
+        LineEq line2 = LineEq.buildSegmentedLine(pointsLine2);
+        boolean result = line1.areLinesIntersected(line2);
+        assertEquals(false, result);
+    }
+    
+    @Test
+    public void areLinesIntersected_InsideVectorLine_false(){
+        List<Point> pointsLine2 = new ArrayList<>();
+        
+        Point vectorPoint = new Point(1.0, 1.0);
+        
+        pointsLine2.add(new Point(0.0, 1.0));
+        pointsLine2.add(new Point(3.0, 1.0));
+        
+        LineEq line1 = LineEq.buidVectorLine(vectorPoint);
+        LineEq line2 = LineEq.buildSegmentedLine(pointsLine2);
+        boolean result = line1.areLinesIntersected(line2);
+        assertEquals(true, result);
+    }
+    
 }

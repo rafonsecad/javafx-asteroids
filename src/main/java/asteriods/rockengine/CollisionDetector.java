@@ -25,7 +25,7 @@ public class CollisionDetector {
     private int height;
 
     final static Logger logger = Logger.getLogger(CollisionDetector.class);
-    
+
     public int getWidth() {
         return width;
     }
@@ -74,35 +74,20 @@ public class CollisionDetector {
 
     protected void mapPolygon(Element e, int elementID) {
         List<Double> polygonPoints = e.getPoints();
-        List<Double> xPoints = new ArrayList<>();
-        List<Double> yPoints = new ArrayList<>();
-
-        for (int i = 0; i < polygonPoints.size(); i++) {
-            if (i == 0 || i % 2 == 0) {
-                xPoints.add(polygonPoints.get(i));
-            } else {
-                yPoints.add(polygonPoints.get(i));
-            }
-        }
-        int xmax = Collections.max(xPoints).intValue();
-        int xmin = Collections.min(xPoints).intValue();
-
-        int ymax = Collections.max(yPoints).intValue();
-        int ymin = Collections.min(yPoints).intValue();
-        System.out.println("xmin: " + xmin + " xmax: " + xmax + " ymin: " + ymin + " ymax: " + ymax);
-        for (int i = xmin; i < xmax; i++) {
-            for (int j = ymin; j < ymax; j++) {
-                try {
-                    if (isPointInPolygon(i, j, polygonPoints)) {
-                        map.get(i).get(j).add(elementID);
-                    }
-                } catch (ArrayIndexOutOfBoundsException ex) {
-                    logger.error("Error in points: " + i + ", " + j);
-                    logger.error("Error in points", ex);
-                    System.exit(0);
-                }
-            }
-        }
+        int [] values = getMaxValues(e);
+//        for (int i = values[0]; i < values[1]; i++) {
+//            for (int j = values[2]; j < values[3]; j++) {
+//                try {
+//                    if (isPointInPolygon(i, j, polygonPoints)) {
+//                        map.get(i).get(j).add(elementID);
+//                    }
+//                } catch (ArrayIndexOutOfBoundsException ex) {
+//                    logger.error("Error in points: " + i + ", " + j);
+//                    logger.error("Error in points", ex);
+//                    System.exit(0);
+//                }
+//            }
+//        }
     }
 
     protected boolean isPointInPolygon(double x, double y, List<Double> polygonPoints) {
@@ -111,7 +96,7 @@ public class CollisionDetector {
         for (int i = 1; i < polygonPoints.size(); i += 2) {
             double xi = polygonPoints.get(i - 1) - x;
             double yi = polygonPoints.get(i) - y;
-            
+
             if (xi == 0 && yi == 0) {
                 return true;
             } else if (xi >= 0 && yi >= 0) {
@@ -123,7 +108,7 @@ public class CollisionDetector {
             } else if (xi >= 0 && yi <= 0) {
                 quadrants[i / 2] = 4;
             }
-            
+
         }
 
         if (isPointEnclosed(quadrants)) {
@@ -135,40 +120,51 @@ public class CollisionDetector {
         return isPointEnclosed(lquad.stream().mapToInt(i -> i).toArray());
     }
 
-    protected List<Double> getPolyPointsInQuadrants (double x, double y, List<Double> polygonPoints){
+    protected List<Point> getPolyPointsInQuadrants(double x, double y, List<Double> polygonPoints) {
         List<Point> segmentPolygonPoints = Point.buildList(polygonPoints);
+        segmentPolygonPoints.add(new Point(segmentPolygonPoints.get(0).getX(),
+                segmentPolygonPoints.get(0).getY()));
         List<Point> quadrantVectors = new ArrayList<>();
-        
+
         quadrantVectors.add(new Point(1.0, 1.0));
         quadrantVectors.add(new Point(-1.0, 1.0));
         quadrantVectors.add(new Point(-1.0, -1.0));
         quadrantVectors.add(new Point(1.0, -1.0));
-        
+
+        List<Point> allPoints = new ArrayList<>();
         List<Point> linesPoint;
-        
-        for (int i=1; i < polygonPoints.size(); i+=2){
+
+        for (int i = 1; i < segmentPolygonPoints.size(); i++) {
+
             linesPoint = new ArrayList<>();
+
+            linesPoint.add(segmentPolygonPoints.get(i - 1));
             linesPoint.add(segmentPolygonPoints.get(i));
-            linesPoint.add(segmentPolygonPoints.get(i-1));
-            
-            for (int k=0; k < 4; k++){
+            allPoints.add(segmentPolygonPoints.get(i - 1));
+
+            for (int k = 0; k < 4; k++) {
                 LineEq line1 = LineEq.buildSegmentedLine(linesPoint);
                 LineEq line2 = LineEq.buidVectorLine(quadrantVectors.get(k));
-                if (LineEq.areLinesIntersected(line1, line2)){
-                    Point p = LineEq.getIntersectedPoint(line1, line2);
+                if (line1.areLinesIntersected(line2)) {
+                    Point p = line1.getIntersectedPoint(line2);
+                    if (!p.equals(segmentPolygonPoints.get(i - 1)) && 
+                        !p.equals(segmentPolygonPoints.get(i))) {
+                        allPoints.add(p);
+                    }
                 }
             }
+
         }
-        return new ArrayList<Double>();
+        return allPoints;
     }
-    
+
     protected boolean isPointEnclosed(int[] quadrants) {
         boolean[] bridges = new boolean[4];
         int k;
         for (int i = 0; i < quadrants.length; i++) {
 
-            k = (i == 0) ? quadrants.length-1 : i - 1;
-            
+            k = (i == 0) ? quadrants.length - 1 : i - 1;
+
             if (quadrants[i] == 2 && quadrants[k] == 1) {
                 bridges[0] = true;
             } else if (quadrants[i] == 3 && quadrants[k] == 2) {
@@ -183,8 +179,26 @@ public class CollisionDetector {
         return bridges[0] && bridges[1] && bridges[2] && bridges[3];
     }
 
-    
-    
+    protected int[] getMaxValues(Element e) {
+
+        List<Point> points = Point.buildList(e.getPoints());
+        List<Double> xPoints = new ArrayList<>();
+        List<Double> yPoints = new ArrayList<>();
+
+        for (Point p : points) {
+            xPoints.add(p.getX());
+            yPoints.add(p.getY());
+        }
+        int[] values = new int [4];
+
+        values[0] = Collections.min(xPoints).intValue();
+        values[1] = Collections.max(xPoints).intValue();
+        values[2] = Collections.min(yPoints).intValue();
+        values[3] = Collections.max(yPoints).intValue();
+
+        return values;
+    }
+
     private void mapInitialization() {
         map = new ArrayList<>();
         for (int i = 0; i < width; i++) {

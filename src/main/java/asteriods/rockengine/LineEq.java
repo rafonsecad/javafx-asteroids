@@ -54,32 +54,42 @@ public class LineEq {
 
     public static LineEq buidVectorLine(Point vector) {
         List<Point> points = new ArrayList<>();
+        Point [] segmentedPoints = new Point [2];
+        Point origin = new Point (0.0, 0.0);
         
-        points.add(new Point(vector.getX(),
-                             vector.getY()));
-        points.add(new Point(0.0, 0.0));
+        points.add(new Point(vector.getX(), vector.getY()));
+        points.add(origin);
+        
+        segmentedPoints [0] = origin;
+        
+        double xQuadrant = Math.signum(vector.getX())*Double.POSITIVE_INFINITY;
+        double yQuadrant = Math.signum(vector.getY())*Double.POSITIVE_INFINITY;
+        segmentedPoints [1] = new Point (xQuadrant, yQuadrant);
 
-        return LineEq.buildLine(points);
+        LineEq line = LineEq.buildLine(points);
+        line.setSegmentedLine(true);
+        line.setSegmentsPoints(segmentedPoints);
+        return line;
     }
 
-    public static boolean areLinesIntersected(LineEq line1, LineEq line2) {
+    public boolean areLinesIntersected(LineEq line2) {
 
-        if (line1.getM() == line2.getM()) {
+        if (getM() == line2.getM()) {
             return false;
         }
 
-        Point intersectedPoint = getIntersectedPoint(line1, line2);
+        Point intersectedPoint = getIntersectedPoint(line2);
         
-        if (line1.isSegmentedLine()) {
-            Point[] points = line1.getSegmentsPoints();
-            if (LineEq.isPointOutside(intersectedPoint, points)){
+        if (isSegmentedLine()) {
+            Point[] points = getSegmentsPoints();
+            if (isPointOutside(intersectedPoint, points)){
                 return false;
             }
         }
         
         if (line2.isSegmentedLine()) {
             Point[] points = line2.getSegmentsPoints();
-            if (LineEq.isPointOutside(intersectedPoint, points)){
+            if (isPointOutside(intersectedPoint, points)){
                 return false;
             }
         }
@@ -87,7 +97,7 @@ public class LineEq {
         return true;
     }
 
-    protected static boolean isPointOutside(Point intersectedPoint, Point[] points) {
+    protected boolean isPointOutside(Point intersectedPoint, Point[] points) {
         
         double x = intersectedPoint.getX();
         double y = intersectedPoint.getX();
@@ -115,22 +125,22 @@ public class LineEq {
         return false;
     }
     
-    public static Point getIntersectedPoint(LineEq line1, LineEq line2){
+    public Point getIntersectedPoint(LineEq line2){
         
         double x, y;
         
-        if (line1.getM() == Double.POSITIVE_INFINITY || line1.getM() == Double.NEGATIVE_INFINITY){
-            x = line1.getB();
+        if (getM() == Double.POSITIVE_INFINITY || getM() == Double.NEGATIVE_INFINITY){
+            x = getB();
             y = line2.getM()*x + line2.getB();
         }
         
         else if (line2.getM() == Double.POSITIVE_INFINITY || line2.getM() == Double.NEGATIVE_INFINITY){
             x = line2.getB();
-            y = line1.getM()*x + line1.getB();
+            y = getM()*x + getB();
         }
         else{
-            x = (line2.getB() - line1.getB()) / (line1.getM() - line2.getM());
-            y = line1.getM() * x + line1.getB();
+            x = (line2.getB() - getB()) / (getM() - line2.getM());
+            y = getM() * x + getB();
         }
         
         return new Point (x, y);
