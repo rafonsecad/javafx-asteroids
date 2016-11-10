@@ -112,4 +112,27 @@ public class PointTest {
             assertEquals(raw.get(i), dList.get(i), 0.01);
         }
     }
+    
+    @Test
+    public void changeOrigin_vectorsList_getList(){
+        List<Point> points = new ArrayList<>();
+        points.add(new Point(-1.0, 0.0));
+        points.add(new Point(1.0, 0.0));
+        points.add(new Point(1.0, -1.0));
+        points.add(new Point(-1.0, -1.0));
+        
+        Point p = new Point (0.5, -0.5);
+        
+        List<Point> expectedPoints = new ArrayList<>();
+        expectedPoints.add(new Point(-1.5, 0.5));
+        expectedPoints.add(new Point(0.5, 0.5));
+        expectedPoints.add(new Point(0.5, -0.5));
+        expectedPoints.add(new Point(-1.5, -0.5));
+        
+        List<Point> result = p.changeOrigin(points);
+        
+        for (int i=0; i<expectedPoints.size(); i++){
+            assertTrue(expectedPoints.get(i).equals(result.get(i)));
+        }
+    }
 }

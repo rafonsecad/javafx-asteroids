@@ -82,31 +82,32 @@ public class CollisionDetector {
 //                        map.get(i).get(j).add(elementID);
 //                    }
 //                } catch (ArrayIndexOutOfBoundsException ex) {
-//                    logger.error("Error in points: " + i + ", " + j);
-//                    logger.error("Error in points", ex);
-//                    System.exit(0);
+//                    logger.error("Error in point: " + i + ", " + j);
+//                    logger.error("Error in point", ex);
 //                }
 //            }
 //        }
     }
+    
+    protected boolean isPointInPolygon(Point p, List<Point> polPoints) {
 
-    protected boolean isPointInPolygon(double x, double y, List<Double> polygonPoints) {
-
-        int[] quadrants = new int[polygonPoints.size() / 2];
-        for (int i = 1; i < polygonPoints.size(); i += 2) {
-            double xi = polygonPoints.get(i - 1) - x;
-            double yi = polygonPoints.get(i) - y;
+        List<Point> centeredPoints = p.changeOrigin(polPoints);
+        List<Point> allPoints = getPolyPointsInQuadrants(centeredPoints);
+        int[] quadrants = new int[allPoints.size()];
+        for (int i = 0; i < allPoints.size(); i++) {
+            double xi = allPoints.get(i).getX() - p.getX();
+            double yi = allPoints.get(i).getY() - p.getY();
 
             if (xi == 0 && yi == 0) {
                 return true;
             } else if (xi >= 0 && yi >= 0) {
-                quadrants[i / 2] = 1;
+                quadrants[i] = 1;
             } else if (xi <= 0 && yi >= 0) {
-                quadrants[i / 2] = 2;
+                quadrants[i] = 2;
             } else if (xi <= 0 && yi <= 0) {
-                quadrants[i / 2] = 3;
+                quadrants[i] = 3;
             } else if (xi >= 0 && yi <= 0) {
-                quadrants[i / 2] = 4;
+                quadrants[i] = 4;
             }
 
         }
@@ -120,16 +121,11 @@ public class CollisionDetector {
         return isPointEnclosed(lquad.stream().mapToInt(i -> i).toArray());
     }
 
-    protected List<Point> getPolyPointsInQuadrants(double x, double y, List<Double> polygonPoints) {
-        List<Point> segmentPolygonPoints = Point.buildList(polygonPoints);
-        segmentPolygonPoints.add(new Point(segmentPolygonPoints.get(0).getX(),
-                segmentPolygonPoints.get(0).getY()));
-        List<Point> quadrantVectors = new ArrayList<>();
-
-        quadrantVectors.add(new Point(1.0, 1.0));
-        quadrantVectors.add(new Point(-1.0, 1.0));
-        quadrantVectors.add(new Point(-1.0, -1.0));
-        quadrantVectors.add(new Point(1.0, -1.0));
+    protected List<Point> getPolyPointsInQuadrants(List<Point> polygonPoints) {
+        List<Point> segmentPolygonPoints = polygonPoints;
+        Point firstPoint = segmentPolygonPoints.get(0);
+        segmentPolygonPoints.add(new Point(firstPoint.getX(), firstPoint.getY()));
+        List<Point> quadrantVectors = getQuadrantsVector();
 
         List<Point> allPoints = new ArrayList<>();
         List<Point> linesPoint;
@@ -207,5 +203,16 @@ public class CollisionDetector {
                 map.get(i).add(new ArrayList<>());
             }
         }
+    }
+    
+    private List<Point> getQuadrantsVector(){
+        List<Point> vectors = new ArrayList<>();
+        
+        vectors.add(new Point(1.0, 1.0));
+        vectors.add(new Point(-1.0, 1.0));
+        vectors.add(new Point(-1.0, -1.0));
+        vectors.add(new Point(1.0, -1.0));
+        
+        return vectors;
     }
 }

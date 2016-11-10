@@ -66,6 +66,18 @@ public class Point {
         return raw;
     }
     
+    public List<Point> changeOrigin(List<Point> points){
+        List<Point> result = new ArrayList<>();
+        
+        for (Point p: points){
+            Double xP = p.getX() - this.getX();
+            Double yP = p.getY() - this.getY();
+            result.add(new Point (xP, yP));
+        }
+        
+        return result;
+    }
+    
     @Override
     public boolean equals(Object obj){
         if (obj == null){

@@ -60,7 +60,8 @@ public class CollisionDetectorTest extends CollisionDetector{
             -(2.0/3.0), -(2.0/3.0)
         };
         Point [] expectedPoints = Point.build(expectedDoubles);
-        List<Point> points = getPolyPointsInQuadrants(0.0, 0.0, e.getPoints());
+        List<Point> polyPoints = Point.buildList(e.getPoints());
+        List<Point> points = getPolyPointsInQuadrants(polyPoints);
         for (int i=0; i<expectedPoints.length; i++){
             assertTrue (expectedPoints[i].equals(points.get(i)));
         }
@@ -93,8 +94,8 @@ public class CollisionDetectorTest extends CollisionDetector{
              -1.0, -1.0,
              1.0, -1.0
         });
-        
-        boolean result = isPointInPolygon(5.0, 0.0, e.getPoints());
+        List<Point> points = Point.buildList(e.getPoints());
+        boolean result = isPointInPolygon(new Point(5.0, 0.0) , points);
         assertEquals(false, result);
     }
     
@@ -108,8 +109,38 @@ public class CollisionDetectorTest extends CollisionDetector{
              -1.0, -1.0,
              1.0, -1.0
         });
-        
-        boolean result = isPointInPolygon(0.0, 0.0, e.getPoints());
+        List<Point> points = Point.buildList(e.getPoints());
+        boolean result = isPointInPolygon(new Point(0.0, 0.0), points);
         assertEquals(true, result);
+    }
+    
+    @Test
+    public void isPointInPolygon_PointInsideTriangle_true(){
+        System.out.println("isPointInPolygon_PointInsideTriangle_true");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+            -4.0, 1.0,
+             2.0, 1.0,
+             2.0, -2.0
+        });
+
+        List<Point> points = Point.buildList(e.getPoints());
+        boolean result = isPointInPolygon(new Point(0.0, 0.0), points);
+        assertEquals(true, result);
+    }
+    
+    @Test
+    public void isPointInPolygon_PointInsideTriangle_false(){
+        System.out.println("isPointInPolygon_PointInsideTriangle_true");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+            -4.0, 1.0,
+             2.0, 1.0,
+             2.0, -2.0
+        });
+
+        List<Point> points = Point.buildList(e.getPoints());
+        boolean result = isPointInPolygon(new Point(5.0, 0.0), points);
+        assertEquals(false, result);
     }
 }
