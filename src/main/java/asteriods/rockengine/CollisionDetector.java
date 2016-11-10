@@ -95,8 +95,8 @@ public class CollisionDetector {
         List<Point> allPoints = getPolyPointsInQuadrants(centeredPoints);
         int[] quadrants = new int[allPoints.size()];
         for (int i = 0; i < allPoints.size(); i++) {
-            double xi = allPoints.get(i).getX() - p.getX();
-            double yi = allPoints.get(i).getY() - p.getY();
+            double xi = allPoints.get(i).getX();
+            double yi = allPoints.get(i).getY();
 
             if (xi == 0 && yi == 0) {
                 return true;
