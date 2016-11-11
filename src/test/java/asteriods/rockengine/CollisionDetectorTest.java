@@ -54,6 +54,7 @@ public class CollisionDetectorTest extends CollisionDetector{
         
         Double [] expectedDoubles = new Double [] {
             -4.0, 1.0,
+            -1.0, 1.0,
              1.0, 1.0,
              2.0, 1.0,
              2.0, -2.0,
@@ -142,5 +143,50 @@ public class CollisionDetectorTest extends CollisionDetector{
         List<Point> points = Point.buildList(e.getPoints());
         boolean result = isPointInPolygon(new Point(5.0, 0.0), points);
         assertEquals(false, result);
+    }
+    
+    @Test
+    public void mapPolygon_square_fillMap(){
+        System.out.println("mapPolygon_square_fillMap");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+             10.0, 20.0,
+             10.0, 50.0,
+             35.0, 50.0,
+             35.0, 20.0
+        });
+        CollisionDetector col = new CollisionDetector(600, 600);
+        col.mapPolygon(e, 0);
+        int area = 0;
+        for (int i=0; i<col.getMap().size();i++){
+            for (int j=0; j<col.getMap().size();j++){
+                if (col.getMap().get(i).get(j).size() > 0){
+                    area++;
+                }
+            }
+        }
+        assertEquals(750, area);
+    }
+    
+    @Test
+    public void mapPolygon_triangle_fillMap(){
+        System.out.println("mapPolygon_square_fillMap");
+        Element e = new Element();
+        e.getPoints().addAll(new Double []{
+             10.0, 20.0,
+             10.0, 50.0,
+             35.0, 50.0
+        });
+        CollisionDetector col = new CollisionDetector(600, 600);
+        col.mapPolygon(e, 0);
+        int area = 0;
+        for (int i=0; i<col.getMap().size();i++){
+            for (int j=0; j<col.getMap().get(i).size();j++){
+                if (col.getMap().get(i).get(j).size() > 0){
+                    area++;
+                }
+            }
+        }
+        assertEquals(375, area);
     }
 }

@@ -100,7 +100,7 @@ public class LineEq {
     protected boolean isPointOutside(Point intersectedPoint, Point[] points) {
         
         double x = intersectedPoint.getX();
-        double y = intersectedPoint.getX();
+        double y = intersectedPoint.getY();
         
         if (points[0].getX() < points[1].getX()) {
             if (points[0].getX() > x || points[1].getX() < x) {

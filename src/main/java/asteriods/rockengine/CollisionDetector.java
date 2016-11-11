@@ -54,6 +54,7 @@ public class CollisionDetector {
         elements = new ArrayList<>();
         this.width = width;
         this.height = height;
+        mapInitialization();
     }
 
     public void addElement(Element e) {
@@ -72,21 +73,21 @@ public class CollisionDetector {
         return new ArrayList<Element>();
     }
 
-    protected void mapPolygon(Element e, int elementID) {
-        List<Double> polygonPoints = e.getPoints();
+    public void mapPolygon(Element e, int elementID) {
+        List<Point> polygonPoints = Point.buildList(e.getPoints());
         int [] values = getMaxValues(e);
-//        for (int i = values[0]; i < values[1]; i++) {
-//            for (int j = values[2]; j < values[3]; j++) {
-//                try {
-//                    if (isPointInPolygon(i, j, polygonPoints)) {
-//                        map.get(i).get(j).add(elementID);
-//                    }
-//                } catch (ArrayIndexOutOfBoundsException ex) {
-//                    logger.error("Error in point: " + i + ", " + j);
-//                    logger.error("Error in point", ex);
-//                }
-//            }
-//        }
+        for (int i = values[0]; i < values[1]; i++) {
+            for (int j = values[2]; j < values[3]; j++) {
+                try {
+                    if (isPointInPolygon(new Point(i,j), polygonPoints)) {
+                        map.get(i).get(j).add(elementID);
+                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    logger.error("Error in point: " + i + ", " + j);
+                    logger.error("Error in point", ex);
+                }
+            }
+        }
     }
     
     protected boolean isPointInPolygon(Point p, List<Point> polPoints) {
@@ -129,26 +130,30 @@ public class CollisionDetector {
 
         List<Point> allPoints = new ArrayList<>();
         List<Point> linesPoint;
+        List<Point> additionalPoints;
 
         for (int i = 1; i < segmentPolygonPoints.size(); i++) {
 
             linesPoint = new ArrayList<>();
-
+            additionalPoints = new ArrayList<>();
+            
             linesPoint.add(segmentPolygonPoints.get(i - 1));
             linesPoint.add(segmentPolygonPoints.get(i));
             allPoints.add(segmentPolygonPoints.get(i - 1));
-
-            for (int k = 0; k < 4; k++) {
-                LineEq line1 = LineEq.buildSegmentedLine(linesPoint);
+            LineEq line1 = LineEq.buildSegmentedLine(linesPoint);
+            
+            for (int k = 0; k < 4; k++) {    
                 LineEq line2 = LineEq.buidVectorLine(quadrantVectors.get(k));
                 if (line1.areLinesIntersected(line2)) {
                     Point p = line1.getIntersectedPoint(line2);
                     if (!p.equals(segmentPolygonPoints.get(i - 1)) && 
                         !p.equals(segmentPolygonPoints.get(i))) {
-                        allPoints.add(p);
+                        additionalPoints.add(p);
                     }
                 }
             }
+            List<Point> sortedPoints = sortPoints(additionalPoints, segmentPolygonPoints.get(i-1));
+            addPoints (allPoints, sortedPoints);
 
         }
         return allPoints;
@@ -214,5 +219,39 @@ public class CollisionDetector {
         vectors.add(new Point(1.0, -1.0));
         
         return vectors;
+    }
+    
+    private List<Point> sortPoints(List<Point> points, Point origin){
+        
+        if (points.size()!=2){
+            return points;
+        }
+        
+        List<Point> pointsToOrigin = origin.changeOrigin(points);
+        List<Double> magnitudes = new ArrayList<>();
+        
+        for (int i = 0; i< points.size(); i++){
+            double x = pointsToOrigin.get(i).getX();
+            double y = pointsToOrigin.get(i).getY();
+            double mag = Math.pow(y, 2) + Math.pow(x, 2);
+            magnitudes.add(mag);
+        }
+        
+        if (magnitudes.get(0)>magnitudes.get(1)){
+            List<Point> sortedPoints = new ArrayList<>();
+            sortedPoints.add(points.get(1));
+            sortedPoints.add(points.get(0));
+            return sortedPoints;
+        }
+        return points;
+    }
+    
+    private void addPoints(List<Point> pointList, List<Point> subList){
+        if (subList.size() == 0){
+            return;
+        }
+        for (int i =0; i<subList.size();i++){
+            pointList.add(subList.get(i));
+        }
     }
 }
