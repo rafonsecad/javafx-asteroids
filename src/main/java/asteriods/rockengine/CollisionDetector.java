@@ -60,6 +60,9 @@ public class CollisionDetector {
     }
 
     public void addElement(Element e) {
+        if (e.getPoints().isEmpty()){
+            return;
+        }
         elements.add(e);
     }
 
