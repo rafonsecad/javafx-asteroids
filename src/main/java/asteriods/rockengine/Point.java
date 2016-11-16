@@ -111,6 +111,31 @@ public class Point {
         return this.equals(pointsOfSegment[1]);
     }
     
+    public List<Point> sortVectorPointsByMagnitude(List<Point> points) {
+
+        if (points.size() != 2) {
+            return points;
+        }
+
+        List<Point> pointsToOrigin = this.changeOrigin(points);
+        List<Double> magnitudes = new ArrayList<>();
+
+        for (int i = 0; i < points.size(); i++) {
+            double x = pointsToOrigin.get(i).getX();
+            double y = pointsToOrigin.get(i).getY();
+            double mag = Math.pow(y, 2) + Math.pow(x, 2);
+            magnitudes.add(mag);
+        }
+
+        if (magnitudes.get(0) > magnitudes.get(1)) {
+            List<Point> sortedPoints = new ArrayList<>();
+            sortedPoints.add(points.get(1));
+            sortedPoints.add(points.get(0));
+            return sortedPoints;
+        }
+        return points;
+    }
+    
     public double getX() {
         return x;
     }

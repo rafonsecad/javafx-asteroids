@@ -138,6 +138,7 @@ public class CollisionDetector {
     }
 
     protected List<Point> getPolyPointsInQuadrants(List<Point> polygonPoints) {
+        
         List<Point> segmentPolygonPoints = polygonPoints;
         Point firstPoint = segmentPolygonPoints.get(0);
         segmentPolygonPoints.add(new Point(firstPoint.getX(), firstPoint.getY()));
@@ -149,7 +150,8 @@ public class CollisionDetector {
 
             LineEq segment = LineEq.buildSegmentedLine(segmentPolygonPoints.subList(i-1, i+1));            
             additionalPoints = getAdditionalPointsInSegment(segment);
-            List<Point> sortedPoints = sortPoints(additionalPoints, segmentPolygonPoints.get(i - 1));
+            Point lastPoint = segmentPolygonPoints.get(i - 1);
+            List<Point> sortedPoints = lastPoint.sortVectorPointsByMagnitude(additionalPoints);
             
             allPoints.add(segmentPolygonPoints.get(i - 1));
             addPoints(allPoints, sortedPoints);
@@ -203,31 +205,6 @@ public class CollisionDetector {
             }
         }
         return additionalPoints;
-    }
-
-    private List<Point> sortPoints(List<Point> points, Point origin) {
-
-        if (points.size() != 2) {
-            return points;
-        }
-
-        List<Point> pointsToOrigin = origin.changeOrigin(points);
-        List<Double> magnitudes = new ArrayList<>();
-
-        for (int i = 0; i < points.size(); i++) {
-            double x = pointsToOrigin.get(i).getX();
-            double y = pointsToOrigin.get(i).getY();
-            double mag = Math.pow(y, 2) + Math.pow(x, 2);
-            magnitudes.add(mag);
-        }
-
-        if (magnitudes.get(0) > magnitudes.get(1)) {
-            List<Point> sortedPoints = new ArrayList<>();
-            sortedPoints.add(points.get(1));
-            sortedPoints.add(points.get(0));
-            return sortedPoints;
-        }
-        return points;
     }
 
     private void addPoints(List<Point> pointList, List<Point> subList) {
