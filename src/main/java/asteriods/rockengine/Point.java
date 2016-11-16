@@ -97,6 +97,20 @@ public class Point {
         return true;
     }
 
+    public boolean isPointBuildingSegment(LineEq line){
+        if (!line.isSegmentedLine()){
+            return false;
+        }
+        
+        Point [] pointsOfSegment = line.getSegmentsPoints();
+        
+        if (this.equals(pointsOfSegment[0])){
+            return true;
+        }
+        
+        return this.equals(pointsOfSegment[1]);
+    }
+    
     public double getX() {
         return x;
     }
