@@ -9,7 +9,9 @@ import asteriods.elements.Element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 
@@ -65,12 +67,22 @@ public class CollisionDetector {
 
     }
 
-    public List<Element> getCrashedElements() {
-        //int numberOfElements = elements.size();
+    public Set<Integer> getCrashedElements() {
         mapInitialization();
-        Element e = elements.get(0);
-        mapPolygon(e, 0);
-        return new ArrayList<Element>();
+        Set<Integer> indexOfCrashedElements = new HashSet<>();
+        for (int i=0; i<elements.size(); i++){
+            mapPolygon(elements.get(i), i);
+        }
+        for (int i=0; i<width; i++){
+            for (int j=0; j<height; j++){
+                if (map.get(i).get(j).size()>1){
+                    for (int k=0; k<map.get(i).get(j).size();k++){
+                        indexOfCrashedElements.add(map.get(i).get(j).get(k));
+                    }
+                }
+            }
+        }
+        return indexOfCrashedElements;
     }
 
     public void mapPolygon(Element e, int elementID) {
@@ -158,7 +170,7 @@ public class CollisionDetector {
         }
         return allPoints;
     }
-
+    
     protected boolean isPointEnclosed(int[] quadrants) {
         boolean[] bridges = new boolean[4];
         int k;

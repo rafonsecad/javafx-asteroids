@@ -6,7 +6,9 @@
 package asteriods.rockengine;
 
 import asteriods.elements.Element;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -187,6 +189,39 @@ public class CollisionDetectorTest extends CollisionDetector{
                 }
             }
         }
-        assertEquals(375, area);
+        assertEquals(380, area);
+    }
+    
+    @Test
+    public void getCrashedElements_TriangleAndSquareOverlapped_getIndex(){
+        System.out.println("getCrashedElements_TriangleAndSquareOverlapped_getIndex");
+        Element triangle = new Element();
+        triangle.getPoints().addAll(new Double []{
+             10.0, 20.0,
+             10.0, 50.0,
+             35.0, 50.0
+        });
+        Element square = new Element();
+        square.getPoints().addAll(new Double []{
+             40.0, 50.0,
+             40.0, 80.0,
+             65.0, 80.0,
+             65.0, 50.0
+        });
+        Element square2 = new Element();
+        square2.getPoints().addAll(new Double []{
+             10.0, 20.0,
+             10.0, 50.0,
+             35.0, 50.0,
+             35.0, 20.0
+        });
+        CollisionDetector col = new CollisionDetector(600, 600);
+        col.addElement(triangle);
+        col.addElement(square);
+        col.addElement(square2);
+        Set<Integer> indexOfElementsCrashed = col.getCrashedElements();
+        List<Integer> indexes = new ArrayList<Integer>(indexOfElementsCrashed);
+        assertEquals(0, indexes.get(0).intValue());
+        assertEquals(2, indexes.get(1).intValue());
     }
 }
