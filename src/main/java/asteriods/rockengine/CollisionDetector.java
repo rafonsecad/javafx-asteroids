@@ -90,7 +90,7 @@ public class CollisionDetector {
 
     public void mapPolygon(Element e, int elementID) {
         List<Point> polygonPoints = Point.buildList(e.getPoints());
-        int[] values = getMaxValues(e);
+        int[] values = e.getMaxValues();
         for (int i = values[0]; i < values[1]; i++) {
             for (int j = values[2]; j < values[3]; j++) {
                 try {
@@ -177,26 +177,6 @@ public class CollisionDetector {
         }
 
         return bridges[0] && bridges[1] && bridges[2] && bridges[3];
-    }
-
-    protected int[] getMaxValues(Element e) {
-
-        List<Point> points = Point.buildList(e.getPoints());
-        List<Double> xPoints = new ArrayList<>();
-        List<Double> yPoints = new ArrayList<>();
-
-        for (Point p : points) {
-            xPoints.add(p.getX());
-            yPoints.add(p.getY());
-        }
-        int[] values = new int[4];
-
-        values[0] = Collections.min(xPoints).intValue();
-        values[1] = Collections.max(xPoints).intValue();
-        values[2] = Collections.min(yPoints).intValue();
-        values[3] = Collections.max(yPoints).intValue();
-
-        return values;
     }
 
     private void mapInitialization() {

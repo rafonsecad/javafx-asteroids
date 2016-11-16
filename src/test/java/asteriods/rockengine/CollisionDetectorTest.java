@@ -80,7 +80,7 @@ public class CollisionDetectorTest extends CollisionDetector{
              2.0, -2.0
         });
         
-        int [] maxPoints = getMaxValues(e);
+        int [] maxPoints = e.getMaxValues();
         assertEquals(-4, maxPoints[0]);
         assertEquals(2, maxPoints[1]);
         assertEquals(-2, maxPoints[2]);
