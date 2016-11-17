@@ -154,7 +154,7 @@ public class CollisionDetector {
             List<Point> sortedPoints = lastPoint.sortVectorPointsByMagnitude(additionalPoints);
             
             allPoints.add(segmentPolygonPoints.get(i - 1));
-            addPoints(allPoints, sortedPoints);
+            Point.addPointsToList(allPoints, sortedPoints);
 
         }
         return allPoints;
@@ -205,14 +205,5 @@ public class CollisionDetector {
             }
         }
         return additionalPoints;
-    }
-
-    private void addPoints(List<Point> pointList, List<Point> subList) {
-        if (subList.isEmpty()) {
-            return;
-        }
-        for (int i = 0; i < subList.size(); i++) {
-            pointList.add(subList.get(i));
-        }
     }
 }
