@@ -11,29 +11,31 @@ import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainApp extends Application {
 
+    
+    double posX = 10.0;
+    
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         VBox root = new VBox();
         Scene scene = new Scene(root, 600, 600);
 
-        Rectangle a = new Rectangle(100, 100, 100, 100);;
+        Asteriod a = new Asteriod();
         a.setManaged(false);
-
+        
+        Asteriod b = new Asteriod();
+        b.setManaged(false);
+        
         root.getChildren().add(a);
+        root.getChildren().add(b);
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("JavaFX and Maven");
@@ -41,18 +43,22 @@ public class MainApp extends Application {
         stage.show();
 
         Timeline timeline = new Timeline();
-        Duration time = new Duration(8000);
-	KeyValue keyValue = new KeyValue(a.xProperty(), 300);
+        Duration time = new Duration(500);
+	KeyValue keyValue = new KeyValue(a.translateXProperty(), 300);
 	KeyFrame keyFrame = new KeyFrame(time, keyValue);
+        KeyValue keyValueb = new KeyValue(b.translateXProperty(), posX);
+        KeyValue keyValueb2 = new KeyValue(b.translateYProperty(), 60);
+	KeyFrame keyFrameb = new KeyFrame(time, keyValueb, keyValueb2);
 	timeline.getKeyFrames().add(keyFrame);
+        timeline.getKeyFrames().add(keyFrameb);
 	timeline.setCycleCount(1);
 	//timeline.setAutoReverse(true);
 	timeline.play();
-        timeline.setOnFinished(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                System.out.println(a.getX());
-            }
+        timeline.setOnFinished((ActionEvent event) -> {
+            timeline.getKeyFrames().clear();
+            posX+=0.8;
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), posX)));
+            timeline.play();
         });
         
     }
