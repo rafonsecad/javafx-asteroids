@@ -52,6 +52,19 @@ public class AsteriodTest extends Asteriod{
         Point speedVector = getSpeedVector();
         assertTrue(speedVector.equals(new Point(3.535, 3.535)));
     }
+
+    @Test
+    public void calculateSpeedVector_setOriginEndPointSpeed_getSpeedVector2(){
+        System.out.println("calculateSpeedVector_setOriginEndPointSpeed_getSpeedVector2");
+
+        setOrigin(new Point(100.0, 200.0));
+        setEndPoint(new Point (600.0, 600.0));
+        setSpeed(4.0);
+        calculateSpeedVector();
+        Point speedVector = getSpeedVector();
+        System.out.println(speedVector.getX() + " " + speedVector.getY());
+        assertTrue(speedVector.equals(new Point(3.1234, 2.498)));
+    }
     
     @Test
     public void getNextPoint_LineFixed_getPoint() {

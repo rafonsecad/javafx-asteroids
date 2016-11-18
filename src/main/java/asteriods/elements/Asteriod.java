@@ -41,8 +41,8 @@ public class Asteriod extends Element{
         Point pathVector = endPointList.get(0);
         double angle = Math.atan(pathVector.getY()/pathVector.getX());
         
-        double xSpeed = speed*Math.sin(angle);
-        double ySpeed = speed*Math.cos(angle);
+        double xSpeed = speed*Math.cos(angle);
+        double ySpeed = speed*Math.sin(angle);
         speedVector = new Point (xSpeed, ySpeed);
     }
     
