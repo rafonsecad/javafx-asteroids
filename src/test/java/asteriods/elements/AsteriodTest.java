@@ -67,16 +67,16 @@ public class AsteriodTest extends Asteriod{
     }
     
     @Test
-    public void getNextPoint_LineFixed_getPoint() {
-//        System.out.println("getNextPoint_LineFixed_getPoint");
-//        Asteriod asteriod = new Asteriod();
-//        List<Point> points = new ArrayList<>();
-//        points.add(new Point(0.00, 0.00));
-//        points.add(new Point(600.0, 600.0));
-//        asteriod.setSpeed(5.0);
-//        asteriod.setCurrentPoint(new Point(0.0,0.0));
-//        asteriod.setPath(LineEq.buildLine(points));
-//        Point nextPoint = asteriod.getNextPoint();
+    public void getNextPoint_setOriginEndPointSpeedCurrentPoint_getPoint() {
+        System.out.println("getNextPoint_LineFixed_getPoint");
+        setOrigin(new Point(100.0, 200.0));
+        setEndPoint(new Point (600.0, 600.0));
+        setSpeed(4.0);
+        setCurrentPoint(new Point(6.2, 10.2));
+        calculateSpeedVector();
+        Point nextPoint = getNextPoint();
+        System.out.println(nextPoint.getX() + " " + nextPoint.getY());
+        assertTrue(nextPoint.equals(new Point(6.51234, 10.449)));
     }
     
 }

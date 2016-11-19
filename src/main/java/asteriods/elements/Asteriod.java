@@ -16,10 +16,13 @@ import java.util.List;
  */
 public class Asteriod extends Element{
    
+    private final double TIME_FRAME = 0.1;
+    
     private Double speed;
     private Point speedVector;
     private Point origin;
     private Point endPoint;
+    private Point currentPoint;
     
     public Asteriod (){
         this.getPoints().addAll(new Double []{
@@ -46,6 +49,13 @@ public class Asteriod extends Element{
         speedVector = new Point (xSpeed, ySpeed);
     }
     
+    protected Point getNextPoint(){
+        double nx = (speedVector.getX()*TIME_FRAME) + currentPoint.getX();
+        double ny = (speedVector.getY()*TIME_FRAME) + currentPoint.getY();
+        
+        return new Point(nx, ny);
+    }
+    
     public Double getSpeed() {
         return speed;
     }
@@ -54,6 +64,10 @@ public class Asteriod extends Element{
         this.speed = speed;
     }
 
+    public void setCurrentPoint(Point currentPoint) {
+        this.currentPoint = currentPoint;
+    }
+    
     public Point getOrigin() {
         return origin;
     }
