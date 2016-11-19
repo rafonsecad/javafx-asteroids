@@ -22,7 +22,7 @@ public class Asteriod extends Element{
     private Point speedVector;
     private Point origin;
     private Point endPoint;
-    private Point currentPoint;
+    private Point currentPosition;
     
     public Asteriod (){
         this.getPoints().addAll(new Double []{
@@ -49,11 +49,26 @@ public class Asteriod extends Element{
         speedVector = new Point (xSpeed, ySpeed);
     }
     
-    protected Point getNextPoint(){
-        double nx = (speedVector.getX()*TIME_FRAME) + currentPoint.getX();
-        double ny = (speedVector.getY()*TIME_FRAME) + currentPoint.getY();
+    public Point getNextPoint(){
+        double nx = (speedVector.getX()*TIME_FRAME) + currentPosition.getX();
+        double ny = (speedVector.getY()*TIME_FRAME) + currentPosition.getY();
         
         return new Point(nx, ny);
+    }
+    
+    public void updateAsteriodPosition (Point nextPoint){
+        double deltaX = nextPoint.getX() - currentPosition.getX();
+        double deltaY = nextPoint.getY() - currentPosition.getY();
+        
+        List<Point> asteriodPoints = Point.buildList(getPoints());
+        
+        for (int i=0; i<asteriodPoints.size(); i++){
+            Point p = asteriodPoints.get(i);
+            p.setX(p.getX() + deltaX);
+            p.setY(p.getY() + deltaY);
+        }
+        getPoints().removeAll(getPoints());
+        getPoints().addAll(Point.toDoubleList(asteriodPoints));
     }
     
     public Double getSpeed() {
@@ -64,8 +79,8 @@ public class Asteriod extends Element{
         this.speed = speed;
     }
 
-    public void setCurrentPoint(Point currentPoint) {
-        this.currentPoint = currentPoint;
+    public void setCurrentPosition(Point currentPosition) {
+        this.currentPosition = currentPosition;
     }
     
     public Point getOrigin() {

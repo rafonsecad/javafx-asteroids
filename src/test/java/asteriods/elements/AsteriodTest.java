@@ -72,11 +72,38 @@ public class AsteriodTest extends Asteriod{
         setOrigin(new Point(100.0, 200.0));
         setEndPoint(new Point (600.0, 600.0));
         setSpeed(4.0);
-        setCurrentPoint(new Point(6.2, 10.2));
+        setCurrentPosition(new Point(6.2, 10.2));
         calculateSpeedVector();
         Point nextPoint = getNextPoint();
         System.out.println(nextPoint.getX() + " " + nextPoint.getY());
         assertTrue(nextPoint.equals(new Point(6.51234, 10.449)));
+    }
+    
+    @Test
+    public void updateAsteriodPosition_nextPoint_getPoints(){
+        System.out.println("updateAsteriodPosition_nextPoint_getPoints");
+        setOrigin(new Point(100.0, 200.0));
+        setEndPoint(new Point (600.0, 600.0));
+        setSpeed(4.0);
+        setCurrentPosition(new Point(6.2, 10.2));
+        calculateSpeedVector();
+        Point nextPoint = getNextPoint();
+        updateAsteriodPosition(nextPoint);
+        List<Double> asteriodDoublePoints = getPoints();
+        List<Point> asteriodPoints = Point.buildList(asteriodDoublePoints);
+        List<Point> expectedPoints = new ArrayList<>();        
+        expectedPoints.add(new Point(-7.688, 0.249));
+        expectedPoints.add(new Point(-3.688, 4.249));
+        expectedPoints.add(new Point(0.312, 8.249));
+        expectedPoints.add(new Point(4.312, 4.249));
+        expectedPoints.add(new Point(8.312, 0.249));
+        expectedPoints.add(new Point(4.312,-3.751));
+        expectedPoints.add(new Point(0.312,-7.751));
+        expectedPoints.add(new Point(-3.688,-3.751));
+        
+        for (int i=0; i<expectedPoints.size(); i++){
+            assertTrue(expectedPoints.get(i).equals(asteriodPoints.get(i)));
+        }
     }
     
 }
