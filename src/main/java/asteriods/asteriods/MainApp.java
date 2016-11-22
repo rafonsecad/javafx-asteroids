@@ -1,6 +1,7 @@
 package asteriods.asteriods;
 
 import asteriods.elements.Asteriod;
+import asteriods.rockengine.Point;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -18,9 +19,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class MainApp extends Application {
-
-    
-    double posX = 10.0;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -42,12 +40,18 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
+        b.setOrigin(new Point(100.0, 200.0));
+        b.setEndPoint(new Point (600.0, 600.0));
+        b.setCurrentPosition(new Point(100.0, 200.0));
+        b.setSpeed(32.0);
+        b.calculateSpeedVector();
+        
         Timeline timeline = new Timeline();
-        Duration time = new Duration(500);
+        Duration time = new Duration(100);
 	KeyValue keyValue = new KeyValue(a.translateXProperty(), 300);
 	KeyFrame keyFrame = new KeyFrame(time, keyValue);
-        KeyValue keyValueb = new KeyValue(b.translateXProperty(), posX);
-        KeyValue keyValueb2 = new KeyValue(b.translateYProperty(), 60);
+        KeyValue keyValueb = new KeyValue(b.translateXProperty(), 100.0);
+        KeyValue keyValueb2 = new KeyValue(b.translateYProperty(), 200.0);
 	KeyFrame keyFrameb = new KeyFrame(time, keyValueb, keyValueb2);
 	timeline.getKeyFrames().add(keyFrame);
         timeline.getKeyFrames().add(keyFrameb);
@@ -56,8 +60,10 @@ public class MainApp extends Application {
 	timeline.play();
         timeline.setOnFinished((ActionEvent event) -> {
             timeline.getKeyFrames().clear();
-            posX+=0.8;
-            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), posX)));
+            Point p = b.getNextPoint();
+            b.updateAsteriodPosition(p);
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), p.getX())));
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateYProperty(), p.getY())));
             timeline.play();
         });
         

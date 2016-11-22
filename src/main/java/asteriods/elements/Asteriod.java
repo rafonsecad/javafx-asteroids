@@ -37,7 +37,7 @@ public class Asteriod extends Element{
         });
     }
 
-    protected void calculateSpeedVector(){
+    public void calculateSpeedVector(){
         List<Point> points = new ArrayList<>();
         points.add(getEndPoint());
         List<Point> endPointList = getOrigin().changeOrigin(points);
@@ -59,6 +59,8 @@ public class Asteriod extends Element{
     public void updateAsteriodPosition (Point nextPoint){
         double deltaX = nextPoint.getX() - currentPosition.getX();
         double deltaY = nextPoint.getY() - currentPosition.getY();
+        
+        currentPosition = nextPoint;
         
         List<Point> asteriodPoints = Point.buildList(getPoints());
         
