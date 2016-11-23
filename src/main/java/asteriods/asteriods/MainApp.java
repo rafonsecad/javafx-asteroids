@@ -40,6 +40,12 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
+        a.setOrigin(new Point(600.0, 200.0));
+        a.setEndPoint(new Point (0.0, 600.0));
+        a.setCurrentPosition(new Point(600.0, 200.0));
+        a.setSpeed(32.0);
+        a.calculateSpeedVector();
+        
         b.setOrigin(new Point(100.0, 200.0));
         b.setEndPoint(new Point (600.0, 600.0));
         b.setCurrentPosition(new Point(100.0, 200.0));
@@ -48,22 +54,31 @@ public class MainApp extends Application {
         
         Timeline timeline = new Timeline();
         Duration time = new Duration(100);
-	KeyValue keyValue = new KeyValue(a.translateXProperty(), 300);
-	KeyFrame keyFrame = new KeyFrame(time, keyValue);
+        
+	KeyValue keyValuea = new KeyValue(a.translateXProperty(), 600);
+        KeyValue keyValuea2 = new KeyValue(a.translateXProperty(), 200);
+	KeyFrame keyFrame = new KeyFrame(time, keyValuea, keyValuea2);
+        
         KeyValue keyValueb = new KeyValue(b.translateXProperty(), 100.0);
         KeyValue keyValueb2 = new KeyValue(b.translateYProperty(), 200.0);
 	KeyFrame keyFrameb = new KeyFrame(time, keyValueb, keyValueb2);
+        
 	timeline.getKeyFrames().add(keyFrame);
         timeline.getKeyFrames().add(keyFrameb);
 	timeline.setCycleCount(1);
-	//timeline.setAutoReverse(true);
 	timeline.play();
         timeline.setOnFinished((ActionEvent event) -> {
             timeline.getKeyFrames().clear();
-            Point p = b.getNextPoint();
-            b.updateAsteriodPosition(p);
-            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), p.getX())));
-            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateYProperty(), p.getY())));
+            Point pa = a.getNextPoint();
+            a.updateAsteriodPosition(pa);
+            
+            Point pb = b.getNextPoint();
+            b.updateAsteriodPosition(pb);
+            
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.translateXProperty(), pa.getX())));
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.translateYProperty(), pa.getY())));
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), pb.getX())));
+            timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateYProperty(), pb.getY())));
             timeline.play();
         });
         
