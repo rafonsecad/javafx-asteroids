@@ -95,7 +95,9 @@ public class CollisionDetector {
             for (int j = values[2]; j < values[3]; j++) {
                 try {
                     if (isPointInPolygon(new Point(i, j), polygonPoints)) {
-                        map.get(i).get(j).add(elementID);
+                        if (i >= 0 && j >= 0) {
+                            map.get(i).get(j).add(elementID);
+                        }
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     logger.error("Error in point: " + i + ", " + j);
@@ -138,7 +140,7 @@ public class CollisionDetector {
     }
 
     protected List<Point> getPolyPointsInQuadrants(List<Point> polygonPoints) {
-        
+
         List<Point> segmentPolygonPoints = polygonPoints;
         Point firstPoint = segmentPolygonPoints.get(0);
         segmentPolygonPoints.add(new Point(firstPoint.getX(), firstPoint.getY()));
@@ -148,11 +150,11 @@ public class CollisionDetector {
 
         for (int i = 1; i < segmentPolygonPoints.size(); i++) {
 
-            LineEq segment = LineEq.buildSegmentedLine(segmentPolygonPoints.subList(i-1, i+1));            
+            LineEq segment = LineEq.buildSegmentedLine(segmentPolygonPoints.subList(i - 1, i + 1));
             additionalPoints = getAdditionalPointsInSegment(segment);
             Point lastPoint = segmentPolygonPoints.get(i - 1);
             List<Point> sortedPoints = lastPoint.sortVectorPointsByMagnitude(additionalPoints);
-            
+
             allPoints.add(segmentPolygonPoints.get(i - 1));
             Point.addPointsToList(allPoints, sortedPoints);
 
@@ -194,7 +196,7 @@ public class CollisionDetector {
     private List<Point> getAdditionalPointsInSegment(LineEq segment) {
         final int NumberOfQuadrants = 4;
         List<Point> additionalPoints = new ArrayList<>();
-        
+
         for (int i = 0; i < NumberOfQuadrants; i++) {
             LineEq vectorLine = LineEq.getQuadrantVector(i);
             if (segment.areLinesIntersected(vectorLine)) {
