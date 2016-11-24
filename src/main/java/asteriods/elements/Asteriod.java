@@ -59,18 +59,8 @@ public class Asteriod extends Element{
     public void updateAsteriodPosition (Point nextPoint){
         double deltaX = nextPoint.getX() - currentPosition.getX();
         double deltaY = nextPoint.getY() - currentPosition.getY();
-        
         currentPosition = nextPoint;
-        
-        List<Point> asteriodPoints = Point.buildList(getPoints());
-        
-        for (int i=0; i<asteriodPoints.size(); i++){
-            Point p = asteriodPoints.get(i);
-            p.setX(p.getX() + deltaX);
-            p.setY(p.getY() + deltaY);
-        }
-        getPoints().removeAll(getPoints());
-        getPoints().addAll(Point.toDoubleList(asteriodPoints));
+        move(deltaX, deltaY);
     }
     
     protected Point getCentroid(){
@@ -96,6 +86,26 @@ public class Asteriod extends Element{
         Cx *= 1/(6*A);
         Cy *= 1/(6*A);
         return new Point (Cx, Cy);
+    }
+    
+    public void moveFromOrigin(){
+        Point centroid = getCentroid();
+        double deltaX = this.currentPosition.getX() - centroid.getX();
+        double deltaY = this.currentPosition.getY() - centroid.getY();
+        move (deltaX, deltaY);
+    }
+    
+    private void move (double deltaX, double deltaY){
+        List<Point> asteriodPoints = Point.buildList(getPoints());
+        
+        for (int i=0; i<asteriodPoints.size(); i++){
+            Point p = asteriodPoints.get(i);
+            p.setX(p.getX() + deltaX);
+            p.setY(p.getY() + deltaY);
+        }
+        
+        getPoints().removeAll(getPoints());
+        getPoints().addAll(Point.toDoubleList(asteriodPoints));
     }
     
     public Double getSpeed() {

@@ -112,4 +112,22 @@ public class AsteriodTest extends Asteriod{
         assertTrue(centroid.equals(new Point(0.0, 0.0)));
     }
     
+    @Test
+    public void moveFromOrigin_currentPositionFix_moveAsteriod(){
+        setCurrentPosition(new Point(100.0, 100.0));
+        moveFromOrigin();
+        List<Point> expectedPoints = new ArrayList<>();
+        expectedPoints.add(new Point(92.0, 100.0));
+        expectedPoints.add(new Point(96.0, 104.0));
+        expectedPoints.add(new Point(100.0, 108.0));
+        expectedPoints.add(new Point(104.0, 104.0));
+        expectedPoints.add(new Point(108.0, 100.0));
+        expectedPoints.add(new Point(104.0, 96.0));
+        expectedPoints.add(new Point(100.0, 92.0));
+        expectedPoints.add(new Point(96.0, 96.0));
+        List<Point> pointsOfAsteriod = Point.buildList(getPoints());
+        for (int i=0; i<expectedPoints.size(); i++){
+            assertTrue(expectedPoints.get(i).equals(pointsOfAsteriod.get(i)));
+        }
+    }
 }
