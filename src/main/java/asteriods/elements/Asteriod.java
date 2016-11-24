@@ -73,6 +73,31 @@ public class Asteriod extends Element{
         getPoints().addAll(Point.toDoubleList(asteriodPoints));
     }
     
+    protected Point getCentroid(){
+        List <Point> points = Point.buildList(getPoints());
+        points.add(points.get(0));
+        
+        double A = 0;
+        double Cx = 0;
+        double Cy = 0;
+        
+        for (int i=0; i<points.size()-1; i++){
+            Point pi = points.get(i);
+            Point pj = points.get(i+1);
+            double secondFactor = (pi.getX()*pj.getY()) - (pj.getX()*pi.getY());
+            double numX = (pi.getX() + pj.getX())*secondFactor;
+            double numY = (pi.getY() + pj.getY())*secondFactor;
+            
+            Cx += numX;
+            Cy += numY;
+            A += secondFactor;
+        }
+        A *= 0.5;
+        Cx *= 1/(6*A);
+        Cy *= 1/(6*A);
+        return new Point (Cx, Cy);
+    }
+    
     public Double getSpeed() {
         return speed;
     }

@@ -106,4 +106,10 @@ public class AsteriodTest extends Asteriod{
         }
     }
     
+    @Test
+    public void getCentroid_asteriodPoints_getPoint(){
+        Point centroid = getCentroid();
+        assertTrue(centroid.equals(new Point(0.0, 0.0)));
+    }
+    
 }
