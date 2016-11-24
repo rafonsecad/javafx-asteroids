@@ -95,7 +95,7 @@ public class CollisionDetector {
             for (int j = values[2]; j < values[3]; j++) {
                 try {
                     if (isPointInPolygon(new Point(i, j), polygonPoints)) {
-                        if (i >= 0 && j >= 0) {
+                        if ((i >= 0 && j >= 0) && (i< 600 && j< 600)) {
                             map.get(i).get(j).add(elementID);
                         }
                     }

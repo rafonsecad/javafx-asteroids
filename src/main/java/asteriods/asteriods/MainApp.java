@@ -43,23 +43,25 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
-        a.setOrigin(new Point(600.0, 200.0));
-        a.setEndPoint(new Point(0.0, 600.0));
-        a.setCurrentPosition(new Point(600.0, 200.0));
+        a.setOrigin(new Point(0.0, 0.0));
+        a.setEndPoint(new Point(300.0, 600.0));
+        a.setCurrentPosition(new Point(0.0, 0.0));
+        a.moveFromOrigin();
         a.setSpeed(32.0);
         a.calculateSpeedVector();
 
         b.setOrigin(new Point(100.0, 200.0));
         b.setEndPoint(new Point(600.0, 600.0));
         b.setCurrentPosition(new Point(100.0, 200.0));
+        b.moveFromOrigin();
         b.setSpeed(32.0);
         b.calculateSpeedVector();
 
         Timeline timeline = new Timeline();
         Duration time = new Duration(100);
 
-        KeyValue keyValuea = new KeyValue(a.translateXProperty(), 600);
-        KeyValue keyValuea2 = new KeyValue(a.translateXProperty(), 200);
+        KeyValue keyValuea = new KeyValue(a.translateXProperty(), 0.0);
+        KeyValue keyValuea2 = new KeyValue(a.translateXProperty(), 0.0);
         KeyFrame keyFrame = new KeyFrame(time, keyValuea, keyValuea2);
 
         KeyValue keyValueb = new KeyValue(b.translateXProperty(), 100.0);
@@ -81,16 +83,16 @@ public class MainApp extends Application {
             CollisionDetector col = new CollisionDetector(600, 600);
             col.addElement(a);
             col.addElement(b);
-            Set<Integer> indexOfElementsCrashed = col.getCrashedElements();
-            List<Integer> indexes = new ArrayList<>(indexOfElementsCrashed);
+//            Set<Integer> indexOfElementsCrashed = col.getCrashedElements();
+//            List<Integer> indexes = new ArrayList<>(indexOfElementsCrashed);
 
             timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.translateXProperty(), pa.getX())));
             timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(a.translateYProperty(), pa.getY())));
             timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateXProperty(), pb.getX())));
             timeline.getKeyFrames().add(new KeyFrame(time, new KeyValue(b.translateYProperty(), pb.getY())));
-            if (indexes.isEmpty()) {
+            //if (indexes.isEmpty()) {
                 timeline.play();
-            }
+            //}
         });
 
     }
