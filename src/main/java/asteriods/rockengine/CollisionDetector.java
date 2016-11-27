@@ -74,14 +74,21 @@ public class CollisionDetector {
         }
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (map.get(i).get(j).size() > 1) {
-                    for (int k = 0; k < map.get(i).get(j).size(); k++) {
-                        indexOfCrashedElements.add(map.get(i).get(j).get(k));
-                    }
-                }
+                getCrashedElementsByPoint(i, j, indexOfCrashedElements);
             }
         }
         return indexOfCrashedElements;
+    }
+
+    protected void getCrashedElementsByPoint(int i, int j, Set<Integer> indexOfCrashedElements) {
+        List<Integer> elementsIdByPoint = map.get(i).get(j);
+        if (elementsIdByPoint.size() <= 1) {
+            return;
+        }
+
+        for (int k = 0; k < elementsIdByPoint.size(); k++) {
+            indexOfCrashedElements.add(elementsIdByPoint.get(k));
+        }
     }
 
     public void mapPolygon(Element e, int elementID) {
@@ -95,17 +102,17 @@ public class CollisionDetector {
         }
     }
 
-    public void mapPoint(List<Point> polygonPoints, Point p, int elementID) {
+    protected void mapPoint(List<Point> polygonPoints, Point p, int elementID) {
         int x = (int) p.getX();
         int y = (int) p.getY();
         try {
             if (!isPointInPolygon(p, polygonPoints)) {
                 return;
             }
-            if (x < 0 || y < 0){
+            if (x < 0 || y < 0) {
                 return;
             }
-            if (x >= this.width || y >= this.height){
+            if (x >= this.width || y >= this.height) {
                 return;
             }
             map.get(x).get(y).add(elementID);
@@ -158,7 +165,8 @@ public class CollisionDetector {
 
         for (int i = 1; i < segmentPolygonPoints.size(); i++) {
 
-            LineEq segment = LineEq.buildSegmentedLine(segmentPolygonPoints.subList(i - 1, i + 1));
+            List<Point> segmentPoints = segmentPolygonPoints.subList(i - 1, i + 1);
+            LineEq segment = LineEq.buildSegmentedLine(segmentPoints);
             additionalPoints = getAdditionalPointsInSegment(segment);
             Point lastPoint = segmentPolygonPoints.get(i - 1);
             List<Point> sortedPoints = lastPoint.sortVectorPointsByMagnitude(additionalPoints);
