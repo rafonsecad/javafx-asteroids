@@ -53,14 +53,11 @@ public class MainApp extends Application {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
+                Platform.runLater(()-> {
                         Point pa = a.getNextPoint();
                         a.updateAsteriodPosition(pa);
                         Point pb = b.getNextPoint();
                         b.updateAsteriodPosition(pb);
-                    }
                 });
 
             }
@@ -82,7 +79,6 @@ public class MainApp extends Application {
     
     @Override
     public void stop(){
-        System.out.println("Exit!!!");
         System.exit(0);
     }
 }
