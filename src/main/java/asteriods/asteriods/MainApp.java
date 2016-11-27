@@ -1,7 +1,11 @@
 package asteriods.asteriods;
 
 import asteriods.elements.Asteriod;
+import asteriods.rockengine.CollisionDetector;
 import asteriods.rockengine.Point;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Application;
@@ -33,7 +37,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         stage.show();
 
-        Point aOrigin = new Point(100.0, 200.0);
+        Point aOrigin = new Point(0.0, 0.0);
         a.setOrigin(aOrigin);
         a.setEndPoint(new Point(600.0, 600.0));
         a.setCurrentPosition(aOrigin);
@@ -58,8 +62,15 @@ public class MainApp extends Application {
                         a.updateAsteriodPosition(pa);
                         Point pb = b.getNextPoint();
                         b.updateAsteriodPosition(pb);
+                        CollisionDetector collisionDetector = new CollisionDetector(600, 600);
+                        collisionDetector.addElement(a);
+                        collisionDetector.addElement(b);
+                        Set<Integer> index = collisionDetector.getCrashedElements();
+                        List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+                        if (!indexOfCrashedElements.isEmpty()){
+                            timer.cancel();
+                        }
                 });
-
             }
         }, 50, 50);
 
