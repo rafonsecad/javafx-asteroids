@@ -66,10 +66,6 @@ public class CollisionDetector {
         elements.add(e);
     }
 
-    public void moveElements() {
-
-    }
-
     public Set<Integer> getCrashedElements() {
         mapInitialization();
         Set<Integer> indexOfCrashedElements = new HashSet<>();
