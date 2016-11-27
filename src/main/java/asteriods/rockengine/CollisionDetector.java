@@ -89,17 +89,29 @@ public class CollisionDetector {
         int[] values = e.getMaxValues();
         for (int i = values[0]; i < values[1]; i++) {
             for (int j = values[2]; j < values[3]; j++) {
-                try {
-                    if (isPointInPolygon(new Point(i, j), polygonPoints)) {
-                        if ((i >= 0 && j >= 0) && (i< 600 && j< 600)) {
-                            map.get(i).get(j).add(elementID);
-                        }
-                    }
-                } catch (ArrayIndexOutOfBoundsException ex) {
-                    logger.error("Error in point: " + i + ", " + j);
-                    logger.error("Error in point", ex);
-                }
+                Point p = new Point(i, j);
+                mapPoint(polygonPoints, p, elementID);
             }
+        }
+    }
+
+    public void mapPoint(List<Point> polygonPoints, Point p, int elementID) {
+        int x = (int) p.getX();
+        int y = (int) p.getY();
+        try {
+            if (!isPointInPolygon(p, polygonPoints)) {
+                return;
+            }
+            if (x < 0 || y < 0){
+                return;
+            }
+            if (x >= this.width || y >= this.height){
+                return;
+            }
+            map.get(x).get(y).add(elementID);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            logger.error("Error in point: " + x + ", " + y);
+            logger.error("Error in point", ex);
         }
     }
 
