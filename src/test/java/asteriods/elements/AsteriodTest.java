@@ -5,7 +5,6 @@
  */
 package asteriods.elements;
 
-import asteriods.rockengine.LineEq;
 import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;

@@ -9,6 +9,7 @@ import asteriods.rockengine.LineEq;
 import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -37,7 +38,70 @@ public class Asteriod extends Element{
         });
     }
 
-    public void calculateSpeedVector(){
+    public void setRandomPath(){
+        int direction = ThreadLocalRandom.current().nextInt(1, 4);
+        Point [] pathPoints = new Point [2];
+        switch (direction){
+            case 1:
+                pathPoints = setPathFromTopOrigin();
+                break;
+            case 2:
+                pathPoints = setPathFromRightOrigin();
+                break;
+            case 3:
+                pathPoints = setPathFromBottomOrigin();
+                break;
+            case 4:
+                pathPoints = setPathFromLeftOrigin();
+                break;
+        }
+        
+        setOrigin(pathPoints[0]);
+        setEndPoint (pathPoints[1]);
+        setCurrentPosition(pathPoints[0]);
+        moveFromOrigin();
+        int speed = ThreadLocalRandom.current().nextInt(1, 32);
+        setSpeed((double)speed);
+        calculateSpeedVector();
+    }
+    
+    protected Point [] setPathFromTopOrigin (){
+        int x = ThreadLocalRandom.current().nextInt(1,599);
+        Point origin = new Point (x, 0);
+        
+        x = ThreadLocalRandom.current().nextInt(1,599);
+        Point end = new Point (x, 600);
+        return new Point [] {origin, end};
+    }
+    
+    protected Point [] setPathFromRightOrigin (){
+        int y = ThreadLocalRandom.current().nextInt(1,599);
+        Point origin = new Point (600, y);
+        
+        y = ThreadLocalRandom.current().nextInt(1,599);
+        Point end = new Point (0, y);
+        return new Point [] {origin, end};
+    }
+    
+    protected Point [] setPathFromBottomOrigin (){
+        int x = ThreadLocalRandom.current().nextInt(1,599);
+        Point origin = new Point (x, 600);
+        
+        x = ThreadLocalRandom.current().nextInt(1,599);
+        Point end = new Point (x, 0);
+        return new Point [] {origin, end};
+    }
+    
+    protected Point [] setPathFromLeftOrigin (){
+        int y = ThreadLocalRandom.current().nextInt(1,599);
+        Point origin = new Point (0, y);
+        
+        y = ThreadLocalRandom.current().nextInt(1,599);
+        Point end = new Point (600, y);
+        return new Point [] {origin, end};
+    }
+    
+    protected void calculateSpeedVector(){
         List<Point> points = new ArrayList<>();
         points.add(getEndPoint());
         List<Point> endPointList = getOrigin().changeOrigin(points);

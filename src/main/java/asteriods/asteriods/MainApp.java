@@ -36,22 +36,9 @@ public class MainApp extends Application {
         stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
-
-        Point aOrigin = new Point(0.0, 0.0);
-        a.setOrigin(aOrigin);
-        a.setEndPoint(new Point(600.0, 600.0));
-        a.setCurrentPosition(aOrigin);
-        a.moveFromOrigin();
-        a.setSpeed(32.0);
-        a.calculateSpeedVector();
-
-        Point bOrigin = new Point(0.0, 600);
-        b.setOrigin(bOrigin);
-        b.setEndPoint(new Point(600.0, 0.0));
-        b.setCurrentPosition(bOrigin);
-        b.moveFromOrigin();
-        b.setSpeed(32.0);
-        b.calculateSpeedVector();
+        
+        a.setRandomPath();
+        b.setRandomPath();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
