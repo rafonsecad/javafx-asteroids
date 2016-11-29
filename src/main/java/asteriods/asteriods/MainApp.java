@@ -28,9 +28,13 @@ public class MainApp extends Application {
 
         Asteriod b = new Asteriod();
         b.setManaged(false);
+        
+        Asteriod c = new Asteriod();
+        c.setManaged(false);
 
         root.getChildren().add(a);
         root.getChildren().add(b);
+        root.getChildren().add(c);
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("JavaFX and Maven");
@@ -39,24 +43,27 @@ public class MainApp extends Application {
         
         a.setRandomPath();
         b.setRandomPath();
+        c.setRandomPath();
 
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(()-> {
-                        Point pa = a.getNextPoint();
-                        a.updateAsteriodPosition(pa);
-                        Point pb = b.getNextPoint();
-                        b.updateAsteriodPosition(pb);
-                        CollisionDetector collisionDetector = new CollisionDetector(600, 600);
-                        collisionDetector.addElement(a);
-                        collisionDetector.addElement(b);
-                        Set<Integer> index = collisionDetector.getCrashedElements();
-                        List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-                        if (!indexOfCrashedElements.isEmpty()){
-                            timer.cancel();
-                        }
+                    a.updatePosition();
+                    b.updatePosition();
+                    c.updatePosition();
+                    
+                    CollisionDetector collisionDetector = new CollisionDetector(600, 600);
+                    collisionDetector.addElement(a);
+                    collisionDetector.addElement(b);
+                    collisionDetector.addElement(c);
+                    
+                    Set<Integer> index = collisionDetector.getCrashedElements();
+                    List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+                    if (!indexOfCrashedElements.isEmpty()){
+                        timer.cancel();
+                    }
                 });
             }
         }, 50, 50);

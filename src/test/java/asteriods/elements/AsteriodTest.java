@@ -66,28 +66,14 @@ public class AsteriodTest extends Asteriod{
     }
     
     @Test
-    public void getNextPoint_setOriginEndPointSpeedCurrentPoint_getPoint() {
-        System.out.println("getNextPoint_LineFixed_getPoint");
-        setOrigin(new Point(100.0, 200.0));
-        setEndPoint(new Point (600.0, 600.0));
-        setSpeed(4.0);
-        setCurrentPosition(new Point(6.2, 10.2));
-        calculateSpeedVector();
-        Point nextPoint = getNextPoint();
-        System.out.println(nextPoint.getX() + " " + nextPoint.getY());
-        assertTrue(nextPoint.equals(new Point(6.51234, 10.449)));
-    }
-    
-    @Test
-    public void updateAsteriodPosition_nextPoint_getPoints(){
+    public void updatePosition_nextPoint_getPoints(){
         System.out.println("updateAsteriodPosition_nextPoint_getPoints");
         setOrigin(new Point(100.0, 200.0));
         setEndPoint(new Point (600.0, 600.0));
         setSpeed(4.0);
         setCurrentPosition(new Point(6.2, 10.2));
         calculateSpeedVector();
-        Point nextPoint = getNextPoint();
-        updateAsteriodPosition(nextPoint);
+        updatePosition();
         List<Double> asteriodDoublePoints = getPoints();
         List<Point> asteriodPoints = Point.buildList(asteriodDoublePoints);
         List<Point> expectedPoints = new ArrayList<>();        
@@ -114,7 +100,7 @@ public class AsteriodTest extends Asteriod{
     @Test
     public void moveFromOrigin_currentPositionFix_moveAsteriod(){
         setCurrentPosition(new Point(100.0, 100.0));
-        moveFromOrigin();
+        moveToOrigin();
         List<Point> expectedPoints = new ArrayList<>();
         expectedPoints.add(new Point(92.0, 100.0));
         expectedPoints.add(new Point(96.0, 104.0));

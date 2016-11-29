@@ -5,7 +5,6 @@
  */
 package asteriods.elements;
 
-import asteriods.rockengine.LineEq;
 import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +58,7 @@ public class Asteriod extends Element{
         setOrigin(pathPoints[0]);
         setEndPoint (pathPoints[1]);
         setCurrentPosition(pathPoints[0]);
-        moveFromOrigin();
+        moveToOrigin();
         int speed = ThreadLocalRandom.current().nextInt(1, 32);
         setSpeed((double)speed);
         calculateSpeedVector();
@@ -113,17 +112,15 @@ public class Asteriod extends Element{
         speedVector = new Point (xSpeed, ySpeed);
     }
     
-    public Point getNextPoint(){
-        double nx = (speedVector.getX()*TIME_FRAME) + currentPosition.getX();
-        double ny = (speedVector.getY()*TIME_FRAME) + currentPosition.getY();
+    public void updatePosition (){
+
+        double deltaX = speedVector.getX()*TIME_FRAME;
+        double deltaY = speedVector.getY()*TIME_FRAME;
         
-        return new Point(nx, ny);
-    }
-    
-    public void updateAsteriodPosition (Point nextPoint){
-        double deltaX = nextPoint.getX() - currentPosition.getX();
-        double deltaY = nextPoint.getY() - currentPosition.getY();
-        currentPosition = nextPoint;
+        double nx = deltaX + currentPosition.getX();
+        double ny = deltaY + currentPosition.getY();
+        
+        currentPosition = new Point(nx, ny);
         move(deltaX, deltaY);
     }
     
@@ -152,7 +149,7 @@ public class Asteriod extends Element{
         return new Point (Cx, Cy);
     }
     
-    public void moveFromOrigin(){
+    public void moveToOrigin(){
         Point centroid = getCentroid();
         double deltaX = this.currentPosition.getX() - centroid.getX();
         double deltaY = this.currentPosition.getY() - centroid.getY();
