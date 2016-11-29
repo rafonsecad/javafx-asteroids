@@ -5,6 +5,8 @@
  */
 package asteriods.rockengine;
 
+import asteriods.configuration.Properties;
+import asteriods.configuration.PropertiesImpl;
 import asteriods.elements.Asteriod;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +42,14 @@ public class RockEngine extends TimerTask {
         }
     }
 
-    public void updateAsteriodsPositions() {
+    private void updateAsteriodsPositions() {
         for (int i = 0; i < this.numberOfAsteriods; i++) {
             asteriods.get(i).updatePosition();
         }
     }
 
-    public void processCollisionDetector() {
-        this.collisionDetector = new CollisionDetector(600, 600);
+    private void processCollisionDetector() {
+        this.collisionDetector = new CollisionDetector();
         for (int i = 0; i < this.numberOfAsteriods; i++) {
             this.collisionDetector.addElement(asteriods.get(i));
         }

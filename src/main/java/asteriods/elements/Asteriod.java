@@ -5,6 +5,8 @@
  */
 package asteriods.elements;
 
+import asteriods.configuration.Properties;
+import asteriods.configuration.PropertiesImpl;
 import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,10 @@ public class Asteriod extends Element{
     private Point origin;
     private Point endPoint;
     private Point currentPosition;
+    private Properties properties;
     
     public Asteriod (){
+        properties = new PropertiesImpl();
         this.getPoints().addAll(new Double []{
             -8.0, 0.0,
             -4.0, 4.0,
@@ -65,38 +69,38 @@ public class Asteriod extends Element{
     }
     
     protected Point [] setPathFromTopOrigin (){
-        int x = ThreadLocalRandom.current().nextInt(1,599);
+        int x = ThreadLocalRandom.current().nextInt(0,properties.getWidth());
         Point origin = new Point (x, 0);
         
-        x = ThreadLocalRandom.current().nextInt(1,599);
-        Point end = new Point (x, 600);
+        x = ThreadLocalRandom.current().nextInt(0,properties.getWidth());
+        Point end = new Point (x, properties.getHeight());
         return new Point [] {origin, end};
     }
     
     protected Point [] setPathFromRightOrigin (){
-        int y = ThreadLocalRandom.current().nextInt(1,599);
-        Point origin = new Point (600, y);
+        int y = ThreadLocalRandom.current().nextInt(0,properties.getHeight());
+        Point origin = new Point (properties.getWidth(), y);
         
-        y = ThreadLocalRandom.current().nextInt(1,599);
+        y = ThreadLocalRandom.current().nextInt(0,properties.getHeight());
         Point end = new Point (0, y);
         return new Point [] {origin, end};
     }
     
     protected Point [] setPathFromBottomOrigin (){
-        int x = ThreadLocalRandom.current().nextInt(1,599);
-        Point origin = new Point (x, 600);
+        int x = ThreadLocalRandom.current().nextInt(0,properties.getWidth());
+        Point origin = new Point (x, properties.getHeight());
         
-        x = ThreadLocalRandom.current().nextInt(1,599);
+        x = ThreadLocalRandom.current().nextInt(0,properties.getWidth());
         Point end = new Point (x, 0);
         return new Point [] {origin, end};
     }
     
     protected Point [] setPathFromLeftOrigin (){
-        int y = ThreadLocalRandom.current().nextInt(1,599);
+        int y = ThreadLocalRandom.current().nextInt(0, properties.getHeight());
         Point origin = new Point (0, y);
         
-        y = ThreadLocalRandom.current().nextInt(1,599);
-        Point end = new Point (600, y);
+        y = ThreadLocalRandom.current().nextInt(0, properties.getHeight());
+        Point end = new Point (properties.getWidth(), y);
         return new Point [] {origin, end};
     }
     

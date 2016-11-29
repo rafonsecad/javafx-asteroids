@@ -5,6 +5,8 @@
  */
 package asteriods.rockengine;
 
+import asteriods.configuration.Properties;
+import asteriods.configuration.PropertiesImpl;
 import asteriods.elements.Element;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +27,7 @@ public class CollisionDetector {
     private List<List<List<Integer>>> map;
     private int width;
     private int height;
+    private Properties properties;
 
     final static Logger logger = Logger.getLogger(CollisionDetector.class);
 
@@ -49,7 +52,11 @@ public class CollisionDetector {
     }
 
     public CollisionDetector() {
+        properties = new PropertiesImpl();
+        this.width = properties.getWidth();
+        this.height = properties.getHeight();
         elements = new ArrayList<>();
+        mapInitialization();
     }
 
     public CollisionDetector(int width, int height) {

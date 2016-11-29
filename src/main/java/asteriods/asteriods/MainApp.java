@@ -1,5 +1,7 @@
 package asteriods.asteriods;
 
+import asteriods.configuration.Properties;
+import asteriods.configuration.PropertiesImpl;
 import asteriods.rockengine.RockEngine;
 import java.util.Timer;
 import javafx.application.Application;
@@ -13,8 +15,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        Properties properties = new PropertiesImpl();
         VBox root = new VBox();
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         RockEngine rockEngine = new RockEngine(root, 10);
         rockEngine.initializeAsteriods();
         scene.getStylesheets().add("/styles/Styles.css");
@@ -24,30 +27,7 @@ public class MainApp extends Application {
         stage.show();
 
         Timer timer = new Timer();
-        timer.schedule(rockEngine, 50, 50);
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                Platform.runLater(()-> {
-//                    a.updatePosition();
-//                    b.updatePosition();
-//                    c.updatePosition();
-//                    d.updatePosition();
-//                    
-//                    CollisionDetector collisionDetector = new CollisionDetector(600, 600);
-//                    collisionDetector.addElement(a);
-//                    collisionDetector.addElement(b);
-//                    collisionDetector.addElement(c);
-//                    collisionDetector.addElement(d);
-//                    
-//                    Set<Integer> index = collisionDetector.getCrashedElements();
-//                    List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-//                    if (!indexOfCrashedElements.isEmpty()){
-//                        timer.cancel();
-//                    }
-//                });
-//            }
-//        }, 50, 50);
+        timer.schedule(rockEngine, 1000, 50);
 
     }
 
