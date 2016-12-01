@@ -2,7 +2,11 @@ package asteriods.asteriods;
 
 import asteriods.configuration.Properties;
 import asteriods.configuration.PropertiesImpl;
+import asteriods.elements.Asteriod;
 import asteriods.rockengine.RockEngine;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.Timer;
 import javafx.application.Application;
 import static javafx.application.Application.launch;

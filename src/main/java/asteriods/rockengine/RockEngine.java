@@ -5,15 +5,15 @@
  */
 package asteriods.rockengine;
 
-import asteriods.configuration.Properties;
-import asteriods.configuration.PropertiesImpl;
 import asteriods.elements.Asteriod;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.scene.layout.VBox;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -25,6 +25,8 @@ public class RockEngine extends TimerTask {
     private List<Asteriod> asteriods;
     private int numberOfAsteriods;
     private VBox root;
+    
+    final static Logger logger = Logger.getLogger(RockEngine.class);
 
     public RockEngine(VBox root, int numberOfAsteriods) {
         this.numberOfAsteriods = numberOfAsteriods;
@@ -48,13 +50,23 @@ public class RockEngine extends TimerTask {
         }
     }
 
-    private void processCollisionDetector() {
+    public void processCollisionDetector() {
         this.collisionDetector = new CollisionDetector();
         for (int i = 0; i < this.numberOfAsteriods; i++) {
             this.collisionDetector.addElement(asteriods.get(i));
         }
     }
 
+    public void removeAsteriods(List<Integer> indexes){
+        Collections.reverse(indexes);
+        for (int i = 0; i < indexes.size();  i++){
+            this.asteriods.remove((int)indexes.get(i));
+        }
+        this.numberOfAsteriods = this.asteriods.size();
+        this.root.getChildren().clear();
+        this.root.getChildren().addAll(this.asteriods);
+    }
+    
     @Override
     public void run() {
         Platform.runLater(() -> {
@@ -63,8 +75,30 @@ public class RockEngine extends TimerTask {
             Set<Integer> index = collisionDetector.getCrashedElements();
             List<Integer> indexOfCrashedElements = new ArrayList<>(index);
             if (!indexOfCrashedElements.isEmpty()) {
-                
+                removeAsteriods(indexOfCrashedElements);
             }
         });
     }
+
+    public List<Asteriod> getAsteriods() {
+        return asteriods;
+    }
+
+    public void setAsteriods(List<Asteriod> asteriods) {
+        this.asteriods = asteriods;
+    }
+
+    public int getNumberOfAsteriods() {
+        return numberOfAsteriods;
+    }
+
+    public void setNumberOfAsteriods(int numberOfAsteriods) {
+        this.numberOfAsteriods = numberOfAsteriods;
+    }
+
+    public CollisionDetector getCollisionDetector() {
+        return collisionDetector;
+    }
+    
+    
 }
