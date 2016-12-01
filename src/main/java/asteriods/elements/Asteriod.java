@@ -42,7 +42,7 @@ public class Asteriod extends Element{
     }
 
     public void setRandomPath(){
-        int direction = ThreadLocalRandom.current().nextInt(1, 4);
+        int direction = ThreadLocalRandom.current().nextInt(1, 5);
         Point [] pathPoints = new Point [2];
         switch (direction){
             case 1:

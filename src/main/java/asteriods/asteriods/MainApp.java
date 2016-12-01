@@ -22,7 +22,7 @@ public class MainApp extends Application {
         Properties properties = new PropertiesImpl();
         VBox root = new VBox();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
-        RockEngine rockEngine = new RockEngine(root, 10);
+        RockEngine rockEngine = new RockEngine(root, 20);
         rockEngine.initializeAsteriods();
         scene.getStylesheets().add("/styles/Styles.css");
 
