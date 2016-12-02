@@ -22,6 +22,16 @@ import static org.junit.Assert.*;
 public class AsteriodTest extends Asteriod{
     
     public AsteriodTest() {
+        this.getPoints().addAll(new Double []{
+            -8.0, 0.0,
+            -4.0, 4.0,
+             0.0, 8.0,
+             4.0, 4.0,
+             8.0, 0.0,
+             4.0,-4.0,
+             0.0,-8.0,
+            -4.0,-4.0
+        });
     }
     
     @BeforeClass

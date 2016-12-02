@@ -30,17 +30,17 @@ public class Asteriod extends Element{
     
     public Asteriod (){
         properties = new PropertiesImpl();
-        this.getPoints().addAll(new Double []{
-            -8.0, 0.0,
-            -4.0, 4.0,
-             0.0, 8.0,
-             4.0, 4.0,
-             8.0, 0.0,
-             4.0,-4.0,
-             0.0,-8.0,
-            -4.0,-4.0
-        });
-        setFill(Color.rgb(128, 128, 128));
+//        this.getPoints().addAll(new Double []{
+//            -8.0, 0.0,
+//            -4.0, 4.0,
+//             0.0, 8.0,
+//             4.0, 4.0,
+//             8.0, 0.0,
+//             4.0,-4.0,
+//             0.0,-8.0,
+//            -4.0,-4.0
+//        });
+//        setFill(Color.rgb(128, 128, 128));
     }
 
     public void setRandomPath(){
@@ -132,6 +132,9 @@ public class Asteriod extends Element{
     
     protected Point getCentroid(){
         List <Point> points = Point.buildList(getPoints());
+        if (points.isEmpty()){
+            return new Point(0,0);
+        }
         points.add(points.get(0));
         
         double A = 0;
