@@ -6,6 +6,7 @@
 package asteriods.rockengine;
 
 import asteriods.elements.Asteriod;
+import asteriods.elements.AsteriodUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +37,7 @@ public class RockEngine extends TimerTask {
     public void initializeAsteriods() {
         asteriods = new ArrayList<>();
         for (int i = 0; i < this.numberOfAsteriods; i++) {
-            Asteriod asteriod = new Asteriod();
+            Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
             asteriods.add(asteriod);
             asteriod.setManaged(false);
             root.getChildren().add(asteriod);
