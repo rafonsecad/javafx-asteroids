@@ -2,16 +2,13 @@ package asteriods.asteriods;
 
 import asteriods.configuration.Properties;
 import asteriods.configuration.PropertiesImpl;
-import asteriods.elements.Asteriod;
 import asteriods.rockengine.RockEngine;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -22,7 +19,8 @@ public class MainApp extends Application {
         Properties properties = new PropertiesImpl();
         VBox root = new VBox();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
-        RockEngine rockEngine = new RockEngine(root, 20);
+        scene.setFill(Color.BLACK);
+        RockEngine rockEngine = new RockEngine(root, 30);
         rockEngine.initializeAsteriods();
         scene.getStylesheets().add("/styles/Styles.css");
 

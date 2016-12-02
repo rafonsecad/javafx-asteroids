@@ -11,6 +11,7 @@ import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -39,6 +40,7 @@ public class Asteriod extends Element{
              0.0,-8.0,
             -4.0,-4.0
         });
+        setFill(Color.rgb(128, 128, 128));
     }
 
     public void setRandomPath(){

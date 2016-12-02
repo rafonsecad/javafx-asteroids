@@ -25,7 +25,7 @@ public class RockEngine extends TimerTask {
     private List<Asteriod> asteriods;
     private int numberOfAsteriods;
     private VBox root;
-    
+
     final static Logger logger = Logger.getLogger(RockEngine.class);
 
     public RockEngine(VBox root, int numberOfAsteriods) {
@@ -57,16 +57,17 @@ public class RockEngine extends TimerTask {
         }
     }
 
-    public void removeAsteriods(List<Integer> indexes){
+    public void removeAsteriods(List<Integer> indexes) {
+        Collections.sort(indexes);
         Collections.reverse(indexes);
-        for (int i = 0; i < indexes.size();  i++){
-            this.asteriods.remove((int)indexes.get(i));
+        for (int i = 0; i < indexes.size(); i++) {
+            this.asteriods.remove((int) indexes.get(i));
         }
         this.numberOfAsteriods = this.asteriods.size();
         this.root.getChildren().clear();
         this.root.getChildren().addAll(this.asteriods);
     }
-    
+
     @Override
     public void run() {
         Platform.runLater(() -> {
@@ -99,6 +100,5 @@ public class RockEngine extends TimerTask {
     public CollisionDetector getCollisionDetector() {
         return collisionDetector;
     }
-    
-    
+
 }
