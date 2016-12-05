@@ -30,17 +30,6 @@ public class Asteriod extends Element{
     
     public Asteriod (){
         properties = new PropertiesImpl();
-//        this.getPoints().addAll(new Double []{
-//            -8.0, 0.0,
-//            -4.0, 4.0,
-//             0.0, 8.0,
-//             4.0, 4.0,
-//             8.0, 0.0,
-//             4.0,-4.0,
-//             0.0,-8.0,
-//            -4.0,-4.0
-//        });
-//        setFill(Color.rgb(128, 128, 128));
     }
 
     public void setRandomPath(){

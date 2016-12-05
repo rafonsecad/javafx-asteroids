@@ -24,7 +24,7 @@ public class MainApp extends Application {
         rockEngine.initializeAsteriods();
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("Asteriods");
         stage.setScene(scene);
         stage.show();
 
