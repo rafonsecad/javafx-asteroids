@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 /**
  *
@@ -32,6 +33,19 @@ public class Asteriod extends Element{
         properties = new PropertiesImpl();
     }
 
+    public Asteriod copy(){
+        Asteriod asteriod = new Asteriod();
+        List<Double> rawPoints = getPoints();
+        List<Double> asteriodRawPoints = new ArrayList<>();
+        for (int i=0; i<rawPoints.size(); i++){
+            double coordinate = rawPoints.get(i);
+            asteriodRawPoints.add(coordinate);
+        }
+        asteriod.getPoints().addAll(asteriodRawPoints);
+        asteriod.setFill(Color.rgb(180, 180, 180));
+        return asteriod;
+    }
+    
     public void setRandomPath(){
         int direction = ThreadLocalRandom.current().nextInt(1, 5);
         Point [] pathPoints = new Point [2];
