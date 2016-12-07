@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  *
@@ -43,6 +42,7 @@ public class Asteriod extends Element{
         }
         asteriod.getPoints().addAll(asteriodRawPoints);
         asteriod.setFill(Color.rgb(180, 180, 180));
+        asteriod.setManaged(false);
         return asteriod;
     }
     

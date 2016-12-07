@@ -12,8 +12,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TimerTask;
+import javafx.animation.FillTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
 /**
@@ -61,12 +66,17 @@ public class RockEngine extends TimerTask {
     public void removeAsteriods(List<Integer> indexes) {
         Collections.sort(indexes);
         Collections.reverse(indexes);
+        Asteriod firstAsteriod = this.asteriods.get((int) indexes.get(0)).copy();
         for (int i = 0; i < indexes.size(); i++) {
             this.asteriods.remove((int) indexes.get(i));
         }
         this.numberOfAsteriods = this.asteriods.size();
         this.root.getChildren().clear();
         this.root.getChildren().addAll(this.asteriods);
+        this.root.getChildren().add(firstAsteriod);
+        
+        FillTransition ft = new FillTransition(Duration.millis(500), firstAsteriod, Color.rgb(180, 180, 180), Color.BLACK);
+        ft.play();
     }
 
     @Override
