@@ -69,28 +69,34 @@ public class RockEngine extends TimerTask {
         List<Asteriod> removedAsteriods = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             removedAsteriods.add(this.asteriods.get((int) indexes.get(i)).copy());
+            removedAsteriods.add(this.asteriods.get((int) indexes.get(i)).copy());
             this.asteriods.remove((int) indexes.get(i));
         }
         this.numberOfAsteriods = this.asteriods.size();
         this.root.getChildren().clear();
         this.root.getChildren().addAll(this.asteriods);
-        
-        for (int i=0; i<removedAsteriods.size(); i++){
+        fadeRemovedAsteriods(removedAsteriods);
+    }
+
+    private void fadeRemovedAsteriods (List<Asteriod> removedAsteriods){
+        for (int i = 0; i < removedAsteriods.size(); i++) {
             this.root.getChildren().add(removedAsteriods.get(i));
-            FillTransition ft = new FillTransition(Duration.millis(500),
-                                                   removedAsteriods.get(i),
-                                                   Color.rgb(180, 180, 180),
-                                                   Color.BLACK);
-            ft.play();
-            if (i == removedAsteriods.size() - 1){
-                ft.setOnFinished((ActionEvent event) -> {
-                    root.getChildren().clear();
-                    root.getChildren().addAll(asteriods);
-                });
+            if (i % 2 == 1 || i == 1) {
+                FillTransition ft = new FillTransition( Duration.millis(500),
+                                                        removedAsteriods.get(i),
+                                                        Color.rgb(180, 180, 180),
+                                                        Color.BLACK);
+                ft.play();
+                if (i == removedAsteriods.size() - 1) {
+                    ft.setOnFinished((ActionEvent event) -> {
+                        root.getChildren().clear();
+                        root.getChildren().addAll(asteriods);
+                    });
+                }
             }
         }
     }
-
+    
     @Override
     public void run() {
         Platform.runLater(() -> {
