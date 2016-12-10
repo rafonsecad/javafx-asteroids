@@ -36,16 +36,16 @@ public class Asteriod extends Element{
         Point [] pathPoints = new Point [2];
         switch (direction){
             case 1:
-                pathPoints = setPathFromTopOrigin();
+                pathPoints = setPathFromTopOrigin(getRandomWidth(), getRandomWidth());
                 break;
             case 2:
-                pathPoints = setPathFromRightOrigin();
+                pathPoints = setPathFromRightOrigin(getRandomHeight(), getRandomHeight());
                 break;
             case 3:
-                pathPoints = setPathFromBottomOrigin();
+                pathPoints = setPathFromBottomOrigin(getRandomWidth(), getRandomWidth());
                 break;
             case 4:
-                pathPoints = setPathFromLeftOrigin();
+                pathPoints = setPathFromLeftOrigin(getRandomHeight(), getRandomHeight());
                 break;
         }
         
@@ -58,40 +58,43 @@ public class Asteriod extends Element{
         calculateSpeedVector();
     }
     
-    protected Point [] setPathFromTopOrigin (){
-        int x = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getWidth());
-        Point origin = new Point (x, 0);
-        
-        x = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getWidth());
-        Point end = new Point (x, getPropertiesImpl().getHeight());
+    protected Point [] setPathFromTopOrigin (int randomXOrigin, int randomXEndPoint){
+        Point origin = new Point (randomXOrigin, 0);
+        Point end = new Point (randomXEndPoint, getMaxHeight());
         return new Point [] {origin, end};
     }
     
-    protected Point [] setPathFromRightOrigin (){
-        int y = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getHeight());
-        Point origin = new Point (getPropertiesImpl().getWidth(), y);
-        
-        y = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getHeight());
-        Point end = new Point (0, y);
+    protected Point [] setPathFromRightOrigin (int randomYOrigin, int randomYEndPoint){
+        Point origin = new Point (getMaxWidth(), randomYOrigin);
+        Point end = new Point (0, randomYEndPoint);
         return new Point [] {origin, end};
     }
     
-    protected Point [] setPathFromBottomOrigin (){
-        int x = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getWidth());
-        Point origin = new Point (x, getPropertiesImpl().getHeight());
-        
-        x = ThreadLocalRandom.current().nextInt(0,getPropertiesImpl().getWidth());
-        Point end = new Point (x, 0);
+    protected Point [] setPathFromBottomOrigin (int randomXOrigin, int randomXEndPoint){
+        Point origin = new Point (randomXOrigin, getMaxHeight());
+        Point end = new Point (randomXEndPoint, 0);
         return new Point [] {origin, end};
     }
     
-    protected Point [] setPathFromLeftOrigin (){
-        int y = ThreadLocalRandom.current().nextInt(0, getPropertiesImpl().getHeight());
-        Point origin = new Point (0, y);
-        
-        y = ThreadLocalRandom.current().nextInt(0, getPropertiesImpl().getHeight());
-        Point end = new Point (getPropertiesImpl().getWidth(), y);
+    protected Point [] setPathFromLeftOrigin (int randomYOrigin, int randomYEndPoint){
+        Point origin = new Point (0, randomYOrigin);
+        Point end = new Point (getMaxWidth(), randomYEndPoint);
         return new Point [] {origin, end};
     }
     
+    public int getRandomWidth(){
+        return ThreadLocalRandom.current().nextInt(0, getMaxWidth());
+    }
+    
+    public int getRandomHeight(){
+        return ThreadLocalRandom.current().nextInt(0, getMaxHeight());
+    }
+    
+    public int getMaxWidth(){
+        return getPropertiesImpl().getWidth();
+    }
+    
+    public int getMaxHeight(){
+        return getPropertiesImpl().getHeight();
+    }
 }
