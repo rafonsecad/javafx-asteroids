@@ -9,6 +9,6 @@ package asteriods.elements;
  *
  * @author rafael
  */
-public class Shot extends Element{
+public class Bullet extends Element{
     
 }
