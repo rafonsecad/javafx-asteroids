@@ -101,12 +101,12 @@ public class RockEngine extends TimerTask {
     public void run() {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
-            processCollisionDetector();
-            Set<Integer> index = collisionDetector.getCrashedElements();
-            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-            if (!indexOfCrashedElements.isEmpty()) {
-                //removeAsteriods(indexOfCrashedElements);
-            }
+//            processCollisionDetector();
+//            Set<Integer> index = collisionDetector.getCrashedElements();
+//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+//            if (!indexOfCrashedElements.isEmpty()) {
+//                //removeAsteriods(indexOfCrashedElements);
+//            }
         });
     }
 

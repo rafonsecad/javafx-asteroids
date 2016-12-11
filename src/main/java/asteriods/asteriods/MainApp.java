@@ -34,7 +34,7 @@ public class MainApp extends Application {
         stage.show();
 
         Timer timer = new Timer();
-        timer.schedule(rockEngine, 1000, 50);
+        timer.schedule(rockEngine, 50, 50);
         
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
