@@ -28,7 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class RockEngine extends TimerTask {
 
-    private CollisionDetector collisionDetector;
+    private Detectable collisionDetector;
     private List<Element> elements;
     private Ship ship;
     private VBox root;
@@ -101,9 +101,9 @@ public class RockEngine extends TimerTask {
     public void run() {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
-//            processCollisionDetector();
-//            Set<Integer> index = collisionDetector.getCrashedElements();
-//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+            processCollisionDetector();
+            Set<Integer> index = collisionDetector.getCrashedElements();
+            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
 //            if (!indexOfCrashedElements.isEmpty()) {
 //                //removeAsteriods(indexOfCrashedElements);
 //            }
@@ -118,7 +118,7 @@ public class RockEngine extends TimerTask {
         this.elements = elements;
     }
 
-    public CollisionDetector getCollisionDetector() {
+    public Detectable getCollisionDetector() {
         return collisionDetector;
     }
 

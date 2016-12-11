@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  *
  * @author rafael
  */
-public class CollisionDetector {
+public class CollisionDetector implements Detectable{
 
     private List<Element> elements;
     private List<List<List<Integer>>> map;
