@@ -8,6 +8,7 @@ package asteriods.rockengine;
 import asteriods.elements.Asteriod;
 import asteriods.elements.AsteriodUtil;
 import asteriods.elements.Element;
+import asteriods.elements.Ship;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +47,8 @@ public class RockEngine extends TimerTask {
             root.getChildren().add(asteriod);
             asteriod.setRandomPath();
         }
+        Ship ship = new Ship();
+        root.getChildren().add(ship);
     }
 
     private void updateAsteriodsPositions() {
@@ -101,7 +104,7 @@ public class RockEngine extends TimerTask {
             Set<Integer> index = collisionDetector.getCrashedElements();
             List<Integer> indexOfCrashedElements = new ArrayList<>(index);
             if (!indexOfCrashedElements.isEmpty()) {
-                removeAsteriods(indexOfCrashedElements);
+                //removeAsteriods(indexOfCrashedElements);
             }
         });
     }
