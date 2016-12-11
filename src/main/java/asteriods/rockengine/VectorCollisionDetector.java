@@ -32,10 +32,12 @@ public class VectorCollisionDetector implements Detectable{
         elements = new ArrayList<>();
     }
     
+    @Override
     public Set<Integer> getCrashedElements(){
         return new HashSet<Integer>();
     }
     
+    @Override
     public void addElement(Element e){
         if (elements ==  null){
             elements = new ArrayList<>();
@@ -47,7 +49,37 @@ public class VectorCollisionDetector implements Detectable{
         elements.add(e);
     }
     
+    @Override
     public void clearElements(){
         elements.clear();
+    }
+    
+    public boolean areElementsIntersected (Element e1, Element e2){
+        List<LineEq> e1Lines = toElementLines(e1);
+        List<LineEq> e2Lines = toElementLines(e2);
+
+        for (int i=0; i<e1Lines.size(); i++){
+            for (int j=0; j<e2Lines.size(); j++){
+                if (e1Lines.get(i).areLinesIntersected(e2Lines.get(j))){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    protected List<LineEq> toElementLines (Element e){
+        List<Point> points = Point.buildList(e.getPoints());
+        Point lastPoint = new Point (points.get(0).getX(), points.get(0).getY());
+        points.add(lastPoint);
+        
+        List<LineEq> lines = new ArrayList<>();
+        for (int i=1; i < points.size(); i++){
+            LineEq line = LineEq.buildSegmentedLine(points.subList(i-1,i+1));
+            lines.add(line);
+        }
+        
+        return lines;
     }
 }
