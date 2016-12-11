@@ -67,12 +67,19 @@ public class CollisionDetector implements Detectable{
     }
 
     public void addElement(Element e) {
+        if (elements == null){
+            elements = new ArrayList<>();
+        }
         if (e.getPoints().isEmpty()) {
             return;
         }
         elements.add(e);
     }
 
+    public void clearElements(){
+        elements.clear();
+    }
+    
     public Set<Integer> getCrashedElements() {
         mapInitialization();
         Set<Integer> indexOfCrashedElements = new HashSet<>();

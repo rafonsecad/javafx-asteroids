@@ -39,6 +39,7 @@ public class RockEngine extends TimerTask {
         this.root = root;
         this.ship = new Ship();
         root.getChildren().add(ship);
+        this.collisionDetector = new CollisionDetector();
     }
 
     public void initializeAsteriods(int numberOfInitialAsteriods) {
@@ -59,7 +60,7 @@ public class RockEngine extends TimerTask {
     }
 
     public void processCollisionDetector() {
-        this.collisionDetector = new CollisionDetector();
+
         for (int i = 0; i < this.elements.size(); i++) {
             this.collisionDetector.addElement(elements.get(i));
         }
@@ -81,11 +82,11 @@ public class RockEngine extends TimerTask {
         fadeRemovedAsteriods(removedAsteriods);
     }
 
-    private void fadeRemovedAsteriods (List<Asteriod> removedAsteriods){
+    private void fadeRemovedAsteriods(List<Asteriod> removedAsteriods) {
         for (int i = 0; i < removedAsteriods.size(); i++) {
             this.root.getChildren().add(removedAsteriods.get(i));
             if (i % 2 == 1 || i == 1) {
-                FillTransition ft = getFillTransition( removedAsteriods.get(i));
+                FillTransition ft = getFillTransition(removedAsteriods.get(i));
                 ft.play();
                 if (i == removedAsteriods.size() - 1) {
                     ft.setOnFinished((ActionEvent event) -> {
@@ -96,17 +97,18 @@ public class RockEngine extends TimerTask {
             }
         }
     }
-    
+
     @Override
     public void run() {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
             processCollisionDetector();
-            Set<Integer> index = collisionDetector.getCrashedElements();
-            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+//            Set<Integer> index = collisionDetector.getCrashedElements();
+//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
 //            if (!indexOfCrashedElements.isEmpty()) {
 //                //removeAsteriods(indexOfCrashedElements);
 //            }
+            getCollisionDetector().clearElements();
         });
     }
 
@@ -125,9 +127,9 @@ public class RockEngine extends TimerTask {
     public Ship getShip() {
         return ship;
     }
-    
-    protected FillTransition getFillTransition (Asteriod asteriod){
-        return new FillTransition (Duration.millis(500), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
+
+    protected FillTransition getFillTransition(Asteriod asteriod) {
+        return new FillTransition(Duration.millis(500), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
 }

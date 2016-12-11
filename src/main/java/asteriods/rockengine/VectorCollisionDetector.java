@@ -42,4 +42,8 @@ public class VectorCollisionDetector implements Detectable{
         }
         elements.add(e);
     }
+    
+    public void clearElements(){
+        elements.clear();
+    }
 }

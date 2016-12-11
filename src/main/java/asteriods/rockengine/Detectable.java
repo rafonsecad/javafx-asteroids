@@ -14,5 +14,6 @@ import java.util.Set;
  */
 public interface Detectable {
     public void addElement(Element e);
+    public void clearElements();
     public Set<Integer> getCrashedElements();
 }
