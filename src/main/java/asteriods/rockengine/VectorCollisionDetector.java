@@ -34,7 +34,25 @@ public class VectorCollisionDetector implements Detectable{
     
     @Override
     public Set<Integer> getCrashedElements(){
-        return new HashSet<Integer>();
+        Set<Integer> indexes = getOverlappedBoxes();
+        List<Integer> indexesArray = new ArrayList<>(indexes);
+        
+        Set<Integer> indexesOfCrashedElements = new HashSet<>();
+        for (int i=0; i<indexesArray.size(); i++){
+            for (int j=0; j<indexesArray.size(); j++){
+                if (i==j){
+                    break;
+                }
+                if (this.areElementsIntersected(elements.get(indexesArray.get(i)),
+                                                elements.get(indexesArray.get(j)))){
+                    indexesOfCrashedElements.add(j);
+                    indexesOfCrashedElements.add(i);
+                }
+                
+            }
+        }
+        
+        return indexes;
     }
     
     @Override
@@ -52,6 +70,29 @@ public class VectorCollisionDetector implements Detectable{
     @Override
     public void clearElements(){
         elements.clear();
+    }
+    
+    public Set<Integer> getOverlappedBoxes(){
+        Set<Integer> indexes = new HashSet<>();
+        List<Box> elementsBoxed = new ArrayList<>();
+        for (int i=0; i<elements.size(); i++){
+            Box box = new Box(elements.get(i).getMaxValues());
+            elementsBoxed.add(box);
+        }
+        
+        for (int i=0; i<elementsBoxed.size(); i++){
+            for (int j=0; j<elementsBoxed.size(); j++){
+                if (i==j){
+                    break;
+                }
+                if (elementsBoxed.get(i).isBoxOverlapped(elementsBoxed.get(j))){
+                    indexes.add(i);
+                    indexes.add(j);
+                }
+            }
+        }
+        
+        return indexes;
     }
     
     public boolean areElementsIntersected (Element e1, Element e2){

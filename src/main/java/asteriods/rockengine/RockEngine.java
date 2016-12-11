@@ -39,7 +39,7 @@ public class RockEngine extends TimerTask {
         this.root = root;
         this.ship = new Ship();
         root.getChildren().add(ship);
-        this.collisionDetector = new CollisionDetector();
+        this.collisionDetector = new VectorCollisionDetector();
     }
 
     public void initializeAsteriods(int numberOfInitialAsteriods) {
@@ -103,11 +103,11 @@ public class RockEngine extends TimerTask {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
             processCollisionDetector();
-//            Set<Integer> index = collisionDetector.getCrashedElements();
-//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-//            if (!indexOfCrashedElements.isEmpty()) {
-//                //removeAsteriods(indexOfCrashedElements);
-//            }
+            Set<Integer> index = collisionDetector.getCrashedElements();
+            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+            if (!indexOfCrashedElements.isEmpty()) {
+                removeAsteriods(indexOfCrashedElements);
+            }
             getCollisionDetector().clearElements();
         });
     }
