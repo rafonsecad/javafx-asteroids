@@ -55,8 +55,8 @@ public class VectorCollisionDetector implements Detectable{
     }
     
     public boolean areElementsIntersected (Element e1, Element e2){
-        List<LineEq> e1Lines = toElementLines(e1);
-        List<LineEq> e2Lines = toElementLines(e2);
+        List<LineEq> e1Lines = e1.toLines();
+        List<LineEq> e2Lines = e2.toLines();
 
         for (int i=0; i<e1Lines.size(); i++){
             for (int j=0; j<e2Lines.size(); j++){
@@ -67,19 +67,5 @@ public class VectorCollisionDetector implements Detectable{
         }
         
         return false;
-    }
-    
-    protected List<LineEq> toElementLines (Element e){
-        List<Point> points = Point.buildList(e.getPoints());
-        Point lastPoint = new Point (points.get(0).getX(), points.get(0).getY());
-        points.add(lastPoint);
-        
-        List<LineEq> lines = new ArrayList<>();
-        for (int i=1; i < points.size(); i++){
-            LineEq line = LineEq.buildSegmentedLine(points.subList(i-1,i+1));
-            lines.add(line);
-        }
-        
-        return lines;
     }
 }
