@@ -37,6 +37,10 @@ public class VectorCollisionDetector implements Detectable{
     }
     
     public void addElement(Element e){
+        if (elements ==  null){
+            elements = new ArrayList<>();
+        }
+        
         if (e.getPoints().isEmpty()) {
             return;
         }
