@@ -30,12 +30,15 @@ public class RockEngine extends TimerTask {
 
     private CollisionDetector collisionDetector;
     private List<Element> elements;
+    private Ship ship;
     private VBox root;
 
     final static Logger logger = Logger.getLogger(RockEngine.class);
 
     public RockEngine(VBox root) {
         this.root = root;
+        this.ship = new Ship();
+        root.getChildren().add(ship);
     }
 
     public void initializeAsteriods(int numberOfInitialAsteriods) {
@@ -47,8 +50,6 @@ public class RockEngine extends TimerTask {
             root.getChildren().add(asteriod);
             asteriod.setRandomPath();
         }
-        Ship ship = new Ship();
-        root.getChildren().add(ship);
     }
 
     private void updateAsteriodsPositions() {
@@ -119,6 +120,10 @@ public class RockEngine extends TimerTask {
 
     public CollisionDetector getCollisionDetector() {
         return collisionDetector;
+    }
+
+    public Ship getShip() {
+        return ship;
     }
     
     protected FillTransition getFillTransition (Asteriod asteriod){
