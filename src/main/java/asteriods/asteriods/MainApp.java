@@ -20,8 +20,8 @@ public class MainApp extends Application {
         VBox root = new VBox();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);
-        RockEngine rockEngine = new RockEngine(root, 30);
-        rockEngine.initializeAsteriods();
+        RockEngine rockEngine = new RockEngine(root);
+        rockEngine.initializeAsteriods(30);
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("Asteriods");

@@ -6,6 +6,7 @@
 package asteriods.rockengine;
 
 import asteriods.elements.Asteriod;
+import asteriods.elements.Element;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -48,18 +49,17 @@ public class RockEngineTest {
         List<Integer> indexes = new ArrayList<>();
         indexes.add(2);
         indexes.add(4);
-        RockEngine engine = new RockEngine(new VBox(), 10);
-        engine.initializeAsteriods();
+        RockEngine engine = new RockEngine(new VBox());
+        engine.initializeAsteriods(10);
         engine.removeAsteriods(indexes);
-        assertEquals(engine.getAsteriods().size(), 8);
-        assertEquals(engine.getNumberOfAsteriods(), 8);
+        assertEquals(engine.getElements().size(), 8);
     }
     
     @Test
     public void removeAsteriods_OneFrame_removeAsteriods() throws Exception{
         VBox root = new VBox();
-        RockEngine rockEngine = new RockEngine(root, 10);
-        List<Asteriod> a = new ArrayList<>();
+        RockEngine rockEngine = new RockEngine(root);
+        List<Element> a = new ArrayList<>();
         for (int i=0; i<10; i++){
             Asteriod as = new Asteriod();
             as.getPoints().removeAll(as.getPoints());
@@ -78,7 +78,7 @@ public class RockEngineTest {
         a.get(8).getPoints().addAll(new Double []{337.2263191382861, 301.9420586965512, 341.2263191382862, 305.94205869655116, 345.2263191382863, 309.94205869655104, 349.22631913828644, 305.94205869655116, 353.22631913828656, 301.9420586965512, 349.22631913828644, 297.94205869655127, 345.2263191382863, 293.9420586965513, 341.2263191382862, 297.94205869655127});
         a.get(9).getPoints().addAll(new Double []{423.07219373438227, 184.25778277830432, 427.07219373438227, 188.25778277830426, 431.07219373438227, 192.25778277830426, 435.07219373438227, 188.25778277830426, 439.07219373438227, 184.25778277830432, 435.07219373438227, 180.25778277830435, 431.07219373438227, 176.25778277830435, 427.07219373438227, 180.25778277830435});
 
-        rockEngine.setAsteriods(a);
+        rockEngine.setElements(a);
         
         rockEngine.processCollisionDetector();
         Set<Integer> index = rockEngine.getCollisionDetector().getCrashedElements();
@@ -87,8 +87,8 @@ public class RockEngineTest {
         
         Point [] unexpectedPoints = Point.build(new Double []{220.24913278350664, 325.55230950492506, 224.24913278350664, 329.5523095049251, 228.24913278350664, 333.5523095049252, 232.24913278350664, 329.5523095049251, 236.24913278350664, 325.55230950492506, 232.24913278350664, 321.55230950492506, 228.24913278350664, 317.552309504925, 224.24913278350664, 321.55230950492506});
         Point [] unexpectedPoints2 = Point.build(new Double []{208.11997355226413, 325.8668429849058, 212.11997355226413, 329.8668429849058, 216.11997355226413, 333.8668429849058, 220.11997355226413, 329.8668429849058, 224.11997355226413, 325.8668429849058, 220.11997355226413, 321.8668429849058, 216.11997355226413, 317.8668429849058, 212.11997355226413, 321.8668429849058});
-        for (int i=0; i< rockEngine.getAsteriods().size(); i++){
-            Asteriod expectedA = rockEngine.getAsteriods().get(i);
+        for (int i=0; i< rockEngine.getElements().size(); i++){
+            Element expectedA = rockEngine.getElements().get(i);
             List<Point> asteriodPoints = Point.buildList(expectedA.getPoints());
             for (int j=0; j<asteriodPoints.size(); j++){
                 if(asteriodPoints.get(j).equals(unexpectedPoints[j])){

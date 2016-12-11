@@ -7,6 +7,7 @@ package asteriods.rockengine;
 
 import asteriods.elements.Asteriod;
 import asteriods.elements.AsteriodUtil;
+import asteriods.elements.Element;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,22 +28,20 @@ import org.apache.log4j.Logger;
 public class RockEngine extends TimerTask {
 
     private CollisionDetector collisionDetector;
-    private List<Asteriod> asteriods;
-    private int numberOfAsteriods;
+    private List<Element> elements;
     private VBox root;
 
     final static Logger logger = Logger.getLogger(RockEngine.class);
 
-    public RockEngine(VBox root, int numberOfAsteriods) {
-        this.numberOfAsteriods = numberOfAsteriods;
+    public RockEngine(VBox root) {
         this.root = root;
     }
 
-    public void initializeAsteriods() {
-        asteriods = new ArrayList<>();
-        for (int i = 0; i < this.numberOfAsteriods; i++) {
+    public void initializeAsteriods(int numberOfInitialAsteriods) {
+        elements = new ArrayList<>();
+        for (int i = 0; i < numberOfInitialAsteriods; i++) {
             Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
-            asteriods.add(asteriod);
+            elements.add(asteriod);
             asteriod.setManaged(false);
             root.getChildren().add(asteriod);
             asteriod.setRandomPath();
@@ -50,15 +49,15 @@ public class RockEngine extends TimerTask {
     }
 
     private void updateAsteriodsPositions() {
-        for (int i = 0; i < this.numberOfAsteriods; i++) {
-            asteriods.get(i).updatePosition();
+        for (int i = 0; i < elements.size(); i++) {
+            elements.get(i).updatePosition();
         }
     }
 
     public void processCollisionDetector() {
         this.collisionDetector = new CollisionDetector();
-        for (int i = 0; i < this.numberOfAsteriods; i++) {
-            this.collisionDetector.addElement(asteriods.get(i));
+        for (int i = 0; i < this.elements.size(); i++) {
+            this.collisionDetector.addElement(elements.get(i));
         }
     }
 
@@ -67,13 +66,14 @@ public class RockEngine extends TimerTask {
         Collections.reverse(indexes);
         List<Asteriod> removedAsteriods = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
-            removedAsteriods.add(this.asteriods.get((int) indexes.get(i)).copy());
-            removedAsteriods.add(this.asteriods.get((int) indexes.get(i)).copy());
-            this.asteriods.remove((int) indexes.get(i));
+            int index = (int) indexes.get(i);
+            Asteriod asteriod = (Asteriod) this.elements.get(index);
+            removedAsteriods.add(asteriod.copy());
+            removedAsteriods.add(asteriod.copy());
+            this.elements.remove(index);
         }
-        this.numberOfAsteriods = this.asteriods.size();
         this.root.getChildren().clear();
-        this.root.getChildren().addAll(this.asteriods);
+        this.root.getChildren().addAll(this.elements);
         fadeRemovedAsteriods(removedAsteriods);
     }
 
@@ -89,7 +89,7 @@ public class RockEngine extends TimerTask {
                 if (i == removedAsteriods.size() - 1) {
                     ft.setOnFinished((ActionEvent event) -> {
                         root.getChildren().clear();
-                        root.getChildren().addAll(asteriods);
+                        root.getChildren().addAll(elements);
                     });
                 }
             }
@@ -109,20 +109,12 @@ public class RockEngine extends TimerTask {
         });
     }
 
-    public List<Asteriod> getAsteriods() {
-        return asteriods;
+    public List<Element> getElements() {
+        return elements;
     }
 
-    public void setAsteriods(List<Asteriod> asteriods) {
-        this.asteriods = asteriods;
-    }
-
-    public int getNumberOfAsteriods() {
-        return numberOfAsteriods;
-    }
-
-    public void setNumberOfAsteriods(int numberOfAsteriods) {
-        this.numberOfAsteriods = numberOfAsteriods;
+    public void setElements(List<Element> elements) {
+        this.elements = elements;
     }
 
     public CollisionDetector getCollisionDetector() {
