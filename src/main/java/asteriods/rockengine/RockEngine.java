@@ -81,10 +81,7 @@ public class RockEngine extends TimerTask {
         for (int i = 0; i < removedAsteriods.size(); i++) {
             this.root.getChildren().add(removedAsteriods.get(i));
             if (i % 2 == 1 || i == 1) {
-                FillTransition ft = new FillTransition( Duration.millis(500),
-                                                        removedAsteriods.get(i),
-                                                        Color.rgb(180, 180, 180),
-                                                        Color.BLACK);
+                FillTransition ft = getFillTransition( removedAsteriods.get(i));
                 ft.play();
                 if (i == removedAsteriods.size() - 1) {
                     ft.setOnFinished((ActionEvent event) -> {
@@ -119,6 +116,10 @@ public class RockEngine extends TimerTask {
 
     public CollisionDetector getCollisionDetector() {
         return collisionDetector;
+    }
+    
+    protected FillTransition getFillTransition (Asteriod asteriod){
+        return new FillTransition (Duration.millis(500), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
 }
