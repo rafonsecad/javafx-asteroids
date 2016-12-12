@@ -43,16 +43,16 @@ public class VectorCollisionDetector implements Detectable{
                 if (i==j){
                     break;
                 }
-                if (this.areElementsIntersected(elements.get(indexesArray.get(i)),
-                                                elements.get(indexesArray.get(j)))){
-                    indexesOfCrashedElements.add(j);
-                    indexesOfCrashedElements.add(i);
+                if (this.areElementsIntersected(elements.get((int)indexesArray.get(i)),
+                                                elements.get((int)indexesArray.get(j)))){
+                    indexesOfCrashedElements.add((int)indexesArray.get(i));
+                    indexesOfCrashedElements.add((int)indexesArray.get(j));
                 }
                 
             }
         }
         
-        return indexes;
+        return indexesOfCrashedElements;
     }
     
     @Override

@@ -37,8 +37,8 @@ public class RockEngine extends TimerTask {
 
     public RockEngine(VBox root) {
         this.root = root;
-        this.ship = new Ship();
-        root.getChildren().add(ship);
+//        this.ship = new Ship();
+//        root.getChildren().add(ship);
         this.collisionDetector = new VectorCollisionDetector();
     }
 
@@ -54,9 +54,21 @@ public class RockEngine extends TimerTask {
     }
 
     private void updateAsteriodsPositions() {
+//        List<Integer> outOfMargin = new ArrayList<>();
         for (int i = 0; i < elements.size(); i++) {
             elements.get(i).updatePosition();
+//            if (elements.get(i).isOutsideMargin()){
+//                outOfMargin.add(i);
+//            }
         }
+//        Collections.sort(outOfMargin);
+//        Collections.reverse(outOfMargin);
+//        for (int i=0; i<outOfMargin.size(); i++){
+//            elements.remove((int) outOfMargin.get(i));
+//        }
+//        this.root.getChildren().clear();
+//        this.root.getChildren().addAll(this.elements);
+        System.gc();
     }
 
     public void processCollisionDetector() {
@@ -102,13 +114,13 @@ public class RockEngine extends TimerTask {
     public void run() {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
-            processCollisionDetector();
-            Set<Integer> index = collisionDetector.getCrashedElements();
-            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-            if (!indexOfCrashedElements.isEmpty()) {
-                removeAsteriods(indexOfCrashedElements);
-            }
-            getCollisionDetector().clearElements();
+//            processCollisionDetector();
+//            Set<Integer> index = collisionDetector.getCrashedElements();
+//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+//            if (!indexOfCrashedElements.isEmpty()) {
+//                removeAsteriods(indexOfCrashedElements);
+//            }
+//            getCollisionDetector().clearElements();
         });
     }
 

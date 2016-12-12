@@ -5,9 +5,12 @@
  */
 package asteriods.rockengine;
 
+import asteriods.elements.Ceres;
 import asteriods.elements.Element;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -119,5 +122,23 @@ public class VectorCollisionDetectorTest {
         });
         VectorCollisionDetector vcd = new VectorCollisionDetector();
         assertTrue(!vcd.areElementsIntersected(e1, e2));
+    }
+    
+    @Test
+    public void getCrashedElements_AsteriodsNotCrashing_emptyList(){
+        System.out.println("getCrashedElements_AsteriodsNotCrashing_emptyList");
+        Ceres c1 = new Ceres();
+        Ceres c2 = new Ceres();
+        
+        c1.setCurrentPosition(new Point(25.0, 10.0));
+        c1.moveToOrigin();
+        c2.setCurrentPosition(new Point(10.0, 25.0));
+        c2.moveToOrigin();
+        
+        VectorCollisionDetector vcd = new VectorCollisionDetector();
+        vcd.addElement(c1);
+        vcd.addElement(c2);
+        Set<Integer> indexes = vcd.getCrashedElements();
+        assertEquals(0, indexes.size());
     }
 }

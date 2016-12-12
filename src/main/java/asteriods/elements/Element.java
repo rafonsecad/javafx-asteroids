@@ -141,6 +141,24 @@ public class Element extends Polygon {
         return lines;
     }
 
+    public boolean isOutsideMargin(){
+        int [] coordinates = getMaxValues();
+        
+        if (coordinates[0] > properties.getWidth() + 50){
+            return true;
+        }
+        if (coordinates[1] < -50){
+            return true;
+        }
+        if (coordinates[2] > properties.getHeight() + 50){
+            return true;
+        }
+        if (coordinates[3] < -50){
+            return true;
+        }
+        return false;
+    }
+    
     public Double getSpeed() {
         return speed;
     }
