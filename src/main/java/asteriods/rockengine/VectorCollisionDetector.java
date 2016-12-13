@@ -17,98 +17,97 @@ import java.util.Set;
  *
  * @author rafael
  */
-public class VectorCollisionDetector implements Detectable{
-    
+public class VectorCollisionDetector implements Detectable {
+
     private List<Element> elements;
     private Properties properties;
     private int width;
     private int height;
-    
-    
-    public VectorCollisionDetector(){
+
+    public VectorCollisionDetector() {
         properties = new PropertiesImpl();
         this.width = properties.getWidth();
         this.height = properties.getHeight();
         elements = new ArrayList<>();
     }
-    
+
     @Override
-    public Set<Integer> getCrashedElements(){
+    public Set<Integer> getCrashedElements() {
         Set<Integer> indexes = getOverlappedBoxes();
         List<Integer> indexesArray = new ArrayList<>(indexes);
-        
+
         Set<Integer> indexesOfCrashedElements = new HashSet<>();
-        for (int i=0; i<indexesArray.size(); i++){
-            for (int j=0; j<indexesArray.size(); j++){
-                if (i==j){
-                    break;
+        for (int i = 0; i < indexesArray.size(); i++) {
+            for (int j = 0; j < indexesArray.size(); j++) {
+                if (i != j) {
+                    if (this.areElementsIntersected(elements.get((int) indexesArray.get(i)),
+                            elements.get((int) indexesArray.get(j)))) {
+                        indexesOfCrashedElements.add((int) indexesArray.get(i));
+                        indexesOfCrashedElements.add((int) indexesArray.get(j));
+                    }
                 }
-                if (this.areElementsIntersected(elements.get((int)indexesArray.get(i)),
-                                                elements.get((int)indexesArray.get(j)))){
-                    indexesOfCrashedElements.add((int)indexesArray.get(i));
-                    indexesOfCrashedElements.add((int)indexesArray.get(j));
-                }
-                
+
             }
         }
-        
+
         return indexesOfCrashedElements;
     }
-    
+
     @Override
-    public void addElement(Element e){
-        if (elements ==  null){
+    public void addElement(Element e) {
+        if (elements == null) {
             elements = new ArrayList<>();
         }
-        
+
         if (e.getPoints().isEmpty()) {
             return;
         }
         elements.add(e);
     }
-    
+
     @Override
-    public void clearElements(){
+    public void clearElements() {
         elements.clear();
     }
-    
-    public Set<Integer> getOverlappedBoxes(){
+
+    public Set<Integer> getOverlappedBoxes() {
         Set<Integer> indexes = new HashSet<>();
         List<Box> elementsBoxed = getBoxes();
-        
-        for (int i=0; i<elementsBoxed.size(); i++){
-            for (int j=0; j<elementsBoxed.size(); j++){
-                if (i==j){
-                    break;
-                }
-                if (elementsBoxed.get(i).isBoxOverlapped(elementsBoxed.get(j))){
-                    indexes.add(i);
-                    indexes.add(j);
+
+        for (int i = 0; i < elementsBoxed.size(); i++) {
+            for (int j = 0; j < elementsBoxed.size(); j++) {
+                if (i != j) {
+                    if (elementsBoxed.get(i).isBoxOverlapped(elementsBoxed.get(j))) {
+                        indexes.add(i);
+                        indexes.add(j);
+                    }
                 }
             }
         }
-        
+
         return indexes;
     }
-    
-    public boolean areElementsIntersected (Element e1, Element e2){
+
+    public boolean areElementsIntersected(Element e1, Element e2) {
         List<LineEq> e1Lines = e1.toLines();
         List<LineEq> e2Lines = e2.toLines();
 
-        for (int i=0; i<e1Lines.size(); i++){
-            for (int j=0; j<e2Lines.size(); j++){
-                if (e1Lines.get(i).areLinesIntersected(e2Lines.get(j))){
+        for (int i = 0; i < e1Lines.size(); i++) {
+            for (int j = 0; j < e2Lines.size(); j++) {
+                LineEq firstElementLine = e1Lines.get(i);
+                LineEq secondElementLine = e2Lines.get(j);
+                if (firstElementLine.areLinesIntersected(secondElementLine)) {
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
-    
-    private List<Box> getBoxes(){
+
+    private List<Box> getBoxes() {
         List<Box> elementsBoxed = new ArrayList<>();
-        for (Element element : elements){
+        for (Element element : elements) {
             Box box = new Box(element.getMaxValues());
             elementsBoxed.add(box);
         }
