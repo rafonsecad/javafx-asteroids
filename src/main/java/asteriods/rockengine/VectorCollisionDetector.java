@@ -39,14 +39,7 @@ public class VectorCollisionDetector implements Detectable {
         Set<Integer> indexesOfCrashedElements = new HashSet<>();
         for (int i = 0; i < indexesArray.size(); i++) {
             for (int j = 0; j < indexesArray.size(); j++) {
-                if (i != j) {
-                    if (this.areElementsIntersected(elements.get((int) indexesArray.get(i)),
-                            elements.get((int) indexesArray.get(j)))) {
-                        indexesOfCrashedElements.add((int) indexesArray.get(i));
-                        indexesOfCrashedElements.add((int) indexesArray.get(j));
-                    }
-                }
-
+                addCrashedElement(indexesOfCrashedElements, indexesArray, i, j);
             }
         }
 
@@ -94,6 +87,22 @@ public class VectorCollisionDetector implements Detectable {
         }
 
         return false;
+    }
+
+    private void addCrashedElement(Set<Integer> indexes, List<Integer> boxIndexes, int i, int j) {
+        if (i == j) {
+            return;
+        }
+
+        int firstElementIndex = (int) boxIndexes.get(i);
+        int secondElementIndex = (int) boxIndexes.get(j);
+        Element firsElement = elements.get(firstElementIndex);
+        Element secondElement = elements.get(secondElementIndex);
+
+        if (this.areElementsIntersected(firsElement, secondElement)) {
+            indexes.add(firstElementIndex);
+            indexes.add(secondElementIndex);
+        }
     }
 
     private void addBoxOverlapped(List<Box> boxes, Set<Integer> indexes, int i, int j) {
