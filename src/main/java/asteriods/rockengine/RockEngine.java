@@ -37,8 +37,6 @@ public class RockEngine extends TimerTask {
 
     public RockEngine(VBox root) {
         this.root = root;
-//        this.ship = new Ship();
-//        root.getChildren().add(ship);
         this.collisionDetector = new VectorCollisionDetector();
     }
 
@@ -51,23 +49,18 @@ public class RockEngine extends TimerTask {
             root.getChildren().add(asteriod);
             asteriod.setRandomPath();
         }
+        ship = new Ship();
+        elements.add(ship);
+        root.getChildren().add(ship);
+
     }
 
     private void updateAsteriodsPositions() {
-//        List<Integer> outOfMargin = new ArrayList<>();
         for (int i = 0; i < elements.size(); i++) {
-            elements.get(i).updatePosition();
-//            if (elements.get(i).isOutsideMargin()){
-//                outOfMargin.add(i);
-//            }
+            if (elements.get(i) instanceof Asteriod) {
+                elements.get(i).updatePosition();
+            }
         }
-//        Collections.sort(outOfMargin);
-//        Collections.reverse(outOfMargin);
-//        for (int i=0; i<outOfMargin.size(); i++){
-//            elements.remove((int) outOfMargin.get(i));
-//        }
-//        this.root.getChildren().clear();
-//        this.root.getChildren().addAll(this.elements);
     }
 
     public void processCollisionDetector() {
@@ -83,9 +76,11 @@ public class RockEngine extends TimerTask {
         List<Asteriod> removedAsteriods = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
-            Asteriod asteriod = (Asteriod) this.elements.get(index);
-            removedAsteriods.add(asteriod.copy());
-            removedAsteriods.add(asteriod.copy());
+            if (this.elements.get(index) instanceof Asteriod) {
+                Asteriod asteriod = (Asteriod) this.elements.get(index);
+                removedAsteriods.add(asteriod.copy());
+                removedAsteriods.add(asteriod.copy());
+            }
             this.elements.remove(index);
         }
         this.root.getChildren().clear();

@@ -43,17 +43,6 @@ public class RockEngineTest {
     @After
     public void tearDown() {
     }
-
-    @Test
-    public void removeAsteriods_AsteriodList_removeAsteriods() {
-        List<Integer> indexes = new ArrayList<>();
-        indexes.add(2);
-        indexes.add(4);
-        RockEngine engine = new RockEngine(new VBox());
-        engine.initializeAsteriods(10);
-        engine.removeAsteriods(indexes);
-        assertEquals(engine.getElements().size(), 8);
-    }
     
     @Test
     public void removeAsteriods_OneFrame_removeAsteriods() throws Exception{
