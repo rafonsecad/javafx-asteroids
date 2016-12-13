@@ -74,11 +74,7 @@ public class VectorCollisionDetector implements Detectable{
     
     public Set<Integer> getOverlappedBoxes(){
         Set<Integer> indexes = new HashSet<>();
-        List<Box> elementsBoxed = new ArrayList<>();
-        for (int i=0; i<elements.size(); i++){
-            Box box = new Box(elements.get(i).getMaxValues());
-            elementsBoxed.add(box);
-        }
+        List<Box> elementsBoxed = getBoxes();
         
         for (int i=0; i<elementsBoxed.size(); i++){
             for (int j=0; j<elementsBoxed.size(); j++){
@@ -108,5 +104,14 @@ public class VectorCollisionDetector implements Detectable{
         }
         
         return false;
+    }
+    
+    private List<Box> getBoxes(){
+        List<Box> elementsBoxed = new ArrayList<>();
+        for (Element element : elements){
+            Box box = new Box(element.getMaxValues());
+            elementsBoxed.add(box);
+        }
+        return elementsBoxed;
     }
 }

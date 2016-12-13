@@ -68,7 +68,6 @@ public class RockEngine extends TimerTask {
 //        }
 //        this.root.getChildren().clear();
 //        this.root.getChildren().addAll(this.elements);
-        System.gc();
     }
 
     public void processCollisionDetector() {
@@ -114,13 +113,13 @@ public class RockEngine extends TimerTask {
     public void run() {
         Platform.runLater(() -> {
             updateAsteriodsPositions();
-//            processCollisionDetector();
-//            Set<Integer> index = collisionDetector.getCrashedElements();
-//            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
-//            if (!indexOfCrashedElements.isEmpty()) {
-//                removeAsteriods(indexOfCrashedElements);
-//            }
-//            getCollisionDetector().clearElements();
+            processCollisionDetector();
+            Set<Integer> index = collisionDetector.getCrashedElements();
+            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+            if (!indexOfCrashedElements.isEmpty()) {
+                removeAsteriods(indexOfCrashedElements);
+            }
+            getCollisionDetector().clearElements();
         });
     }
 
