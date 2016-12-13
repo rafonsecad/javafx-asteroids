@@ -89,16 +89,12 @@ public class VectorCollisionDetector implements Detectable {
     }
 
     public boolean areElementsIntersected(Element e1, Element e2) {
-        List<LineEq> e1Lines = e1.toLines();
-        List<LineEq> e2Lines = e2.toLines();
+        List<LineEq> firstElementLines = e1.toLines();
+        List<LineEq> secondElementLines = e2.toLines();
 
-        for (int i = 0; i < e1Lines.size(); i++) {
-            for (int j = 0; j < e2Lines.size(); j++) {
-                LineEq firstElementLine = e1Lines.get(i);
-                LineEq secondElementLine = e2Lines.get(j);
-                if (firstElementLine.areLinesIntersected(secondElementLine)) {
-                    return true;
-                }
+        for (LineEq firstLine : firstElementLines) {
+            if(isElementIntersected(firstLine, secondElementLines)){
+                return true;
             }
         }
 
@@ -112,5 +108,14 @@ public class VectorCollisionDetector implements Detectable {
             elementsBoxed.add(box);
         }
         return elementsBoxed;
+    }
+
+    private boolean isElementIntersected(LineEq firstLine, List<LineEq> secondElementLines) {
+        for (LineEq secondLine : secondElementLines) {
+            if (firstLine.areLinesIntersected(secondLine)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
