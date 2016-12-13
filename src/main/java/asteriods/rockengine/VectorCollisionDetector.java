@@ -76,12 +76,7 @@ public class VectorCollisionDetector implements Detectable {
 
         for (int i = 0; i < elementsBoxed.size(); i++) {
             for (int j = 0; j < elementsBoxed.size(); j++) {
-                if (i != j) {
-                    if (elementsBoxed.get(i).isBoxOverlapped(elementsBoxed.get(j))) {
-                        indexes.add(i);
-                        indexes.add(j);
-                    }
-                }
+                addBoxOverlapped(elementsBoxed, indexes, i, j);
             }
         }
 
@@ -93,12 +88,24 @@ public class VectorCollisionDetector implements Detectable {
         List<LineEq> secondElementLines = e2.toLines();
 
         for (LineEq firstLine : firstElementLines) {
-            if(isElementIntersected(firstLine, secondElementLines)){
+            if (isElementIntersected(firstLine, secondElementLines)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void addBoxOverlapped(List<Box> boxes, Set<Integer> indexes, int i, int j) {
+        if (i == j) {
+            return;
+        }
+        Box firstBox = boxes.get(i);
+        Box secondBox = boxes.get(j);
+        if (firstBox.isBoxOverlapped(secondBox)) {
+            indexes.add(i);
+            indexes.add(j);
+        }
     }
 
     private List<Box> getBoxes() {

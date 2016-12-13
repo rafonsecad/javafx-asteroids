@@ -6,58 +6,61 @@
 package asteriods.rockengine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author rafael
  */
 public class Box {
+
     private List<Point> corners;
     private int[] coordinates;
-    
-    public Box (int [] coordinates){
+
+    public Box(int[] coordinates) {
         corners = new ArrayList<>();
-        corners.add(new Point (coordinates[0], coordinates[2]));
-        corners.add(new Point (coordinates[1], coordinates[2]));
-        corners.add(new Point (coordinates[1], coordinates[3]));
-        corners.add(new Point (coordinates[0], coordinates[3]));
+        corners.add(new Point(coordinates[0], coordinates[2]));
+        corners.add(new Point(coordinates[1], coordinates[2]));
+        corners.add(new Point(coordinates[1], coordinates[3]));
+        corners.add(new Point(coordinates[0], coordinates[3]));
         this.coordinates = coordinates;
     }
-    
-    public boolean isBoxOverlapped(Box box){
-        
-        for (int i=0; i<box.getCorners().size(); i++){
+
+    public boolean isBoxOverlapped(Box box) {
+
+        for (int i = 0; i < box.getCorners().size(); i++) {
             Point boxCorner = box.getCorners().get(i);
-            if (isPointInsideBox(boxCorner)){
+            if (isPointInsideBox(boxCorner)) {
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    public boolean isPointInsideBox(Point point){
-        
-        if (this.coordinates[0] > point.getX()){
+    public boolean isPointInsideBox(Point point) {
+
+        if (this.coordinates[0] > point.getX()) {
             return false;
         }
-                    
-        if (this.coordinates[1] < point.getX()){
+
+        if (this.coordinates[1] < point.getX()) {
             return false;
         }
-        
-        if (this.coordinates[2] > point.getY()){
+
+        if (this.coordinates[2] > point.getY()) {
             return false;
         }
-                    
-        if (this.coordinates[3] < point.getY()){
+
+        if (this.coordinates[3] < point.getY()) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     public List<Point> getCorners() {
         return corners;
     }
