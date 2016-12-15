@@ -2,16 +2,12 @@ package asteriods.asteriods;
 
 import asteriods.configuration.Properties;
 import asteriods.configuration.PropertiesImpl;
-import asteriods.elements.Ship;
-import asteriods.rockengine.Point;
+import asteriods.rockengine.Controller;
 import asteriods.rockengine.RockEngine;
 import java.util.Timer;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -36,16 +32,7 @@ public class MainApp extends Application {
         Timer timer = new Timer();
         timer.schedule(rockEngine, 50, 50);
         
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent event){
-                if (event.getCode() == KeyCode.LEFT){
-                    Ship ship = rockEngine.getShip();
-                    ship.setCurrentPosition(new Point(200, 200));
-                    ship.moveToOrigin();
-                }
-            }
-        });
+        scene.setOnKeyPressed(new Controller(rockEngine.getShip()));
 
     }
 
