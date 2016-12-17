@@ -21,7 +21,18 @@ import org.junit.Test;
  */
 public class ShipTest {
     
+    Ship ship;
+    
     public ShipTest() {
+        ship = new Ship();
+        ship.getPoints().clear();
+        Double [] coordinates = new Double [] {
+            0.0, 0.0,
+           -5.0, 10.0,
+            0.0, 8.0,
+            5.0, 10.0
+        };
+        ship.initialize(coordinates);
     }
     
     @BeforeClass
