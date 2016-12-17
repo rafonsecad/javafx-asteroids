@@ -18,10 +18,7 @@ import javafx.scene.paint.Color;
  */
 public class Ship extends Element {
 
-    private Properties properties;
-
     public Ship() {
-        properties = new PropertiesImpl();
 
         Double[] points = new Double[]{
             0.0, 0.0,
@@ -36,8 +33,8 @@ public class Ship extends Element {
         getPoints().addAll(points);
         setFill(Color.rgb(211, 211, 211));
         setManaged(false);
-        int centerX = properties.getWidth() / 2;
-        int centerY = properties.getHeight() / 2;
+        int centerX = getPropertiesImpl().getWidth() / 2;
+        int centerY = getPropertiesImpl().getHeight() / 2;
         Point currentPosition = new Point(centerX, centerY);
         setCurrentPosition(currentPosition);
         moveToOrigin();
