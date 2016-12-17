@@ -29,5 +29,8 @@ public class Controller implements EventHandler<KeyEvent>{
         if (event.getCode() == KeyCode.RIGHT){
             this.ship.rotate(20.0);
         }
+        if (event.getCode() == KeyCode.UP){
+            this.ship.moveForward();
+        }
     }
 }

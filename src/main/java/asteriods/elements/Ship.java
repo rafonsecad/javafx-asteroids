@@ -5,8 +5,6 @@
  */
 package asteriods.elements;
 
-import asteriods.configuration.Properties;
-import asteriods.configuration.PropertiesImpl;
 import asteriods.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,7 @@ public class Ship extends Element {
         Point currentPosition = new Point(centerX, centerY);
         setCurrentPosition(currentPosition);
         moveToOrigin();
+        setSpeed(20.0);
     }
 
     public void rotate(double degrees) {
@@ -60,5 +59,16 @@ public class Ship extends Element {
 
         getPoints().clear();
         getPoints().addAll(Point.toDoubleList(pointsUpdated));
+    }
+    
+    public void moveForward(){
+        setOrigin(getCurrentPosition());
+        setEndPoint(getHead());
+        calculateSpeedVector();
+        updatePosition();
+    }
+    
+    public Point getHead(){
+        return new Point(getPoints().get(0), getPoints().get(1));
     }
 }
