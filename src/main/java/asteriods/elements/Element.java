@@ -171,6 +171,10 @@ public class Element extends Polygon {
         this.currentPosition = currentPosition;
     }
 
+    public Point getCurrentPosition() {
+        return new Point (currentPosition.getX(), currentPosition.getY());
+    }
+    
     public Point getOrigin() {
         return origin;
     }

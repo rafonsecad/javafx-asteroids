@@ -8,6 +8,8 @@ package asteriods.elements;
 import asteriods.configuration.Properties;
 import asteriods.configuration.PropertiesImpl;
 import asteriods.rockengine.Point;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
@@ -38,4 +40,32 @@ public class Ship extends Element{
         moveToOrigin();
     }
     
+    public void rotate (double degrees){
+        double radians = Math.toRadians(degrees);
+        List<Point> corners = Point.buildList(getPoints());
+        List<Point> vectors = getCurrentPosition().changeOrigin(corners);
+        
+        List<Point> polarVectors = new ArrayList<>();
+        for (int i=0; i<vectors.size(); i++){
+            double sqrX = Math.pow(vectors.get(i).getX(), 2);
+            double sqrY = Math.pow(vectors.get(i).getY(), 2);
+            
+            double magnitude = Math.sqrt(sqrX + sqrY);
+            double angle = Math.atan2(vectors.get(i).getY(), vectors.get(i).getX());
+            double rotateAngle = angle + radians;
+            polarVectors.add(new Point(magnitude, rotateAngle));
+        }
+        
+        List<Point> cartesianPoints = new ArrayList<>();
+        for (int i=0; i<polarVectors.size(); i++){
+            double magnitude = polarVectors.get(i).getX();
+            double angle = polarVectors.get(i).getY();
+            double x = magnitude*Math.cos(angle) + getCurrentPosition().getX();
+            double y = magnitude*Math.sin(angle) + getCurrentPosition().getY();
+            cartesianPoints.add(new Point(x, y));
+        }
+        
+        getPoints().clear();
+        getPoints().addAll(Point.toDoubleList(cartesianPoints));
+    }
 }
