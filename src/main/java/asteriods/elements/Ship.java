@@ -71,4 +71,31 @@ public class Ship extends Element {
     public Point getHead(){
         return new Point(getPoints().get(0), getPoints().get(1));
     }
+    
+    @Override
+    public void updatePosition(){
+        super.updatePosition();
+        keepPositionInScreen();
+    }
+    
+    public void keepPositionInScreen(){
+        int [] coordinates = getMaxValues();
+        Point startingPoint = getCurrentPosition();
+        int offset = 15;
+        
+        if (coordinates[0] > getPropertiesImpl().getWidth() + offset){
+            startingPoint = new Point(-10, getCurrentPosition().getY());
+        }
+        if (coordinates[1] < (-1*offset)){
+            startingPoint = new Point(getPropertiesImpl().getWidth(), getCurrentPosition().getY());
+        }
+        if (coordinates[2] > getPropertiesImpl().getHeight() + offset){
+            startingPoint = new Point (getCurrentPosition().getX(), -10);
+        }
+        if (coordinates[3] < (-1*offset)){
+            startingPoint = new Point (getCurrentPosition().getX(), getPropertiesImpl().getHeight());
+        }
+        setCurrentPosition(startingPoint);
+        moveToOrigin();
+    }
 }
