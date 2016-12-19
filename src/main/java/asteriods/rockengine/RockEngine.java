@@ -88,17 +88,23 @@ public class RockEngine extends TimerTask {
 
     private void fadeRemovedAsteriods(List<Asteriod> removedAsteriods) {
         for (int i = 0; i < removedAsteriods.size(); i++) {
-            this.root.getChildren().add(removedAsteriods.get(i));
-            if (i % 2 == 1 || i == 1) {
-                FillTransition ft = getFillTransition(removedAsteriods.get(i));
-                ft.play();
-                if (i == removedAsteriods.size() - 1) {
-                    ft.setOnFinished((ActionEvent event) -> {
-                        root.getChildren().clear();
-                        root.getChildren().addAll(elements);
-                    });
-                }
-            }
+            setTransitionOnAsteriod(removedAsteriods, i);
+        }
+    }
+
+    private void setTransitionOnAsteriod(List<Asteriod> removedAsteriods, int index) {
+        Asteriod asteriod = removedAsteriods.get(index);
+        this.root.getChildren().add(asteriod);
+        if (index % 2 != 1 && index != 1) {
+            return;
+        }
+        FillTransition ft = getFillTransition(asteriod);
+        ft.play();
+        if (index == removedAsteriods.size() - 1) {
+            ft.setOnFinished((ActionEvent event) -> {
+                root.getChildren().clear();
+                root.getChildren().addAll(elements);
+            });
         }
     }
 
@@ -133,7 +139,7 @@ public class RockEngine extends TimerTask {
     }
 
     protected FillTransition getFillTransition(Asteriod asteriod) {
-        return new FillTransition(Duration.millis(500), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
+        return new FillTransition(Duration.millis(800), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
 }
