@@ -57,9 +57,7 @@ public class RockEngine extends TimerTask {
 
     private void updateAsteriodsPositions() {
         for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i) instanceof Asteriod) {
-                elements.get(i).updatePosition();
-            }
+            elements.get(i).updatePosition();
         }
     }
 

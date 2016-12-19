@@ -36,7 +36,10 @@ public class Ship extends Element {
         Point currentPosition = new Point(centerX, centerY);
         setCurrentPosition(currentPosition);
         moveToOrigin();
-        setSpeed(20.0);
+        setSpeed(0.0);
+        setOrigin(getCurrentPosition());
+        setEndPoint(getHead());
+        calculateSpeedVector();
     }
 
     public void rotate(double degrees) {
@@ -64,6 +67,7 @@ public class Ship extends Element {
     public void moveForward(){
         setOrigin(getCurrentPosition());
         setEndPoint(getHead());
+        setSpeed(10.0);
         calculateSpeedVector();
         updatePosition();
     }
