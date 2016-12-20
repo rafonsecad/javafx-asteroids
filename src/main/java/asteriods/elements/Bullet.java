@@ -20,6 +20,5 @@ public class Bullet extends Element{
             0.0, 5.0
         });
         setFill(Color.GREEN);
-        setManaged(false);
     }
 }

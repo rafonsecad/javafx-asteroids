@@ -46,7 +46,6 @@ public class RockEngine extends TimerTask {
         for (int i = 0; i < numberOfInitialAsteriods; i++) {
             Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
             elements.add(asteriod);
-            asteriod.setManaged(false);
             root.getChildren().add(asteriod);
             asteriod.setRandomPath();
         }

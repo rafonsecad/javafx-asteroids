@@ -33,6 +33,7 @@ public class Element extends Polygon {
     public Element() {
 
         properties = new PropertiesImpl();
+        setManaged(false);
     }
 
     public int[] getMaxValues() {
