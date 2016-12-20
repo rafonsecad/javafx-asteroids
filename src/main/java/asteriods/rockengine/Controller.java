@@ -5,6 +5,7 @@
  */
 package asteriods.rockengine;
 
+import asteriods.elements.Bullet;
 import asteriods.elements.Ship;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -16,9 +17,11 @@ import javafx.scene.input.KeyEvent;
  */
 public class Controller implements EventHandler<KeyEvent>{
     private Ship ship;
+    private RockEngine engine;
     
-    public Controller(Ship ship){
-        this.ship = ship;
+    public Controller(RockEngine engine){
+        this.ship = engine.getShip();
+        this.engine = engine;
     }
     
     @Override
@@ -31,6 +34,10 @@ public class Controller implements EventHandler<KeyEvent>{
         }
         if (event.getCode() == KeyCode.UP){
             this.ship.moveForward();
+        }
+        if (event.getCode() == KeyCode.SPACE){
+            Bullet bullet = this.ship.shoot();
+            engine.addElement(bullet);
         }
     }
 }

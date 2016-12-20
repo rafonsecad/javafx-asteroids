@@ -32,7 +32,7 @@ public class MainApp extends Application {
         Timer timer = new Timer();
         timer.schedule(rockEngine, 50, 50);
         
-        scene.setOnKeyPressed(new Controller(rockEngine.getShip()));
+        scene.setOnKeyPressed(new Controller(rockEngine));
 
     }
 

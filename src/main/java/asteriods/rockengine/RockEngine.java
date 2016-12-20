@@ -7,6 +7,7 @@ package asteriods.rockengine;
 
 import asteriods.elements.Asteriod;
 import asteriods.elements.AsteriodUtil;
+import asteriods.elements.Bullet;
 import asteriods.elements.Element;
 import asteriods.elements.Ship;
 import java.util.ArrayList;
@@ -57,7 +58,9 @@ public class RockEngine extends TimerTask {
 
     private void updateAsteriodsPositions() {
         for (int i = 0; i < elements.size(); i++) {
-            elements.get(i).updatePosition();
+            if (!(elements.get(i) instanceof Bullet)) {
+                elements.get(i).updatePosition();
+            }
         }
     }
 
@@ -120,6 +123,11 @@ public class RockEngine extends TimerTask {
             }
             getCollisionDetector().clearElements();
         });
+    }
+
+    public void addElement(Element element) {
+        elements.add(element);
+        root.getChildren().add(element);
     }
 
     public List<Element> getElements() {

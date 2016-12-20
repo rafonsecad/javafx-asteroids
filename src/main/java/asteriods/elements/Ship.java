@@ -102,4 +102,12 @@ public class Ship extends Element {
         setCurrentPosition(startingPoint);
         moveToOrigin();
     }
+    
+    public Bullet shoot(){
+        Bullet bullet = new Bullet();
+        Point bulletPosition = new Point(this.getCurrentPosition().getX(), this.getCurrentPosition().getY() - 30);
+        bullet.setCurrentPosition(bulletPosition);
+        bullet.moveToOrigin();
+        return bullet;
+    }
 }

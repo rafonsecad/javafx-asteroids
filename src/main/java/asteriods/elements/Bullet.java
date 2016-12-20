@@ -5,10 +5,21 @@
  */
 package asteriods.elements;
 
+import javafx.scene.paint.Color;
+
 /**
  *
  * @author rafael
  */
 public class Bullet extends Element{
-    
+    public Bullet (){
+        getPoints().addAll(new Double [] {
+            0.0, 0.0,
+            3.0, 0.0,
+            3.0, 5.0,
+            0.0, 5.0
+        });
+        setFill(Color.GREEN);
+        setManaged(false);
+    }
 }
