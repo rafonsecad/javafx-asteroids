@@ -21,4 +21,9 @@ public class Bullet extends Element{
         });
         setFill(Color.GREEN);
     }
+    
+    public double getHalfLength(){
+        int [] values = getMaxValues();
+        return (values[3] - values[2])/2;
+    }
 }
