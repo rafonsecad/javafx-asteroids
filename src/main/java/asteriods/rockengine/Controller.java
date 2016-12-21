@@ -27,10 +27,10 @@ public class Controller implements EventHandler<KeyEvent>{
     @Override
     public void handle(KeyEvent event){
         if (event.getCode() == KeyCode.LEFT){
-            this.ship.rotate(-20.0);
+            this.ship.rotate(-15.0);
         }
         if (event.getCode() == KeyCode.RIGHT){
-            this.ship.rotate(20.0);
+            this.ship.rotate(15.0);
         }
         if (event.getCode() == KeyCode.UP){
             this.ship.moveForward();
