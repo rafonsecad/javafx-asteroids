@@ -6,8 +6,6 @@
 package asteriods.elements;
 
 import asteriods.rockengine.Point;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.paint.Color;
 
 /**

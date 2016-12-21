@@ -27,12 +27,14 @@ public class Element extends Polygon {
     private Point origin;
     private Point endPoint;
     private Point currentPosition;
+    private double angle;
 
     private Properties properties;
 
     public Element() {
 
         properties = new PropertiesImpl();
+        angle = 0;
         setManaged(false);
     }
 
@@ -222,4 +224,7 @@ public class Element extends Polygon {
         return properties;
     }
 
+    public double getAngle(){
+        return angle;
+    }
 }
