@@ -83,6 +83,12 @@ public class Ship extends Element {
     public Bullet shoot(){
         Bullet bullet = new Bullet();
         double bulletHalfLength = bullet.getHalfLength();
+        Point bulletPosition = getBulletOrigin(bulletHalfLength);
+        bullet.initialize(this.getAngle(), bulletPosition, getCurrentPosition());
+        return bullet;
+    }
+    
+    private Point getBulletOrigin(double length){
         List<Point> corners = new ArrayList<>();
         corners.add(getHead());
         List<Point> vectors = getCurrentPosition().changeOrigin(corners);
@@ -90,18 +96,9 @@ public class Ship extends Element {
         double sqrX = Math.pow(vector.getX(), 2);
         double sqrY = Math.pow(vector.getY(), 2);
         double radians = Math.toRadians(getAngle() - 90.0);
-        double magnitude = Math.sqrt(sqrX+sqrY) + bulletHalfLength + 10;
+        double magnitude = Math.sqrt(sqrX+sqrY) + length + 10;
         double x = magnitude * Math.cos(radians) + getCurrentPosition().getX();
         double y = magnitude * Math.sin(radians) + getCurrentPosition().getY();
-        
-        Point bulletPosition = new Point(x, y);
-        bullet.setCurrentPosition(bulletPosition);
-        bullet.moveToCurrentPosition();
-        bullet.rotate(this.getAngle());
-        bullet.setSpeed(40.0);
-        bullet.setOrigin(getCurrentPosition());
-        bullet.setEndPoint(bulletPosition);
-        bullet.calculateSpeedVector();
-        return bullet;
+        return new Point(x, y);
     }
 }

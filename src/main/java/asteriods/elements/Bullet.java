@@ -5,6 +5,7 @@
  */
 package asteriods.elements;
 
+import asteriods.rockengine.Point;
 import javafx.scene.paint.Color;
 
 /**
@@ -25,5 +26,15 @@ public class Bullet extends Element{
     public double getHalfLength(){
         int [] values = getMaxValues();
         return (values[3] - values[2])/2;
+    }
+    
+    public void initialize (double angle, Point bulletPosition, Point shipPosition){
+        setCurrentPosition(bulletPosition);
+        moveToCurrentPosition();
+        rotate(angle);
+        setSpeed(40.0);
+        setOrigin(shipPosition);
+        setEndPoint(bulletPosition);
+        calculateSpeedVector();
     }
 }
