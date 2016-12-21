@@ -52,7 +52,7 @@ public class Asteriod extends Element{
         setOrigin(pathPoints[0]);
         setEndPoint (pathPoints[1]);
         setCurrentPosition(pathPoints[0]);
-        moveToOrigin();
+        moveToCurrentPosition();
         int speed = ThreadLocalRandom.current().nextInt(1, 32);
         setSpeed((double)speed);
         calculateSpeedVector();

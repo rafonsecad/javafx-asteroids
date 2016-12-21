@@ -110,7 +110,7 @@ public class AsteriodTest extends Asteriod{
     @Test
     public void moveFromOrigin_currentPositionFix_moveAsteriod(){
         setCurrentPosition(new Point(100.0, 100.0));
-        moveToOrigin();
+        moveToCurrentPosition();
         List<Point> expectedPoints = new ArrayList<>();
         expectedPoints.add(new Point(92.0, 100.0));
         expectedPoints.add(new Point(96.0, 104.0));

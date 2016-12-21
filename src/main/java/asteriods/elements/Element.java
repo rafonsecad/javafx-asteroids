@@ -108,7 +108,7 @@ public class Element extends Polygon {
         return new Point(Cx, Cy);
     }
 
-    public void moveToOrigin() {
+    public void moveToCurrentPosition() {
         Point centroid = getCentroid();
         double deltaX = this.currentPosition.getX() - centroid.getX();
         double deltaY = this.currentPosition.getY() - centroid.getY();

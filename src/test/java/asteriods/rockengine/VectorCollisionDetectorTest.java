@@ -131,9 +131,9 @@ public class VectorCollisionDetectorTest {
         Ceres c2 = new Ceres();
         
         c1.setCurrentPosition(new Point(25.0, 10.0));
-        c1.moveToOrigin();
+        c1.moveToCurrentPosition();
         c2.setCurrentPosition(new Point(10.0, 25.0));
-        c2.moveToOrigin();
+        c2.moveToCurrentPosition();
         
         VectorCollisionDetector vcd = new VectorCollisionDetector();
         vcd.addElement(c1);

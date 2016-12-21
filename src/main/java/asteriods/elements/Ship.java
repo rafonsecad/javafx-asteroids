@@ -34,7 +34,7 @@ public class Ship extends Element {
         int centerY = getPropertiesImpl().getHeight() / 2;
         Point currentPosition = new Point(centerX, centerY);
         setCurrentPosition(currentPosition);
-        moveToOrigin();
+        moveToCurrentPosition();
         setSpeed(0.0);
         setOrigin(getCurrentPosition());
         setEndPoint(getHead());
@@ -99,14 +99,14 @@ public class Ship extends Element {
             startingPoint = new Point (getCurrentPosition().getX(), getPropertiesImpl().getHeight());
         }
         setCurrentPosition(startingPoint);
-        moveToOrigin();
+        moveToCurrentPosition();
     }
     
     public Bullet shoot(){
         Bullet bullet = new Bullet();
         Point bulletPosition = new Point(this.getCurrentPosition().getX(), this.getCurrentPosition().getY() - 30);
         bullet.setCurrentPosition(bulletPosition);
-        bullet.moveToOrigin();
+        bullet.moveToCurrentPosition();
         bullet.setSpeed(40.0);
         bullet.setOrigin(getCurrentPosition());
         bullet.setEndPoint(getHead());
