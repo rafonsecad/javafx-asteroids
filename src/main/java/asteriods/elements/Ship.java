@@ -83,6 +83,7 @@ public class Ship extends Element {
         Point bulletPosition = new Point(this.getCurrentPosition().getX(), this.getCurrentPosition().getY() - 30);
         bullet.setCurrentPosition(bulletPosition);
         bullet.moveToCurrentPosition();
+        bullet.rotate(this.getAngle());
         bullet.setSpeed(40.0);
         bullet.setOrigin(getCurrentPosition());
         bullet.setEndPoint(getHead());

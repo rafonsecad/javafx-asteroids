@@ -163,6 +163,7 @@ public class Element extends Polygon {
     }
     
     public void rotate(double degrees) {
+        this.angle += degrees;
         double radians = Math.toRadians(degrees);
         List<Point> corners = Point.buildList(getPoints());
         List<Point> vectors = getCurrentPosition().changeOrigin(corners);
