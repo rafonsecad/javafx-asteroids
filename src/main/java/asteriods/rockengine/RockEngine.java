@@ -55,7 +55,7 @@ public class RockEngine extends TimerTask {
 
     }
 
-    private void updateAsteriodsPositions() {
+    private void updateElementsPositions() {
         for (int i = 0; i < elements.size(); i++) {
             elements.get(i).updatePosition();
         }
@@ -111,7 +111,7 @@ public class RockEngine extends TimerTask {
     @Override
     public void run() {
         Platform.runLater(() -> {
-            updateAsteriodsPositions();
+            updateElementsPositions();
             processCollisionDetector();
             Set<Integer> index = collisionDetector.getCrashedElements();
             List<Integer> indexOfCrashedElements = new ArrayList<>(index);
