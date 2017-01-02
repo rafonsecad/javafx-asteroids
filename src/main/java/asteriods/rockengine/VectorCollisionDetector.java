@@ -32,17 +32,22 @@ public class VectorCollisionDetector implements Detectable {
     }
 
     @Override
-    public Set<Integer> getCrashedElements() {
-        Set<Integer> indexes = getOverlappedBoxes();
-        List<Integer> indexesArray = new ArrayList<>(indexes);
-
-        Set<Integer> indexesOfCrashedElements = new HashSet<>();
-        for (int i = 0; i < indexesArray.size(); i++) {
-            for (int j = 0; j < indexesArray.size(); j++) {
-                addCrashedElement(indexesOfCrashedElements, indexesArray, i, j);
+    public List<Set<Integer>> getCrashedElements() {
+        List<Set<Integer>> indexesOfBoxes = getOverlappedBoxes();
+        List<Set<Integer>> indexesOfCrashedElements = new ArrayList<>();
+        
+        for (int indexNumber = 0; indexNumber<indexesOfBoxes.size(); indexNumber++){
+            Set<Integer> crashedElements = new HashSet<>();
+            List<Integer> indexesArray = new ArrayList<>(indexesOfBoxes.get(indexNumber));
+            for (int i = 0; i < indexesArray.size(); i++) {
+                for (int j = 0; j < indexesArray.size(); j++) {
+                    addCrashedElement(crashedElements, indexesArray, i, j);
+                }
+            }
+            if (!crashedElements.isEmpty()){
+                indexesOfCrashedElements.add(crashedElements);
             }
         }
-
         return indexesOfCrashedElements;
     }
 
@@ -63,8 +68,8 @@ public class VectorCollisionDetector implements Detectable {
         elements.clear();
     }
 
-    public Set<Integer> getOverlappedBoxes() {
-        Set<Integer> indexes = new HashSet<>();
+    public List<Set<Integer>> getOverlappedBoxes() {
+        List<Set<Integer>> indexes = new ArrayList<>();
         List<Box> elementsBoxed = getBoxes();
 
         for (int i = 0; i < elementsBoxed.size(); i++) {
@@ -105,16 +110,34 @@ public class VectorCollisionDetector implements Detectable {
         }
     }
 
-    private void addBoxOverlapped(List<Box> boxes, Set<Integer> indexes, int i, int j) {
+    private void addBoxOverlapped(List<Box> boxes, List<Set<Integer>> indexes, int i, int j) {
         if (i == j) {
             return;
         }
         Box firstBox = boxes.get(i);
         Box secondBox = boxes.get(j);
-        if (firstBox.isBoxOverlapped(secondBox)) {
-            indexes.add(i);
-            indexes.add(j);
+        if (!firstBox.isBoxOverlapped(secondBox)) {
+            return;
         }
+        int indexesPosition = getPositionInIndexes(i, indexes);
+        if (indexesPosition != -1) {
+            indexes.get(indexesPosition).add(j);
+        } else {
+            Set<Integer> index = new HashSet<>();
+            index.add(i);
+            index.add(j);
+            indexes.add(index);
+        }
+    }
+
+    private int getPositionInIndexes(int number, List<Set<Integer>> indexes) {
+        for (int i = 0; i < indexes.size(); i++) {
+            Set<Integer> index = indexes.get(i);
+            if (index.contains((Integer) number)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private List<Box> getBoxes() {

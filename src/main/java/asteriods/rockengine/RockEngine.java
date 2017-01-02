@@ -7,11 +7,11 @@ package asteriods.rockengine;
 
 import asteriods.elements.Asteriod;
 import asteriods.elements.AsteriodUtil;
-import asteriods.elements.Bullet;
 import asteriods.elements.Element;
 import asteriods.elements.Ship;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimerTask;
@@ -113,8 +113,8 @@ public class RockEngine extends TimerTask {
         Platform.runLater(() -> {
             updateElementsPositions();
             processCollisionDetector();
-            Set<Integer> index = collisionDetector.getCrashedElements();
-            List<Integer> indexOfCrashedElements = new ArrayList<>(index);
+            List<Set<Integer>> indexes = collisionDetector.getCrashedElements();
+            List<Integer> indexOfCrashedElements = new ArrayList<>(getCleanSet(indexes));
             if (!indexOfCrashedElements.isEmpty()) {
                 removeAsteriods(indexOfCrashedElements);
             }
@@ -122,6 +122,27 @@ public class RockEngine extends TimerTask {
         });
     }
 
+    private Set<Integer> getCleanSet(List<Set<Integer>> indexes){
+        Set<Integer> indexesToRemove = new HashSet<>();
+        for (Set<Integer> indexesSet : indexes){
+            if (!isFullOfAsteriods(indexesSet)){
+                for (Integer index: indexesSet){
+                    indexesToRemove.add(index);
+                }
+            }
+        }
+        return indexesToRemove;
+    }
+    
+    private boolean isFullOfAsteriods(Set<Integer> indexesSet){
+        for(Integer index : indexesSet){
+            if (!(elements.get(index) instanceof Asteriod)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public void addElement(Element element) {
         elements.add(element);
         root.getChildren().add(element);

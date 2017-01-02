@@ -6,6 +6,7 @@
 package asteriods.rockengine;
 
 import asteriods.elements.Element;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,5 +16,5 @@ import java.util.Set;
 public interface Detectable {
     public void addElement(Element e);
     public void clearElements();
-    public Set<Integer> getCrashedElements();
+    public List<Set<Integer>> getCrashedElements();
 }
