@@ -7,6 +7,7 @@ package asteriods.rockengine;
 
 import asteriods.elements.Ceres;
 import asteriods.elements.Element;
+import java.util.List;
 import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -124,21 +125,21 @@ public class VectorCollisionDetectorTest {
         assertTrue(!vcd.areElementsIntersected(e1, e2));
     }
     
-//    @Test
-//    public void getCrashedElements_AsteriodsNotCrashing_emptyList(){
-//        System.out.println("getCrashedElements_AsteriodsNotCrashing_emptyList");
-//        Ceres c1 = new Ceres();
-//        Ceres c2 = new Ceres();
-//        
-//        c1.setCurrentPosition(new Point(25.0, 10.0));
-//        c1.moveToCurrentPosition();
-//        c2.setCurrentPosition(new Point(10.0, 25.0));
-//        c2.moveToCurrentPosition();
-//        
-//        VectorCollisionDetector vcd = new VectorCollisionDetector();
-//        vcd.addElement(c1);
-//        vcd.addElement(c2);
-//        Set<Integer> indexes = vcd.getCrashedElements();
-//        assertEquals(0, indexes.size());
-//    }
+    @Test
+    public void getCrashedElements_AsteriodsNotCrashing_emptyList(){
+        System.out.println("getCrashedElements_AsteriodsNotCrashing_emptyList");
+        Ceres c1 = new Ceres();
+        Ceres c2 = new Ceres();
+        
+        c1.setCurrentPosition(new Point(25.0, 10.0));
+        c1.moveToCurrentPosition();
+        c2.setCurrentPosition(new Point(10.0, 25.0));
+        c2.moveToCurrentPosition();
+        
+        VectorCollisionDetector vcd = new VectorCollisionDetector();
+        vcd.addElement(c1);
+        vcd.addElement(c2);
+        List<Set<Integer>> indexes = vcd.getCrashedElements();
+        assertEquals(0, indexes.size());
+    }
 }

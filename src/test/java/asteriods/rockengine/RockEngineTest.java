@@ -70,7 +70,7 @@ public class RockEngineTest {
 //        rockEngine.setElements(a);
 //        
 //        rockEngine.processCollisionDetector();
-//        Set<Integer> index = rockEngine.getCollisionDetector().getCrashedElements();
+//        List<Set<Integer>> index = rockEngine.getCollisionDetector().getCrashedElements();
 //        List<Integer> indexOfCrashedElements = new ArrayList<>(index);
 //        rockEngine.removeAsteriods(indexOfCrashedElements);
 //        
