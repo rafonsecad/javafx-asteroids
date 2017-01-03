@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.rockengine;
+package asteroids.rockengine;
 
-import asteriods.configuration.Properties;
-import asteriods.configuration.PropertiesImpl;
-import asteriods.elements.Element;
+import asteroids.configuration.Properties;
+import asteroids.configuration.PropertiesImpl;
+import asteroids.elements.Element;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

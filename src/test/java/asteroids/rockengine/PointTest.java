@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.rockengine;
+package asteroids.rockengine;
 
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

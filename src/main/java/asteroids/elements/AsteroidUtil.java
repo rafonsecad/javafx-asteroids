@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.elements;
+package asteroids.elements;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,8 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author rafael
  */
-public class AsteriodUtil {
-    public static Asteriod getRandomAsteriod(){
+public class AsteroidUtil {
+    public static Asteroid getRandomAsteroid(){
         int r = ThreadLocalRandom.current().nextInt(1, 3);
         switch(r){
             case 1:

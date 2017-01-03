@@ -1,4 +1,4 @@
-package asteriods.asteriods;
+package asteroids.asteroids;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -5,7 +5,8 @@
  */
 package asteriods.elements;
 
-import asteriods.rockengine.Point;
+import asteroids.elements.Asteroid;
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
  *
  * @author rafael
  */
-public class AsteriodTest extends Asteriod{
+public class AsteriodTest extends Asteroid{
     
     public AsteriodTest() {
         this.getPoints().addAll(new Double []{

@@ -1,9 +1,9 @@
-package asteriods.asteriods;
+package asteroids.asteroids;
 
-import asteriods.configuration.Properties;
-import asteriods.configuration.PropertiesImpl;
-import asteriods.rockengine.Controller;
-import asteriods.rockengine.RockEngine;
+import asteroids.configuration.Properties;
+import asteroids.configuration.PropertiesImpl;
+import asteroids.rockengine.Controller;
+import asteroids.rockengine.RockEngine;
 import java.util.Timer;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -22,10 +22,10 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);
         RockEngine rockEngine = new RockEngine(root);
-        rockEngine.initializeAsteriods(20);
+        rockEngine.initializeAsteroids(20);
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("Asteriods");
+        stage.setTitle("Asteroids");
         stage.setScene(scene);
         stage.show();
 

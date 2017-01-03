@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.rockengine;
+package asteroids.rockengine;
 
-import asteriods.elements.Bullet;
-import asteriods.elements.Ship;
+import asteroids.elements.Bullet;
+import asteroids.elements.Ship;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

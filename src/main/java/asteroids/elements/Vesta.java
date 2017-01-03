@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.elements;
+package asteroids.elements;
 
 import javafx.scene.paint.Color;
 
@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
  *
  * @author rafael
  */
-public class Vesta extends Asteriod{
+public class Vesta extends Asteroid{
     public Vesta (){
         getPoints().addAll(new Double [] {
             -5.0,  0.0,

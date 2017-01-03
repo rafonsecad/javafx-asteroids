@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.configuration;
+package asteroids.configuration;
 
 /**
  *
@@ -12,6 +12,6 @@ package asteriods.configuration;
 public interface Properties {
     int getWidth();
     int getHeight();
-    int getAdditionalAsteriods();
-    int getAsteriodFrames();
+    int getAdditionalAsteroids();
+    int getAsteroidFrames();
 }

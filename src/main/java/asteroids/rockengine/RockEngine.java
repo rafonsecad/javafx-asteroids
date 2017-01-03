@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.rockengine;
+package asteroids.rockengine;
 
-import asteriods.configuration.Properties;
-import asteriods.configuration.PropertiesImpl;
-import asteriods.elements.Asteriod;
-import asteriods.elements.AsteriodUtil;
-import asteriods.elements.Element;
-import asteriods.elements.Ship;
+import asteroids.configuration.Properties;
+import asteroids.configuration.PropertiesImpl;
+import asteroids.elements.Asteroid;
+import asteroids.elements.AsteroidUtil;
+import asteroids.elements.Element;
+import asteroids.elements.Ship;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,13 +49,13 @@ public class RockEngine extends TimerTask {
         this.collisionDetector = new VectorCollisionDetector();
     }
 
-    public void initializeAsteriods(int numberOfInitialAsteriods) {
+    public void initializeAsteroids(int numberOfInitialAsteroids) {
         elements = new ArrayList<>();
-        for (int i = 0; i < numberOfInitialAsteriods; i++) {
-            Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
-            elements.add(asteriod);
-            root.getChildren().add(asteriod);
-            asteriod.setRandomPath();
+        for (int i = 0; i < numberOfInitialAsteroids; i++) {
+            Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
+            elements.add(asteroid);
+            root.getChildren().add(asteroid);
+            asteroid.setRandomPath();
         }
         ship = new Ship();
         elements.add(ship);
@@ -76,39 +76,39 @@ public class RockEngine extends TimerTask {
         }
     }
 
-    public void removeAsteriods(List<Integer> indexes) {
+    public void removeAsteroids(List<Integer> indexes) {
         Collections.sort(indexes);
         Collections.reverse(indexes);
-        List<Asteriod> removedAsteriods = new ArrayList<>();
+        List<Asteroid> removedAsteroids = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
-            if (this.elements.get(index) instanceof Asteriod) {
-                Asteriod asteriod = (Asteriod) this.elements.get(index);
-                removedAsteriods.add(asteriod.copy());
-                removedAsteriods.add(asteriod.copy());
+            if (this.elements.get(index) instanceof Asteroid) {
+                Asteroid asteroid = (Asteroid) this.elements.get(index);
+                removedAsteroids.add(asteroid.copy());
+                removedAsteroids.add(asteroid.copy());
             }
             this.elements.remove(index);
         }
         this.root.getChildren().clear();
         this.root.getChildren().addAll(this.elements);
-        fadeRemovedAsteriods(removedAsteriods);
+        fadeRemovedAsteroids(removedAsteroids);
     }
 
-    private void fadeRemovedAsteriods(List<Asteriod> removedAsteriods) {
-        for (int i = 0; i < removedAsteriods.size(); i++) {
-            setTransitionOnAsteriod(removedAsteriods, i);
+    private void fadeRemovedAsteroids(List<Asteroid> removedAsteroids) {
+        for (int i = 0; i < removedAsteroids.size(); i++) {
+            setTransitionOnAsteroid(removedAsteroids, i);
         }
     }
 
-    private void setTransitionOnAsteriod(List<Asteriod> removedAsteriods, int index) {
-        Asteriod asteriod = removedAsteriods.get(index);
-        this.root.getChildren().add(asteriod);
+    private void setTransitionOnAsteroid(List<Asteroid> removedAsteroids, int index) {
+        Asteroid asteroid = removedAsteroids.get(index);
+        this.root.getChildren().add(asteroid);
         if (index % 2 != 1 && index != 1) {
             return;
         }
-        FillTransition ft = getFillTransition(asteriod);
+        FillTransition ft = getFillTransition(asteroid);
         ft.play();
-        if (index == removedAsteriods.size() - 1) {
+        if (index == removedAsteroids.size() - 1) {
             ft.setOnFinished((ActionEvent event) -> {
                 root.getChildren().clear();
                 root.getChildren().addAll(elements);
@@ -124,18 +124,18 @@ public class RockEngine extends TimerTask {
             List<Set<Integer>> indexes = collisionDetector.getCrashedElements();
             List<Integer> indexOfCrashedElements = new ArrayList<>(getCleanSet(indexes));
             if (!indexOfCrashedElements.isEmpty()) {
-                removeAsteriods(indexOfCrashedElements);
+                removeAsteroids(indexOfCrashedElements);
             }
             getCollisionDetector().clearElements();
             setFrameCounter();
-            addAsteriods(properties.getAdditionalAsteriods());
+            addAsteroids(properties.getAdditionalAsteroids());
         });
     }
 
     private Set<Integer> getCleanSet(List<Set<Integer>> indexes){
         Set<Integer> indexesToRemove = new HashSet<>();
         for (Set<Integer> indexesSet : indexes){
-            if (!isFullOfAsteriods(indexesSet)){
+            if (!isFullOfAsteroids(indexesSet)){
                 for (Integer index: indexesSet){
                     indexesToRemove.add(index);
                 }
@@ -144,9 +144,9 @@ public class RockEngine extends TimerTask {
         return indexesToRemove;
     }
     
-    private boolean isFullOfAsteriods(Set<Integer> indexesSet){
+    private boolean isFullOfAsteroids(Set<Integer> indexesSet){
         for(Integer index : indexesSet){
-            if (!(elements.get(index) instanceof Asteriod)){
+            if (!(elements.get(index) instanceof Asteroid)){
                 return false;
             }
         }
@@ -158,15 +158,15 @@ public class RockEngine extends TimerTask {
         root.getChildren().add(element);
     }
 
-    private void addAsteriods(int numberOfAsteriods){
-        if (this.frameCounter % properties.getAsteriodFrames() != 0){
+    private void addAsteroids(int numberOfAsteroids){
+        if (this.frameCounter % properties.getAsteroidFrames() != 0){
             return;
         }
-        for (int i = 0; i < numberOfAsteriods; i++) {
-            Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
-            elements.add(asteriod);
-            root.getChildren().add(asteriod);
-            asteriod.setRandomPath();
+        for (int i = 0; i < numberOfAsteroids; i++) {
+            Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
+            elements.add(asteroid);
+            root.getChildren().add(asteroid);
+            asteroid.setRandomPath();
         }
     }
     
@@ -193,8 +193,8 @@ public class RockEngine extends TimerTask {
         return ship;
     }
 
-    protected FillTransition getFillTransition(Asteriod asteriod) {
-        return new FillTransition(Duration.millis(800), asteriod, Color.rgb(180, 180, 180), Color.BLACK);
+    protected FillTransition getFillTransition(Asteroid asteroid) {
+        return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteriods.elements;
+package asteroids.elements;
 
-import asteriods.rockengine.Point;
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,10 +15,10 @@ import javafx.scene.paint.Color;
  *
  * @author rafael
  */
-public class Asteriod extends Element{
+public class Asteroid extends Element{
 
-    public Asteriod copy(){
-        Asteriod asteriod = new Asteriod();
+    public Asteroid copy(){
+        Asteroid asteriod = new Asteroid();
         List<Double> rawPoints = getPoints();
         List<Double> asteriodRawPoints = new ArrayList<>();
         for (int i=0; i<rawPoints.size(); i++){

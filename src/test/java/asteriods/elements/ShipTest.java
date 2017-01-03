@@ -5,7 +5,8 @@
  */
 package asteriods.elements;
 
-import asteriods.rockengine.Point;
+import asteroids.elements.Ship;
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
