@@ -12,6 +12,8 @@ package asteriods.configuration;
 public class PropertiesImpl implements Properties{
     final private int width = 600;
     final private int height = 600;
+    final private int asteriods = 2;
+    final private int asteriodFrames = 40;
     
     public int getWidth (){
         return width;
@@ -19,5 +21,13 @@ public class PropertiesImpl implements Properties{
     
     public int getHeight (){
         return height;
+    }
+    
+    public int getAdditionalAsteriods(){
+        return asteriods;
+    }
+    
+    public int getAsteriodFrames(){
+        return asteriodFrames;
     }
 }

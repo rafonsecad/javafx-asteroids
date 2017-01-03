@@ -12,4 +12,6 @@ package asteriods.configuration;
 public interface Properties {
     int getWidth();
     int getHeight();
+    int getAdditionalAsteriods();
+    int getAsteriodFrames();
 }

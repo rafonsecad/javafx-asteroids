@@ -22,7 +22,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);
         RockEngine rockEngine = new RockEngine(root);
-        rockEngine.initializeAsteriods(30);
+        rockEngine.initializeAsteriods(20);
         scene.getStylesheets().add("/styles/Styles.css");
 
         stage.setTitle("Asteriods");

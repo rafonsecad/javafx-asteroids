@@ -5,6 +5,8 @@
  */
 package asteriods.rockengine;
 
+import asteriods.configuration.Properties;
+import asteriods.configuration.PropertiesImpl;
 import asteriods.elements.Asteriod;
 import asteriods.elements.AsteriodUtil;
 import asteriods.elements.Element;
@@ -33,11 +35,17 @@ public class RockEngine extends TimerTask {
     private List<Element> elements;
     private Ship ship;
     private VBox root;
+    private int frameCounter;
+    private Properties properties;
+    
+    private final int MaxNumberOfFrames = 1000;
 
     final static Logger logger = Logger.getLogger(RockEngine.class);
 
     public RockEngine(VBox root) {
+        this.frameCounter = 0;
         this.root = root;
+        this.properties = new PropertiesImpl();
         this.collisionDetector = new VectorCollisionDetector();
     }
 
@@ -119,6 +127,8 @@ public class RockEngine extends TimerTask {
                 removeAsteriods(indexOfCrashedElements);
             }
             getCollisionDetector().clearElements();
+            setFrameCounter();
+            addAsteriods(properties.getAdditionalAsteriods());
         });
     }
 
@@ -148,6 +158,25 @@ public class RockEngine extends TimerTask {
         root.getChildren().add(element);
     }
 
+    private void addAsteriods(int numberOfAsteriods){
+        if (this.frameCounter % properties.getAsteriodFrames() != 0){
+            return;
+        }
+        for (int i = 0; i < numberOfAsteriods; i++) {
+            Asteriod asteriod = AsteriodUtil.getRandomAsteriod();
+            elements.add(asteriod);
+            root.getChildren().add(asteriod);
+            asteriod.setRandomPath();
+        }
+    }
+    
+    private void setFrameCounter(){
+        this.frameCounter++;
+        if (this.frameCounter == MaxNumberOfFrames){
+            this.frameCounter = 0;
+        }
+    }
+    
     public List<Element> getElements() {
         return elements;
     }
