@@ -32,7 +32,7 @@ public class Bullet extends Element{
         setCurrentPosition(bulletPosition);
         moveToCurrentPosition();
         rotate(angle);
-        setSpeed(40.0);
+        setSpeed(50.0);
         setOrigin(shipPosition);
         setEndPoint(bulletPosition);
         calculateSpeedVector();
