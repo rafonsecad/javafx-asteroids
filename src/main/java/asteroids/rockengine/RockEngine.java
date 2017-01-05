@@ -49,13 +49,12 @@ public class RockEngine extends TimerTask {
         this.collisionDetector = new VectorCollisionDetector();
     }
 
-    public void initializeAsteroids(int numberOfInitialAsteroids) {
+    public void initialize(int numberOfInitialAsteroids) {
         elements = new ArrayList<>();
         createAsteroids(numberOfInitialAsteroids);
         ship = new Ship();
         elements.add(ship);
         root.getChildren().add(ship);
-
     }
 
     private void updateElementsPositions() {
