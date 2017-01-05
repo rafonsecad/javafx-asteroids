@@ -51,12 +51,7 @@ public class RockEngine extends TimerTask {
 
     public void initializeAsteroids(int numberOfInitialAsteroids) {
         elements = new ArrayList<>();
-        for (int i = 0; i < numberOfInitialAsteroids; i++) {
-            Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
-            elements.add(asteroid);
-            root.getChildren().add(asteroid);
-            asteroid.setRandomPath();
-        }
+        createAsteroids(numberOfInitialAsteroids);
         ship = new Ship();
         elements.add(ship);
         root.getChildren().add(ship);
@@ -162,6 +157,10 @@ public class RockEngine extends TimerTask {
         if (this.frameCounter % properties.getAsteroidFrames() != 0){
             return;
         }
+        createAsteroids(numberOfAsteroids);
+    }
+    
+    private void createAsteroids(int numberOfAsteroids){
         for (int i = 0; i < numberOfAsteroids; i++) {
             Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
             elements.add(asteroid);
