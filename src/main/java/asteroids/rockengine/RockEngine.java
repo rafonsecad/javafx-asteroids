@@ -122,6 +122,7 @@ public class RockEngine extends TimerTask {
             }
             getCollisionDetector().clearElements();
             setFrameCounter();
+            removeElementsOutsideBoundaries();
             addAsteroids(properties.getAdditionalAsteroids());
         });
     }
@@ -165,6 +166,24 @@ public class RockEngine extends TimerTask {
             elements.add(asteroid);
             root.getChildren().add(asteroid);
             asteroid.setRandomPath();
+        }
+    }
+    
+    private void removeElementsOutsideBoundaries(){
+        if (this.frameCounter % 100 != 0){
+            return;
+        }
+        List<Integer> indexesOfRemovedElements = new ArrayList<>();
+        for (int i = 0; i < elements.size(); i++){
+            if (elements.get(i).isOutsideMargin()){
+                indexesOfRemovedElements.add(i);
+            }
+        }
+        Collections.sort(indexesOfRemovedElements);
+        Collections.reverse(indexesOfRemovedElements);
+        for (int i = 0; i < indexesOfRemovedElements.size(); i++) {
+            int index = (int) indexesOfRemovedElements.get(i);
+            this.elements.remove(index);
         }
     }
     
