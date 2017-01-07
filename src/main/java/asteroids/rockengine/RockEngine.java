@@ -40,7 +40,7 @@ public class RockEngine extends TimerTask {
     
     private final int MaxNumberOfFrames = 1000;
 
-    final static Logger logger = Logger.getLogger(RockEngine.class);
+    //final static Logger logger = Logger.getLogger(RockEngine.class);
 
     public RockEngine(VBox root) {
         this.frameCounter = 0;
@@ -121,7 +121,7 @@ public class RockEngine extends TimerTask {
                 removeAsteroids(indexOfCrashedElements);
             }
             getCollisionDetector().clearElements();
-            setFrameCounter();
+            resetFrameCounter();
             removeElementsOutsideBoundaries();
             addAsteroids(properties.getAdditionalAsteroids());
         });
@@ -187,7 +187,7 @@ public class RockEngine extends TimerTask {
         }
     }
     
-    private void setFrameCounter(){
+    private void resetFrameCounter(){
         this.frameCounter++;
         if (this.frameCounter == MaxNumberOfFrames){
             this.frameCounter = 0;
@@ -210,8 +210,23 @@ public class RockEngine extends TimerTask {
         return ship;
     }
 
+    public void setShip(Ship ship){
+        this.ship = ship;
+    }
+    
+    public void setFrameCounter(int frameCounter){
+        this.frameCounter = frameCounter;
+    }
+    
     protected FillTransition getFillTransition(Asteroid asteroid) {
         return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
+    public RockEngine getEngine (){
+        RockEngine engine = new RockEngine(root);
+        engine.setElements(getElements());
+        engine.setShip(getShip());
+        engine.setFrameCounter(frameCounter);
+        return engine;
+    }
 }
