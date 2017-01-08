@@ -22,8 +22,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -35,6 +37,8 @@ public class RockEngine extends TimerTask {
     private List<Element> elements;
     private Ship ship;
     private VBox root;
+    private int score;
+    private Text scoreText;
     private int frameCounter;
     private Properties properties;
 
@@ -44,6 +48,7 @@ public class RockEngine extends TimerTask {
     public RockEngine(VBox root) {
         this.frameCounter = 0;
         this.root = root;
+        this.score = 0;
         this.properties = new PropertiesImpl();
         this.collisionDetector = new VectorCollisionDetector();
     }
@@ -77,13 +82,13 @@ public class RockEngine extends TimerTask {
             int index = (int) indexes.get(i);
             if (this.elements.get(index) instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid) this.elements.get(index);
+                score++;
                 removedAsteroids.add(asteroid.copy());
                 removedAsteroids.add(asteroid.copy());
             }
             this.elements.remove(index);
         }
-        this.root.getChildren().clear();
-        this.root.getChildren().addAll(this.elements);
+        resetRoot();
         fadeRemovedAsteroids(removedAsteroids);
     }
 
@@ -103,8 +108,7 @@ public class RockEngine extends TimerTask {
         ft.play();
         if (index == removedAsteroids.size() - 1) {
             ft.setOnFinished((ActionEvent event) -> {
-                root.getChildren().clear();
-                root.getChildren().addAll(elements);
+                resetRoot();
             });
         }
     }
@@ -193,6 +197,14 @@ public class RockEngine extends TimerTask {
         }
     }
 
+    private void showScore(){
+        scoreText = new Text();
+        scoreText.setText("Score: " + score);
+        scoreText.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
+        scoreText.setFill(Color.RED);
+        root.getChildren().add(scoreText);
+    }
+    
     public List<Element> getElements() {
         return elements;
     }
@@ -221,9 +233,14 @@ public class RockEngine extends TimerTask {
         return root;
     }
 
+    public void setScore(int score){
+        this.score = score;
+    }
+    
     public void resetRoot() {
         root.getChildren().clear();
         root.getChildren().addAll(elements);
+        showScore();
     }
 
     protected FillTransition getFillTransition(Asteroid asteroid) {
@@ -235,6 +252,7 @@ public class RockEngine extends TimerTask {
         engine.setElements(getElements());
         engine.setShip(getShip());
         engine.setFrameCounter(frameCounter);
+        engine.setScore(score);
         return engine;
     }
 }
