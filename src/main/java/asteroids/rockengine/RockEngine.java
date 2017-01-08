@@ -38,7 +38,9 @@ public class RockEngine extends TimerTask {
     private Ship ship;
     private VBox root;
     private int score;
+    private boolean gameOver;
     private Text scoreText;
+    private Text endGameText;
     private int frameCounter;
     private Properties properties;
 
@@ -49,6 +51,7 @@ public class RockEngine extends TimerTask {
         this.frameCounter = 0;
         this.root = root;
         this.score = 0;
+        this.gameOver = false;
         this.properties = new PropertiesImpl();
         this.collisionDetector = new VectorCollisionDetector();
     }
@@ -80,6 +83,7 @@ public class RockEngine extends TimerTask {
         List<Asteroid> removedAsteroids = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
+            checkIfGameIsOver(index);
             if (this.elements.get(index) instanceof Asteroid) {
                 Asteroid asteroid = (Asteroid) this.elements.get(index);
                 score++;
@@ -116,6 +120,10 @@ public class RockEngine extends TimerTask {
     @Override
     public void run() {
         Platform.runLater(() -> {
+            if (isGameOver()){
+                showEndGame();
+                return;
+            }
             updateElementsPositions();
             processCollisionDetector();
             List<Set<Integer>> indexes = collisionDetector.getCrashedElements();
@@ -205,6 +213,27 @@ public class RockEngine extends TimerTask {
         root.getChildren().add(scoreText);
     }
     
+    private void checkIfGameIsOver(int index){
+        if (!(this.elements.get(index) instanceof Ship)){
+            return;
+        }
+        this.gameOver = true;
+    }
+    
+    private void showEndGame(){
+        if (endGameText != null){
+            return;
+        }
+        endGameText = new Text();
+        endGameText.setManaged(false);
+        endGameText.setText("Game Over");
+        endGameText.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
+        endGameText.setFill(Color.RED);
+        endGameText.setX(250);
+        endGameText.setY(300);
+        root.getChildren().add(endGameText);
+    }
+    
     public List<Element> getElements() {
         return elements;
     }
@@ -241,8 +270,15 @@ public class RockEngine extends TimerTask {
         root.getChildren().clear();
         root.getChildren().addAll(elements);
         showScore();
+        if (endGameText != null){
+            root.getChildren().add(endGameText);
+        }
     }
 
+    public boolean isGameOver(){
+        return this.gameOver;
+    }
+    
     protected FillTransition getFillTransition(Asteroid asteroid) {
         return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }

@@ -37,6 +37,10 @@ public class Controller implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent event) {
+        if (this.engine.isGameOver()){
+            timer.cancel();
+            return;
+        }
         if (event.getCode() == KeyCode.P) {
             pauseGame();
         }
