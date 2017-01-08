@@ -37,11 +37,10 @@ public class RockEngine extends TimerTask {
     private VBox root;
     private int frameCounter;
     private Properties properties;
-    
+
     private final int MaxNumberOfFrames = 1000;
 
     //final static Logger logger = Logger.getLogger(RockEngine.class);
-
     public RockEngine(VBox root) {
         this.frameCounter = 0;
         this.root = root;
@@ -109,7 +108,7 @@ public class RockEngine extends TimerTask {
             });
         }
     }
-  
+
     @Override
     public void run() {
         Platform.runLater(() -> {
@@ -127,40 +126,40 @@ public class RockEngine extends TimerTask {
         });
     }
 
-    private Set<Integer> getCleanSet(List<Set<Integer>> indexes){
+    private Set<Integer> getCleanSet(List<Set<Integer>> indexes) {
         Set<Integer> indexesToRemove = new HashSet<>();
-        for (Set<Integer> indexesSet : indexes){
-            if (!isFullOfAsteroids(indexesSet)){
-                for (Integer index: indexesSet){
+        for (Set<Integer> indexesSet : indexes) {
+            if (!isFullOfAsteroids(indexesSet)) {
+                for (Integer index : indexesSet) {
                     indexesToRemove.add(index);
                 }
             }
         }
         return indexesToRemove;
     }
-    
-    private boolean isFullOfAsteroids(Set<Integer> indexesSet){
-        for(Integer index : indexesSet){
-            if (!(elements.get(index) instanceof Asteroid)){
+
+    private boolean isFullOfAsteroids(Set<Integer> indexesSet) {
+        for (Integer index : indexesSet) {
+            if (!(elements.get(index) instanceof Asteroid)) {
                 return false;
             }
         }
         return true;
     }
-    
+
     public void addElement(Element element) {
         elements.add(element);
         root.getChildren().add(element);
     }
 
-    private void addAsteroids(int numberOfAsteroids){
-        if (this.frameCounter % properties.getAsteroidFrames() != 0){
+    private void addAsteroids(int numberOfAsteroids) {
+        if (this.frameCounter % properties.getAsteroidFrames() != 0) {
             return;
         }
         createAsteroids(numberOfAsteroids);
     }
-    
-    private void createAsteroids(int numberOfAsteroids){
+
+    private void createAsteroids(int numberOfAsteroids) {
         for (int i = 0; i < numberOfAsteroids; i++) {
             Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
             elements.add(asteroid);
@@ -168,14 +167,14 @@ public class RockEngine extends TimerTask {
             asteroid.setRandomPath();
         }
     }
-    
-    private void removeElementsOutsideBoundaries(){
-        if (this.frameCounter % 100 != 0){
+
+    private void removeElementsOutsideBoundaries() {
+        if (this.frameCounter % 100 != 0) {
             return;
         }
         List<Integer> indexesOfRemovedElements = new ArrayList<>();
-        for (int i = 0; i < elements.size(); i++){
-            if (elements.get(i).isOutsideMargin()){
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).isOutsideMargin()) {
                 indexesOfRemovedElements.add(i);
             }
         }
@@ -186,14 +185,14 @@ public class RockEngine extends TimerTask {
             this.elements.remove(index);
         }
     }
-    
-    private void resetFrameCounter(){
+
+    private void resetFrameCounter() {
         this.frameCounter++;
-        if (this.frameCounter == MaxNumberOfFrames){
+        if (this.frameCounter == MaxNumberOfFrames) {
             this.frameCounter = 0;
         }
     }
-    
+
     public List<Element> getElements() {
         return elements;
     }
@@ -210,19 +209,28 @@ public class RockEngine extends TimerTask {
         return ship;
     }
 
-    public void setShip(Ship ship){
+    public void setShip(Ship ship) {
         this.ship = ship;
     }
-    
-    public void setFrameCounter(int frameCounter){
+
+    public void setFrameCounter(int frameCounter) {
         this.frameCounter = frameCounter;
     }
-    
+
+    public VBox getRoot() {
+        return root;
+    }
+
+    public void resetRoot() {
+        root.getChildren().clear();
+        root.getChildren().addAll(elements);
+    }
+
     protected FillTransition getFillTransition(Asteroid asteroid) {
         return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
-    public RockEngine getEngine (){
+    public RockEngine getEngine() {
         RockEngine engine = new RockEngine(root);
         engine.setElements(getElements());
         engine.setShip(getShip());

@@ -7,10 +7,14 @@ package asteroids.rockengine;
 
 import asteroids.elements.Bullet;
 import asteroids.elements.Ship;
+import javafx.scene.paint.Color;
 import java.util.Timer;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -59,10 +63,23 @@ public class Controller implements EventHandler<KeyEvent> {
             timer = new Timer();
             this.engine = engine.getEngine();
             timer.schedule(this.engine, 50, 50);
+            this.engine.resetRoot();
             isPaused = false;
             return;
         }
         timer.cancel();
+        displayPausedMessage();
         isPaused = true;
+    }
+    
+    private void displayPausedMessage(){
+        Text text = new Text();
+        text.setText("Game Paused");
+        text.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
+        text.setFill(Color.RED);
+        text.setX(230);
+        text.setY(300);
+        text.setManaged(false);
+        this.engine.getRoot().getChildren().add(text);
     }
 }

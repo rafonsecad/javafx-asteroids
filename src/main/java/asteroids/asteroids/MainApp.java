@@ -28,10 +28,7 @@ public class MainApp extends Application {
         stage.setTitle("Asteroids");
         stage.setScene(scene);
         stage.show();
-
-//        Timer timer = new Timer();
-//        timer.schedule(rockEngine, 50, 50);
-        
+  
         scene.setOnKeyPressed(new Controller(rockEngine));
 
     }
