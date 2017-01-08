@@ -16,49 +16,53 @@ import javafx.scene.input.KeyEvent;
  *
  * @author rafael
  */
-public class Controller implements EventHandler<KeyEvent>{
+public class Controller implements EventHandler<KeyEvent> {
+
     private Ship ship;
     private RockEngine engine;
     private Timer timer;
     private boolean isPaused;
-    
-    public Controller(RockEngine engine){
+
+    public Controller(RockEngine engine) {
         this.ship = engine.getShip();
         this.engine = engine;
         isPaused = false;
         timer = new Timer();
         timer.schedule(this.engine, 50, 50);
     }
-    
+
     @Override
-    public void handle(KeyEvent event){
-        if (event.getCode() == KeyCode.P){
-            if (isPaused){
-                timer = new Timer();
-                this.engine = engine.getEngine();
-                timer.schedule(this.engine, 50, 50);
-                isPaused = false;
-            }
-            else{
-                timer.cancel();
-                isPaused = true;
-            }
+    public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.P) {
+            pauseGame();
         }
-        if (isPaused){
+        if (isPaused) {
             return;
         }
-        if (event.getCode() == KeyCode.LEFT){
+        if (event.getCode() == KeyCode.LEFT) {
             this.ship.rotate(-15.0);
         }
-        if (event.getCode() == KeyCode.RIGHT){
+        if (event.getCode() == KeyCode.RIGHT) {
             this.ship.rotate(15.0);
         }
-        if (event.getCode() == KeyCode.UP){
+        if (event.getCode() == KeyCode.UP) {
             this.ship.moveForward();
         }
-        if (event.getCode() == KeyCode.SPACE){
+        if (event.getCode() == KeyCode.SPACE) {
             Bullet bullet = this.ship.shoot();
             engine.addElement(bullet);
         }
+    }
+
+    public void pauseGame() {
+        if (isPaused) {
+            timer = new Timer();
+            this.engine = engine.getEngine();
+            timer.schedule(this.engine, 50, 50);
+            isPaused = false;
+            return;
+        }
+        timer.cancel();
+        isPaused = true;
     }
 }
