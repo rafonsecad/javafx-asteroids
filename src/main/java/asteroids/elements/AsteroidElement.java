@@ -15,10 +15,10 @@ import javafx.scene.paint.Color;
  *
  * @author rafael
  */
-public class Asteroid extends Element{
+public class AsteroidElement extends Element{
 
-    public Asteroid copy(){
-        Asteroid asteriod = new Asteroid();
+    public AsteroidElement copy(){
+        AsteroidElement asteriod = new AsteroidElement();
         List<Double> rawPoints = getPoints();
         List<Double> asteriodRawPoints = new ArrayList<>();
         for (int i=0; i<rawPoints.size(); i++){

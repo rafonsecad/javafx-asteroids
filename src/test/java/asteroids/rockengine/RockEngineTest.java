@@ -5,7 +5,7 @@
  */
 package asteroids.rockengine;
 
-import asteroids.elements.Asteroid;
+import asteroids.elements.AsteroidElement;
 import asteroids.elements.Element;
 import java.util.ArrayList;
 import java.util.List;

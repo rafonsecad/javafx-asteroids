@@ -5,7 +5,7 @@
  */
 package asteriods.elements;
 
-import asteroids.elements.Ship;
+import asteroids.elements.ShipElement;
 import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,10 @@ import org.junit.Test;
  */
 public class ShipTest {
     
-    Ship ship;
+    ShipElement ship;
     
     public ShipTest() {
-        ship = new Ship();
+        ship = new ShipElement();
         ship.getPoints().clear();
         Double [] coordinates = new Double [] {
             0.0, 0.0,
@@ -54,7 +54,7 @@ public class ShipTest {
 
     @Test
     public void rotate(){
-        Ship ship = new Ship();
+        ShipElement ship = new ShipElement();
         ship.rotate(20.0);
         List<Point> expectedPoints = new ArrayList<>();
         expectedPoints.add(new Point(302.0521, 294.3618));

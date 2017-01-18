@@ -7,10 +7,10 @@ package asteroids.rockengine;
 
 import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
-import asteroids.elements.Asteroid;
-import asteroids.elements.AsteroidUtil;
+import asteroids.elements.AsteroidElement;
+import asteroids.shapes.AsteroidUtil;
 import asteroids.elements.Element;
-import asteroids.elements.Ship;
+import asteroids.elements.ShipElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,7 +35,7 @@ public class RockEngine extends TimerTask {
 
     private Detectable collisionDetector;
     private List<Element> elements;
-    private Ship ship;
+    private ShipElement ship;
     private VBox root;
     private int score;
     private boolean gameOver;
@@ -59,7 +59,7 @@ public class RockEngine extends TimerTask {
     public void initialize(int numberOfInitialAsteroids) {
         elements = new ArrayList<>();
         createAsteroids(numberOfInitialAsteroids);
-        ship = new Ship();
+        ship = new ShipElement();
         elements.add(ship);
         root.getChildren().add(ship);
     }
@@ -80,12 +80,12 @@ public class RockEngine extends TimerTask {
     public void removeAsteroids(List<Integer> indexes) {
         Collections.sort(indexes);
         Collections.reverse(indexes);
-        List<Asteroid> removedAsteroids = new ArrayList<>();
+        List<AsteroidElement> removedAsteroids = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
             checkIfGameIsOver(index);
-            if (this.elements.get(index) instanceof Asteroid) {
-                Asteroid asteroid = (Asteroid) this.elements.get(index);
+            if (this.elements.get(index) instanceof AsteroidElement) {
+                AsteroidElement asteroid = (AsteroidElement) this.elements.get(index);
                 score++;
                 removedAsteroids.add(asteroid.copy());
                 removedAsteroids.add(asteroid.copy());
@@ -96,14 +96,14 @@ public class RockEngine extends TimerTask {
         fadeRemovedAsteroids(removedAsteroids);
     }
 
-    private void fadeRemovedAsteroids(List<Asteroid> removedAsteroids) {
+    private void fadeRemovedAsteroids(List<AsteroidElement> removedAsteroids) {
         for (int i = 0; i < removedAsteroids.size(); i++) {
             setTransitionOnAsteroid(removedAsteroids, i);
         }
     }
 
-    private void setTransitionOnAsteroid(List<Asteroid> removedAsteroids, int index) {
-        Asteroid asteroid = removedAsteroids.get(index);
+    private void setTransitionOnAsteroid(List<AsteroidElement> removedAsteroids, int index) {
+        AsteroidElement asteroid = removedAsteroids.get(index);
         this.root.getChildren().add(asteroid);
         if (index % 2 != 1 && index != 1) {
             return;
@@ -152,7 +152,7 @@ public class RockEngine extends TimerTask {
 
     private boolean isFullOfAsteroids(Set<Integer> indexesSet) {
         for (Integer index : indexesSet) {
-            if (!(elements.get(index) instanceof Asteroid)) {
+            if (!(elements.get(index) instanceof AsteroidElement)) {
                 return false;
             }
         }
@@ -173,7 +173,7 @@ public class RockEngine extends TimerTask {
 
     private void createAsteroids(int numberOfAsteroids) {
         for (int i = 0; i < numberOfAsteroids; i++) {
-            Asteroid asteroid = AsteroidUtil.getRandomAsteroid();
+            AsteroidElement asteroid = AsteroidUtil.getRandomAsteroid();
             elements.add(asteroid);
             root.getChildren().add(asteroid);
             asteroid.setRandomPath();
@@ -214,7 +214,7 @@ public class RockEngine extends TimerTask {
     }
     
     private void checkIfGameIsOver(int index){
-        if (!(this.elements.get(index) instanceof Ship)){
+        if (!(this.elements.get(index) instanceof ShipElement)){
             return;
         }
         this.gameOver = true;
@@ -246,11 +246,11 @@ public class RockEngine extends TimerTask {
         return collisionDetector;
     }
 
-    public Ship getShip() {
+    public ShipElement getShip() {
         return ship;
     }
 
-    public void setShip(Ship ship) {
+    public void setShip(ShipElement ship) {
         this.ship = ship;
     }
 
@@ -279,7 +279,7 @@ public class RockEngine extends TimerTask {
         return this.gameOver;
     }
     
-    protected FillTransition getFillTransition(Asteroid asteroid) {
+    protected FillTransition getFillTransition(AsteroidElement asteroid) {
         return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }
 

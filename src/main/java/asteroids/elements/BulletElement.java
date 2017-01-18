@@ -12,8 +12,8 @@ import javafx.scene.paint.Color;
  *
  * @author rafael
  */
-public class Bullet extends Element{
-    public Bullet (){
+public class BulletElement extends Element{
+    public BulletElement (){
         getPoints().addAll(new Double [] {
             0.0, 0.0,
             3.0, 0.0,

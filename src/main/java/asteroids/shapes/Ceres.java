@@ -3,23 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteroids.elements;
+package asteroids.shapes;
 
+import asteroids.elements.AsteroidElement;
 import javafx.scene.paint.Color;
 
 /**
  *
  * @author rafael
  */
-public class Vesta extends Asteroid{
-    public Vesta (){
+public class Ceres extends AsteroidElement{
+    public Ceres(){
         getPoints().addAll(new Double [] {
-            -5.0,  0.0,
-            -2.5,  4.3,
-             2.5,  4.3,
-             5.0,  0.0,
-             2.5, -4.3,
-            -2.5, -4.3 
+            -10.0, 0.0,
+            -5.0,  8.6,
+             5.0,  8.6,
+             10.0, 0.0,
+             5.0, -8.6,
+            -5.0, -8.6 
         });
         setFill(Color.rgb(180, 180, 180));
     }

@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
  *
  * @author rafael
  */
-public class Ship extends Element {
+public class ShipElement extends Element {
 
-    public Ship() {
+    public ShipElement() {
 
         Double[] points = new Double[]{
             0.0, 0.0,
@@ -80,8 +80,8 @@ public class Ship extends Element {
         moveToCurrentPosition();
     }
     
-    public Bullet shoot(){
-        Bullet bullet = new Bullet();
+    public BulletElement shoot(){
+        BulletElement bullet = new BulletElement();
         double bulletHalfLength = bullet.getHalfLength();
         Point bulletPosition = getBulletOrigin(bulletHalfLength);
         bullet.initialize(this.getAngle(), bulletPosition, getCurrentPosition());
