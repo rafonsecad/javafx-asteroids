@@ -20,7 +20,7 @@ import java.util.TimerTask;
 import javafx.animation.FillTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -36,7 +36,7 @@ public class RockEngine extends TimerTask {
     private Detectable collisionDetector;
     private List<Element> elements;
     private ShipElement ship;
-    private VBox root;
+    private Drawable root;
     private int score;
     private boolean gameOver;
     private Text scoreText;
@@ -47,7 +47,7 @@ public class RockEngine extends TimerTask {
     private final int MaxNumberOfFrames = 1000;
 
     //final static Logger logger = Logger.getLogger(RockEngine.class);
-    public RockEngine(VBox root) {
+    public RockEngine(Drawable root) {
         this.frameCounter = 0;
         this.root = root;
         this.score = 0;
@@ -61,7 +61,7 @@ public class RockEngine extends TimerTask {
         createAsteroids(numberOfInitialAsteroids);
         ship = new ShipElement();
         elements.add(ship);
-        root.getChildren().add(ship);
+        root.draw(ship);
     }
 
     private void updateElementsPositions() {
@@ -104,7 +104,7 @@ public class RockEngine extends TimerTask {
 
     private void setTransitionOnAsteroid(List<AsteroidElement> removedAsteroids, int index) {
         AsteroidElement asteroid = removedAsteroids.get(index);
-        this.root.getChildren().add(asteroid);
+        this.root.draw(asteroid);
         if (index % 2 != 1 && index != 1) {
             return;
         }
@@ -161,7 +161,7 @@ public class RockEngine extends TimerTask {
 
     public void addElement(Element element) {
         elements.add(element);
-        root.getChildren().add(element);
+        root.draw(element);
     }
 
     private void addAsteroids(int numberOfAsteroids) {
@@ -175,7 +175,7 @@ public class RockEngine extends TimerTask {
         for (int i = 0; i < numberOfAsteroids; i++) {
             AsteroidElement asteroid = AsteroidUtil.getRandomAsteroid();
             elements.add(asteroid);
-            root.getChildren().add(asteroid);
+            root.draw(asteroid);
             asteroid.setRandomPath();
         }
     }
@@ -210,7 +210,7 @@ public class RockEngine extends TimerTask {
         scoreText.setText("Score: " + score);
         scoreText.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
         scoreText.setFill(Color.RED);
-        root.getChildren().add(scoreText);
+        root.draw(scoreText);
     }
     
     private void checkIfGameIsOver(int index){
@@ -231,7 +231,7 @@ public class RockEngine extends TimerTask {
         endGameText.setFill(Color.RED);
         endGameText.setX(250);
         endGameText.setY(300);
-        root.getChildren().add(endGameText);
+        root.draw(endGameText);
     }
     
     public List<Element> getElements() {
@@ -258,7 +258,7 @@ public class RockEngine extends TimerTask {
         this.frameCounter = frameCounter;
     }
 
-    public VBox getRoot() {
+    public Drawable getRoot() {
         return root;
     }
 
@@ -267,11 +267,11 @@ public class RockEngine extends TimerTask {
     }
     
     public void resetRoot() {
-        root.getChildren().clear();
-        root.getChildren().addAll(elements);
+        root.clear();
+        root.draw(elements);
         showScore();
         if (endGameText != null){
-            root.getChildren().add(endGameText);
+            root.draw(endGameText);
         }
     }
 

@@ -3,8 +3,9 @@ package asteroids.asteroids;
 import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
 import asteroids.rockengine.Controller;
+import asteroids.rockengine.Drawable;
+import asteroids.rockengine.DrawableVBoxImpl;
 import asteroids.rockengine.RockEngine;
-import java.util.Timer;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Scene;
@@ -21,7 +22,9 @@ public class MainApp extends Application {
         VBox root = new VBox();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);
-        RockEngine rockEngine = new RockEngine(root);
+        Drawable drawable = new DrawableVBoxImpl();
+        drawable.setDrawer(root);
+        RockEngine rockEngine = new RockEngine(drawable);
         rockEngine.initialize(20);
         scene.getStylesheets().add("/styles/Styles.css");
 

@@ -6,6 +6,8 @@
 package asteroids.rockengine;
 
 import asteroids.elements.Element;
+import java.util.List;
+import javafx.scene.Node;
 
 /**
  *
@@ -13,6 +15,7 @@ import asteroids.elements.Element;
  */
 public interface Drawable {
     void setDrawer(Object obj);
-    void draw(Element ... e);
+    void draw(Node ... nodes);
+    void draw(List<Element> elements);
     void clear();
 }

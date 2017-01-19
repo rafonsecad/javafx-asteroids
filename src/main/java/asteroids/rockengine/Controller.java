@@ -84,6 +84,6 @@ public class Controller implements EventHandler<KeyEvent> {
         text.setX(230);
         text.setY(300);
         text.setManaged(false);
-        this.engine.getRoot().getChildren().add(text);
+        this.engine.getRoot().draw(text);
     }
 }
