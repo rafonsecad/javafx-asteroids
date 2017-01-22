@@ -97,26 +97,26 @@ public class RockEngine extends TimerTask {
         //fadeRemovedAsteroids(removedAsteroids);
     }
 
-    private void fadeRemovedAsteroids(List<AsteroidElement> removedAsteroids) {
-        for (int i = 0; i < removedAsteroids.size(); i++) {
-            setTransitionOnAsteroid(removedAsteroids, i);
-        }
-    }
-
-    private void setTransitionOnAsteroid(List<AsteroidElement> removedAsteroids, int index) {
-        AsteroidElement asteroid = removedAsteroids.get(index);
-        this.root.draw(asteroid);
-        if (index % 2 != 1 && index != 1) {
-            return;
-        }
-        FillTransition ft = getFillTransition(asteroid);
-        ft.play();
-        if (index == removedAsteroids.size() - 1) {
-            ft.setOnFinished((ActionEvent event) -> {
-                resetRoot();
-            });
-        }
-    }
+//    private void fadeRemovedAsteroids(List<AsteroidElement> removedAsteroids) {
+//        for (int i = 0; i < removedAsteroids.size(); i++) {
+//            setTransitionOnAsteroid(removedAsteroids, i);
+//        }
+//    }
+//
+//    private void setTransitionOnAsteroid(List<AsteroidElement> removedAsteroids, int index) {
+//        AsteroidElement asteroid = removedAsteroids.get(index);
+//        this.root.draw(asteroid);
+//        if (index % 2 != 1 && index != 1) {
+//            return;
+//        }
+//        FillTransition ft = getFillTransition(asteroid);
+//        ft.play();
+//        if (index == removedAsteroids.size() - 1) {
+//            ft.setOnFinished((ActionEvent event) -> {
+//                resetRoot();
+//            });
+//        }
+//    }
 
     @Override
     public void run() {

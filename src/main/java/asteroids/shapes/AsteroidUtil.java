@@ -25,4 +25,15 @@ public class AsteroidUtil {
         }
             return new Ceres();
     }
+    
+    public static Shape getRandomAsteroidShape(){
+        int r = ThreadLocalRandom.current().nextInt(1, 3);
+        switch(r){
+            case 1:
+                return new CeresShape();
+            case 2:
+                return new VestaShape();
+        }
+            return new CeresShape();
+    }
 }
