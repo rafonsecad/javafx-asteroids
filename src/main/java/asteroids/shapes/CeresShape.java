@@ -13,10 +13,10 @@ import java.util.List;
  *
  * @author rafael
  */
-public class CeresShape extends Shape{
+public class CeresShape extends Asteroid{
     public CeresShape(){
-        List<Element> elements = getElements();
-        elements = new ArrayList<>();
+        List<Element> elements = new ArrayList<>();
         elements.add(new Ceres());
+        setElements(elements);
     }
 }

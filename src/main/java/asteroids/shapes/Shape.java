@@ -19,6 +19,18 @@ public class Shape {
         return elements.get(0);
     }
     
+    public void updatePosition(){
+        for (Element element: elements){
+            element.updatePosition();
+        }
+    }
+    
+    public void rotate (double degrees){
+        for(Element element : elements){
+            element.rotate(degrees);
+        }
+    }
+    
     public List<Element> getElements() {
         return elements;
     }

@@ -26,7 +26,7 @@ public class AsteroidUtil {
             return new Ceres();
     }
     
-    public static Shape getRandomAsteroidShape(){
+    public static Asteroid getRandomAsteroidShape(){
         int r = ThreadLocalRandom.current().nextInt(1, 3);
         switch(r){
             case 1:

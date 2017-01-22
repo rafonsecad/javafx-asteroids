@@ -5,8 +5,9 @@
  */
 package asteroids.rockengine;
 
-import asteroids.elements.BulletElement;
 import asteroids.elements.ShipElement;
+import asteroids.shapes.Bullet;
+import asteroids.shapes.SpaceShip;
 import javafx.scene.paint.Color;
 import java.util.Timer;
 import javafx.event.EventHandler;
@@ -22,7 +23,7 @@ import javafx.scene.text.Text;
  */
 public class Controller implements EventHandler<KeyEvent> {
 
-    private ShipElement ship;
+    private SpaceShip ship;
     private RockEngine engine;
     private Timer timer;
     private boolean isPaused;
@@ -57,8 +58,10 @@ public class Controller implements EventHandler<KeyEvent> {
             this.ship.moveForward();
         }
         if (event.getCode() == KeyCode.SPACE) {
-            BulletElement bullet = this.ship.shoot();
-            engine.addElement(bullet);
+            ShipElement shipBoundary = (ShipElement) this.ship.getBoundary();
+            Bullet bullet = new Bullet();
+            bullet.addBulletElement(shipBoundary.shoot());
+            engine.addShape(bullet);
         }
     }
 

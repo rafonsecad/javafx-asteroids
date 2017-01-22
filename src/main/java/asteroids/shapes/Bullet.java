@@ -17,8 +17,12 @@ import java.util.List;
 public class Bullet extends Shape{
     
     public Bullet(){
-        List<Element> elements = getElements();
-        elements = new ArrayList<>();
-        elements.add(new BulletElement());
+        List<Element> elements = new ArrayList<>();
+        setElements(elements);
+        //elements.add(new BulletElement());
+    }
+    
+    public void addBulletElement(BulletElement be){
+        getElements().add(be);
     }
 }

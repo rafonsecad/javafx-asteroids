@@ -13,10 +13,10 @@ import java.util.List;
  *
  * @author rafael
  */
-public class VestaShape extends Shape{
+public class VestaShape extends Asteroid{
     public VestaShape(){
-        List<Element> elements = getElements();
-        elements = new ArrayList<>();
+        List<Element> elements = new ArrayList<>();
         elements.add(new Vesta());
+        setElements(elements);
     }
 }

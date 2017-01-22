@@ -17,8 +17,15 @@ import java.util.List;
 public class SpaceShip extends Shape{
     
     public SpaceShip(){
-        List<Element> elements = getElements();
-        elements = new ArrayList<>();
+        List<Element> elements = new ArrayList<>();
         elements.add(new ShipElement());
+        setElements(elements);
+    }
+    
+    public void moveForward(){
+        for(Element element : getElements()){
+            ShipElement shipElement = (ShipElement) element;
+            shipElement.moveForward();
+        }
     }
 }
