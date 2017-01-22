@@ -4,12 +4,14 @@ import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
 import asteroids.rockengine.Controller;
 import asteroids.rockengine.Drawable;
-import asteroids.rockengine.DrawableVBoxImpl;
+import asteroids.rockengine.DrawableCanvasImpl;
 import asteroids.rockengine.RockEngine;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -19,11 +21,16 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Properties properties = new PropertiesImpl();
-        VBox root = new VBox();
+        //VBox root = new VBox();
+        Group root = new Group();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);
-        Drawable drawable = new DrawableVBoxImpl();
-        drawable.setDrawer(root);
+        
+        Canvas canvas = new Canvas(properties.getWidth(), properties.getHeight());
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        root.getChildren().add(canvas);
+        Drawable drawable = new DrawableCanvasImpl();
+        drawable.setDrawer(gc);
         RockEngine rockEngine = new RockEngine(drawable);
         rockEngine.initialize(20);
         scene.getStylesheets().add("/styles/Styles.css");

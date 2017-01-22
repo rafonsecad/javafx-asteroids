@@ -68,6 +68,7 @@ public class RockEngine extends TimerTask {
         for (int i = 0; i < elements.size(); i++) {
             elements.get(i).updatePosition();
         }
+        resetRoot();
     }
 
     public void processCollisionDetector() {
@@ -93,7 +94,7 @@ public class RockEngine extends TimerTask {
             this.elements.remove(index);
         }
         resetRoot();
-        fadeRemovedAsteroids(removedAsteroids);
+        //fadeRemovedAsteroids(removedAsteroids);
     }
 
     private void fadeRemovedAsteroids(List<AsteroidElement> removedAsteroids) {
