@@ -8,7 +8,6 @@ package asteroids.rockengine;
 import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
 import asteroids.elements.AsteroidElement;
-import asteroids.shapes.AsteroidUtil;
 import asteroids.elements.ShipElement;
 import asteroids.shapes.Asteroid;
 import asteroids.shapes.Shape;
@@ -177,11 +176,11 @@ public class RockEngine extends TimerTask {
     }
 
     private void createAsteroids(int numberOfAsteroids) {
+        Asteroid asteroidFactory = new Asteroid();
         for (int i = 0; i < numberOfAsteroids; i++) {
-            Asteroid asteroid = AsteroidUtil.getRandomAsteroidShape();
+            Asteroid asteroid = asteroidFactory.getRandomAsteroid();
             shapes.add(asteroid);
             root.draw(asteroid.getElements());
-            asteroid.setRandomPath();
         }
     }
 

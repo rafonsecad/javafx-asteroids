@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package asteroids.shapes;
+package asteriods.elements;
 
 import asteroids.elements.AsteroidElement;
 import javafx.scene.paint.Color;

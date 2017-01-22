@@ -7,7 +7,7 @@ package asteroids.rockengine;
 
 import asteroids.rockengine.Point;
 import asteroids.rockengine.VectorCollisionDetector;
-import asteroids.shapes.Ceres;
+import asteriods.elements.Ceres;
 import asteroids.elements.Element;
 import java.util.List;
 import java.util.Set;
