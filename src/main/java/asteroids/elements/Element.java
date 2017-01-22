@@ -12,6 +12,7 @@ import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 /**
@@ -28,6 +29,7 @@ public class Element extends Polygon {
     private Point endPoint;
     private Point currentPosition;
     private double angle;
+    private Color color;
 
     private Properties properties;
 
@@ -227,5 +229,14 @@ public class Element extends Polygon {
 
     public double getAngle(){
         return angle;
+    }
+    
+    public void setColor (Color color){
+        this.color = color;
+        setFill(this.color);
+    }
+    
+    public Color getColor(){
+        return this.color;
     }
 }

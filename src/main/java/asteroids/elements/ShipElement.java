@@ -29,7 +29,8 @@ public class ShipElement extends Element {
 
     public void initialize(Double [] points) {
         getPoints().addAll(points);
-        setFill(Color.rgb(211, 211, 211));
+        Color color = Color.rgb(211, 211, 211);
+        setColor(color);
         int centerX = getPropertiesImpl().getWidth() / 2;
         int centerY = getPropertiesImpl().getHeight() / 2;
         Point currentPosition = new Point(centerX, centerY);

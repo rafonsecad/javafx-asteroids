@@ -22,6 +22,7 @@ public class Ceres extends AsteroidElement{
              5.0, -8.6,
             -5.0, -8.6 
         });
-        setFill(Color.rgb(180, 180, 180));
+        Color color = Color.rgb(180, 180, 180);
+        setColor(color);
     }
 }

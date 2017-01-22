@@ -63,7 +63,7 @@ public class DrawableCanvasImpl implements Drawable {
             xCoordinates[index] = points.get(index).getX();
             yCoordinates[index] = points.get(index).getY();
         }
-        context.setFill(Color.GREY);
+        context.setFill(element.getColor());
         context.fillPolygon(xCoordinates, yCoordinates, points.size());
     }
     

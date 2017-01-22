@@ -20,7 +20,8 @@ public class BulletElement extends Element{
             3.0, 5.0,
             0.0, 5.0
         });
-        setFill(Color.GREEN);
+        Color color = Color.GREEN;
+        setColor(color);
     }
     
     public double getHalfLength(){

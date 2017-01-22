@@ -22,6 +22,7 @@ public class Vesta extends AsteroidElement{
              2.5, -4.3,
             -2.5, -4.3 
         });
-        setFill(Color.rgb(180, 180, 180));
+        Color color = Color.rgb(180, 180, 180);
+        setColor(color);
     }
 }
