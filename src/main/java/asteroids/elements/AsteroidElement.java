@@ -31,6 +31,20 @@ public class AsteroidElement extends Element{
         return asteriod;
     }
     
+    public void scale (double factor){
+        List<Point> points = Point.buildList(getPoints());
+        Point centroid = this.getCentroid();
+        List<Point> centeredPoints = centroid.changeOrigin(points);
+        Point [] scaledPoints = new Point[centeredPoints.size()];
+        for (int i=0; i<centeredPoints.size(); i++){
+            Point point = centeredPoints.get(i);
+            scaledPoints[i] = new Point(point.getX()*factor+centroid.getX(), point.getY()*factor+centroid.getY());
+        }
+        Double [] doublePoints = Point.toDoubleArray(scaledPoints);
+        getPoints().clear();
+        getPoints().addAll(doublePoints);
+    }
+    
     public void setRandomPath(){
         int direction = ThreadLocalRandom.current().nextInt(1, 5);
         Point [] pathPoints = new Point [2];

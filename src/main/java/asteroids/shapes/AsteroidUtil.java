@@ -32,7 +32,9 @@ public class AsteroidUtil {
             case 1:
                 return new CeresShape();
             case 2:
-                return new VestaShape();
+                CeresShape cs = new CeresShape();
+                cs.scale(2);
+                return cs;
         }
             return new CeresShape();
     }

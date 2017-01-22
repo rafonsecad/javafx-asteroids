@@ -22,4 +22,12 @@ public class Asteroid extends Shape{
             asteroidPiece.setRandomPath();
         }
     }
+    
+    public void scale (double factor){
+        List<Element> elements = getElements();
+        for (Element element : elements){
+            AsteroidElement asteroidPiece = (AsteroidElement) element;
+            asteroidPiece.scale(factor);
+        }
+    }
 }
