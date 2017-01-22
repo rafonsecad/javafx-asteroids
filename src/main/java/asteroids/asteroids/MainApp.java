@@ -29,7 +29,7 @@ public class MainApp extends Application {
         Canvas canvas = new Canvas(properties.getWidth(), properties.getHeight());
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
-        Drawable drawable = new DrawableCanvasImpl();
+        Drawable drawable = new DrawableCanvasImpl(properties);
         drawable.setDrawer(gc);
         RockEngine rockEngine = new RockEngine(drawable);
         rockEngine.initialize(20);

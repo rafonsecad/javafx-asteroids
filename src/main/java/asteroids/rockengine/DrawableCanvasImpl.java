@@ -21,6 +21,10 @@ public class DrawableCanvasImpl implements Drawable {
     private GraphicsContext context;
     private Properties properties;
 
+    public DrawableCanvasImpl(Properties properties){
+        setProperties(properties);
+    }
+    
     @Override
     public void setDrawer(Object obj) {
         if (!(obj instanceof GraphicsContext)) {
@@ -48,10 +52,7 @@ public class DrawableCanvasImpl implements Drawable {
 
     @Override
     public void clear() {
-//        context.clearRect(0, 0, properties.getWidth(), properties.getHeight());
-        context.clearRect(0, 0, 600, 600);
-//        context.setFill();
-//        context.fillRect(0, 0, 0, 0);
+        context.clearRect(0, 0, properties.getWidth(), properties.getHeight());
     }
 
     private void drawElement(Element element) {
