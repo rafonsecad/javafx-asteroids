@@ -210,11 +210,11 @@ public class RockEngine extends TimerTask {
     }
 
     private void showScore() {
-        scoreText = new Text();
-        scoreText.setText("Score: " + score);
-        scoreText.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-        scoreText.setFill(Color.RED);
-        root.draw(scoreText);
+//        scoreText = new Text();
+//        scoreText.setText("Score: " + score);
+//        scoreText.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
+//        scoreText.setFill(Color.RED);
+//        root.draw(scoreText);
     }
 
     private void checkIfGameIsOver(int index) {
