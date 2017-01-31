@@ -32,6 +32,30 @@
             <scope>test</scope>
             <version>2.44.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-svggen -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-svggen</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-util -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-util</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-dom -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-dom</artifactId>
+            <version>1.8</version>
+        </dependency>
         <dependency>
             <groupId>com.opera</groupId>
             <artifactId>operadriver</artifactId>
