@@ -5,10 +5,19 @@
  */
 package asteroids.configuration;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import org.apache.batik.parser.PathHandler;
+import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.batik.parser.PathParser;
 import org.apache.batik.parser.PathArrayProducer;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -20,6 +29,26 @@ public class GraphicsLoader {
     
     public GraphicsLoader(){
         
+    }
+    
+    public List<String> getPathStrings (String fileContent){
+        InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
+        List<String> paths = new ArrayList<>();
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        try{
+            DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+            Document doc = docBuilder.parse(stream);
+            doc.getDocumentElement().normalize();
+            NodeList pathNodes = doc.getElementsByTagName("path");
+            for (int index=0; index<pathNodes.getLength(); index++){
+                Element path = (Element) pathNodes.item(index);
+                paths.add(path.getAttribute("d"));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return paths;
     }
     
     public ArrayList<Double> parsePathString (String path){
