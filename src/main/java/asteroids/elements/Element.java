@@ -227,6 +227,10 @@ public class Element extends Polygon {
         return properties;
     }
 
+    public void setGameProperties(Properties properties){
+        this.properties = properties;
+    }
+    
     public double getAngle(){
         return angle;
     }

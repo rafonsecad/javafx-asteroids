@@ -10,7 +10,7 @@ package asteroids.configuration;
  * @author rafael
  */
 public class PropertiesImpl implements Properties{
-    final private int width = 600;
+    final private int width = 1200;
     final private int height = 600;
     final private int asteroids = 2;
     final private int asteroidFrames = 40;
