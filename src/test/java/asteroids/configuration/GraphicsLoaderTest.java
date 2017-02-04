@@ -7,6 +7,7 @@ package asteroids.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -20,48 +21,7 @@ import org.junit.Test;
  */
 public class GraphicsLoaderTest {
     
-    public GraphicsLoaderTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of getFilename method, of class GraphicsLoader.
-     */
-    @Test
-    public void parsePathString_onlyMPoints_array (){
-        GraphicsLoader loader = new GraphicsLoader();
-        String svgPath = "m 200,300 10,5 20,10";
-        List<Double> expectedCoordinates = new ArrayList<>();
-        expectedCoordinates.add(200.0);
-        expectedCoordinates.add(300.0);
-        expectedCoordinates.add(210.0);
-        expectedCoordinates.add(305.0);
-        expectedCoordinates.add(230.0);
-        expectedCoordinates.add(315.0);
-        List<Double> points = loader.parsePathString(svgPath);
-        for (int index=0; index < points.size(); index++){
-            assertEquals(expectedCoordinates.get(index), points.get(index), 0.01);
-        }
-    }
-    
-    @Test
-    public void getPathStrings_svgFile_threeNodes(){
-        String file = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
+    String file = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" +
                         "<svg\n" +
                         "   xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n" +
                         "   xmlns:cc=\"http://creativecommons.org/ns#\"\n" +
@@ -142,9 +102,52 @@ public class GraphicsLoaderTest {
                         "     inkscape:connector-curvature=\"0\"\n" +
                         "     sodipodi:nodetypes=\"ccccccccccccccc\" />\n" +
                         "</svg>";
+    
+    public GraphicsLoaderTest() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+    /**
+     * Test of getFilename method, of class GraphicsLoader.
+     */
+    @Test
+    public void parsePathString_onlyMPoints_array (){
+        GraphicsLoader loader = new GraphicsLoader();
+        String svgPath = "m 200,300 10,5 20,10";
+        List<Double> expectedCoordinates = new ArrayList<>();
+        expectedCoordinates.add(200.0);
+        expectedCoordinates.add(300.0);
+        expectedCoordinates.add(210.0);
+        expectedCoordinates.add(305.0);
+        expectedCoordinates.add(230.0);
+        expectedCoordinates.add(315.0);
+        List<Double> points = loader.parsePathString(svgPath);
+        for (int index=0; index < points.size(); index++){
+            assertEquals(expectedCoordinates.get(index), points.get(index), 0.01);
+        }
+    }
+    
+    @Test
+    public void getPathStrings_svgFile_fourNodes(){
         
         GraphicsLoader gl = new GraphicsLoader();
-        List<String> paths = gl.getPathStrings(file);
+        gl.process(file);
+        List<String> paths = gl.getPathStrings();
         List<String> expectedPaths = new ArrayList<>();
         expectedPaths.add("m 194.33981,234.64456 -0.64012,2.74363 -0.85348,2.00496 0.32005,1.79392 0.85349,3.37678 -0.42674,1.58286 -2.98719,2.5326 -1.06686,1.05523 -2.13371,1.05525 -3.09388,0.73867 -1.81365,1.16076 -1.92034,0.73868 -4.26742,-0.31657 -1.92034,-0.73868 -1.28022,-1.26629 -1.28023,-2.00496 -0.96017,-0.94972 -1.92034,-3.79888 -3.41393,-2.95468 -0.64012,-0.94972 0,-1.37182 2.45377,-4.00992 2.02702,-4.43202 1.17355,-1.05525 1.49359,-0.42209 3.41393,0.31657 1.28023,-0.52762 2.45377,-3.48231 0.96017,-0.63314 4.69416,0.21104 2.24039,0.63315 2.77383,2.84916 2.56045,2.74363 z");
         expectedPaths.add("m 182.39104,233.48379 -0.38162,1.32669 0.0615,1.2059 0.64012,1.05524 0.96017,0.8442 0.96017,0.52762 1.28022,0.10552 1.28023,-0.63314 0.53343,-0.8442 0.64011,-1.26629 -0.21338,-1.05524 -0.42673,-1.2663 -0.85348,-0.8442 -1.17355,-0.42209 -1.17354,0 -0.85348,0.21105 z");
@@ -153,6 +156,24 @@ public class GraphicsLoaderTest {
         
         for (int index=0; index<expectedPaths.size(); index++){
             assertEquals(expectedPaths.get(index), paths.get(index));
+        }
+    }
+    
+    @Test
+    public void getPathColors_svgFile_fourColors(){
+        
+        GraphicsLoader gl = new GraphicsLoader();
+        gl.process(file);
+        List<Color> colors = gl.getPathColors();
+        List<Color> expectedColors = new ArrayList<>();
+        expectedColors.add(Color.web("#8b4513"));
+        expectedColors.add(Color.web("#3c1900"));
+        expectedColors.add(Color.web("#3c1900"));
+        expectedColors.add(Color.web("#3c1900"));
+        for (int index=0; index < expectedColors.size(); index++){
+            assertEquals(expectedColors.get(index).getRed(), colors.get(index).getRed(), 0.01);
+            assertEquals(expectedColors.get(index).getGreen(), colors.get(index).getGreen(), 0.01);
+            assertEquals(expectedColors.get(index).getBlue(), colors.get(index).getBlue(), 0.01);
         }
     }
 }
