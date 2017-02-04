@@ -107,15 +107,34 @@ public class GraphicsLoader {
     }
 
     public List<String> getPathStrings() {
-        return this.paths;
+        List<String> copyPaths= new ArrayList<>();
+        for (String path: this.paths){
+            copyPaths.add(path);
+        }
+        return copyPaths;
     }
 
     public List<Color> getPathColors() {
-        return this.colors;
+        List<Color> copyColors = new ArrayList<>();
+        for (Color color: this.colors){
+            Color c = Color.rgb((int)(256*color.getRed()),
+                                (int)(256*color.getGreen()),
+                                (int)(256*color.getBlue()));
+            copyColors.add(c);
+        }
+        return copyColors;
     }
 
     public List<Double[]> getPathPoints() {
-        return this.pathPoints;
+        List<Double []> copyPathPoints = new ArrayList<>();
+        for (Double[] points : this.pathPoints){
+            Double [] copyPoints = new Double [points.length];
+            for(int index=0; index < points.length; index++){
+                copyPoints [index] = new Double(points[index]);
+            }
+            copyPathPoints.add(copyPoints);
+        }
+        return copyPathPoints;
     }
 
     public void parseGraphicsPoints() {
