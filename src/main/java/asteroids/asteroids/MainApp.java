@@ -1,11 +1,13 @@
 package asteroids.asteroids;
 
+import asteroids.configuration.GraphicsStorage;
 import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
 import asteroids.rockengine.Controller;
 import asteroids.rockengine.Drawable;
 import asteroids.rockengine.DrawableCanvasImpl;
 import asteroids.rockengine.RockEngine;
+import asteroids.shapes.Shape;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.Group;
@@ -17,11 +19,17 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
     
+    public void loadGraphics(){
+        GraphicsStorage storage = new GraphicsStorage();
+        storage.init();
+        Shape.setGraphics(storage);
+    }
+    
     @Override
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
+        
+        loadGraphics();
         Properties properties = new PropertiesImpl();
-        //VBox root = new VBox();
         Group root = new Group();
         Scene scene = new Scene(root, properties.getWidth(), properties.getHeight());
         scene.setFill(Color.BLACK);

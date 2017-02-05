@@ -37,7 +37,7 @@ public class Element extends Polygon {
 
         properties = new PropertiesImpl();
         angle = 0;
-        setManaged(false);
+        //setManaged(false);
     }
 
     public int[] getMaxValues() {
@@ -60,7 +60,7 @@ public class Element extends Polygon {
         return values;
     }
 
-    protected void calculateSpeedVector() {
+    public void calculateSpeedVector() {
         List<Point> points = new ArrayList<>();
         points.add(getEndPoint());
         List<Point> endPointList = getOrigin().changeOrigin(points);
@@ -84,7 +84,7 @@ public class Element extends Polygon {
         move(deltaX, deltaY);
     }
 
-    protected Point getCentroid() {
+    public Point getCentroid() {
         List<Point> points = Point.buildList(getPoints());
         if (points.isEmpty()) {
             return new Point(0, 0);

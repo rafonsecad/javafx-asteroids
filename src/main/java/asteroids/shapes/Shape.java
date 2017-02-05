@@ -5,6 +5,8 @@
  */
 package asteroids.shapes;
 
+import asteroids.configuration.GraphicsLoader;
+import asteroids.configuration.GraphicsStorage;
 import asteroids.elements.Element;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  */
 public class Shape {
     private List<Element> elements;
+    private static GraphicsStorage graphics;
 
     public Element getBoundary(){
         return elements.get(0);
@@ -37,5 +40,13 @@ public class Shape {
 
     public void setElements(List<Element> elements) {
         this.elements = elements;
+    }
+    
+    public static void setGraphics(GraphicsStorage g){
+        graphics = g;
+    }
+    
+    public static GraphicsLoader getGraphicsFromKey(String key){
+        return graphics.getLibrary().get(key);
     }
 }

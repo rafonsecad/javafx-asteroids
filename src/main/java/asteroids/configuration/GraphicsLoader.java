@@ -8,6 +8,7 @@ package asteroids.configuration;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -46,25 +47,18 @@ public class GraphicsLoader {
     }
     
     public void parse() {
-        String fileContent = "";
+        InputStream stream = null;
         try{
-            fileContent = readFile(this.filename, StandardCharsets.UTF_8);
+            stream = getClass().getResourceAsStream(this.filename);
         }
         catch(Exception e){
-            
+            e.printStackTrace();
         }
-        process(fileContent);
+        process(stream);
         parseGraphicsPoints();
     }
 
-    public String readFile(String path, Charset encoding)
-            throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get(path));
-        return new String(encoded, encoding);
-    }
-
-    public void process(String fileContent) {
-        InputStream stream = new ByteArrayInputStream(fileContent.getBytes(StandardCharsets.UTF_8));
+    public void process(InputStream stream) {
         this.paths = new ArrayList<>();
         this.colors = new ArrayList<>();
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

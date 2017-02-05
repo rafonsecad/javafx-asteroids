@@ -5,8 +5,10 @@
  */
 package asteroids.shapes;
 
+import asteroids.configuration.GraphicsLoader;
 import asteroids.elements.AsteroidElement;
 import asteroids.elements.Element;
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,44 +28,73 @@ public class Asteroid extends Shape{
     
     public void setRandomPath(){
         List<Element> elements = getElements();
-        for (Element element : elements){
-            AsteroidElement asteroidPiece = (AsteroidElement) element;
-            asteroidPiece.setRandomPath();
+        AsteroidElement boundary = (AsteroidElement) elements.get(0);
+        
+        List<Point> positions = new ArrayList<>();
+        
+        for (int index=1; index < elements.size(); index++){
+            positions.add(elements.get(index).getCentroid());
+        }
+        
+        List<Point> vectors = boundary.getCentroid().changeOrigin(positions);
+        
+        boundary.setRandomPath();
+        Point [] boundaryPath = new Point [] {boundary.getCurrentPosition(), boundary.getEndPoint()};
+        
+        try{
+        
+            for (int index=1; index<elements.size(); index++){
+                AsteroidElement asteroidElement = (AsteroidElement) elements.get(index);
+                Point [] path = boundary.getPathFromOrigin(boundaryPath, vectors.get(index-1));
+                asteroidElement.setOrigin(path[0]);
+                asteroidElement.setEndPoint(path[1]);
+                asteroidElement.setCurrentPosition(path[0]);
+                asteroidElement.moveToCurrentPosition();
+                asteroidElement.setSpeed(boundary.getSpeed());
+                asteroidElement.calculateSpeedVector();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
     
     public void scale (double factor){
         List<Element> elements = getElements();
-        for (Element element : elements){
-            AsteroidElement asteroidPiece = (AsteroidElement) element;
-            asteroidPiece.scale(factor);
+        AsteroidElement boundary = (AsteroidElement) elements.get(0);
+        
+        List<Point> positions = new ArrayList<>();
+        
+        for (int index=1; index < elements.size(); index++){
+            positions.add(elements.get(index).getCentroid());
+        }
+        
+        Point origin = boundary.getCentroid();
+        boundary.scale(factor);
+        for (int index=1; index<elements.size(); index++){
+            AsteroidElement asteroidElement = (AsteroidElement) elements.get(index);
+            asteroidElement.scale(factor, origin);
         }
     }
     
     public void init(){
-        AsteroidElement boundary = new AsteroidElement();
-        boundary.getPoints().clear();
-        Double [] boundaryPoints = new Double [] {
-            100.0, 100.0,
-            108.0, 101.0,
-            112.0, 94.0,
-            120.0, 94.0,
-            133.0, 106.0,
-            130.0, 112.0,
-            133.0, 118.0,
-            127.0, 123.0,
-            114.0, 127.0,
-            104.0, 126.0,
-            97.0, 112.0,
-            95.0, 109.0
-        };
-        boundary.setColor(Color.GRAY);
-        boundary.getPoints().addAll(boundaryPoints);
-        getElements().add(boundary);
+        
+        GraphicsLoader graphic = Shape.getGraphicsFromKey("asteroid");
+        List<Color> colors = graphic.getPathColors();
+        List<Double []> pathPoints = graphic.getPathPoints();
+        
+        for(int index=0; index<colors.size(); index++){
+            AsteroidElement aElement = new AsteroidElement();
+            aElement.getPoints().clear();
+            aElement.getPoints().addAll(pathPoints.get(index));
+            aElement.setColor(colors.get(index));
+            getElements().add(aElement);
+        }
+        
     }
     
     public Asteroid getRandomAsteroid(){
-        double randomNumber = ThreadLocalRandom.current().nextDouble() + 0.1;
+        double randomNumber = ThreadLocalRandom.current().nextDouble() + 0.3;
         int randomAngle = ThreadLocalRandom.current().nextInt(0, 365);
         Asteroid asteroid = new Asteroid();
         asteroid.scale(randomNumber);

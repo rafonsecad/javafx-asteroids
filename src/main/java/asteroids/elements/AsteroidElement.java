@@ -45,6 +45,16 @@ public class AsteroidElement extends Element{
         getPoints().addAll(doublePoints);
     }
     
+    public void scale (double factor, Point origin){
+        this.scale(factor);
+        Point centroid = this.getCentroid();
+        double xScaleVector = factor*(centroid.getX() - origin.getX());
+        double yScaleVector = factor*(centroid.getY() - origin.getY());
+        Point scaleVector = new Point (xScaleVector + origin.getX(), yScaleVector + origin.getY());
+        setCurrentPosition(scaleVector);
+        moveToCurrentPosition();
+    }
+    
     public void setRandomPath(){
         int direction = ThreadLocalRandom.current().nextInt(1, 5);
         Point [] pathPoints = new Point [2];
@@ -110,5 +120,17 @@ public class AsteroidElement extends Element{
     
     public int getMaxHeight(){
         return getPropertiesImpl().getHeight();
+    }
+    
+    public Point [] getPathFromOrigin (Point [] path, Point vectorSecondElement){
+        double xOrigin = path[0].getX() + vectorSecondElement.getX();
+        double yOrigin = path[0].getY() + vectorSecondElement.getY();
+        Point origin = new Point(xOrigin, yOrigin);
+        
+        double xEndPoint = path[1].getX() + vectorSecondElement.getX();
+        double yEndPoint = path[1].getY() + vectorSecondElement.getY();
+        Point endPoint = new Point(xEndPoint, yEndPoint);
+        
+        return new Point [] {origin, endPoint};
     }
 }
