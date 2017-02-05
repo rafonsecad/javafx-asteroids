@@ -17,20 +17,11 @@ import javafx.scene.paint.Color;
 public class ShipElement extends Element {
 
     public ShipElement() {
-
-        Double[] points = new Double[]{
-            0.0, 0.0,
-            -5.0, 10.0,
-            0.0, 8.0,
-            5.0, 10.0
-        };
-        initialize(points);
     }
 
     public void initialize(Double [] points) {
+        getPoints().clear();
         getPoints().addAll(points);
-        Color color = Color.rgb(211, 211, 211);
-        setColor(color);
         int centerX = getPropertiesImpl().getWidth() / 2;
         int centerY = getPropertiesImpl().getHeight() / 2;
         Point currentPosition = new Point(centerX, centerY);
@@ -42,9 +33,34 @@ public class ShipElement extends Element {
         calculateSpeedVector();
     }
     
+    public void initialize (Double [] points, Point vectorPosition, Point origin){
+        getPoints().clear();
+        getPoints().addAll(points);
+        double xPosition = vectorPosition.getX() + origin.getX();
+        double yPosition = vectorPosition.getY() + origin.getY();
+        Point position = new Point(xPosition, yPosition);
+        setCurrentPosition(position);
+        moveToCurrentPosition();
+        setSpeed(0.0);
+        setOrigin(getCurrentPosition());
+        setEndPoint(getHead());
+        calculateSpeedVector();
+    }
+    
     public void moveForward(){
         setOrigin(getCurrentPosition());
         setEndPoint(getHead());
+        setSpeed(10.0);
+        calculateSpeedVector();
+        updatePosition();
+    }
+    
+    public void moveForward(Point vectorPosition, Point endPoint){
+        double xPosition = vectorPosition.getX() + endPoint.getX();
+        double yPosition = vectorPosition.getY() + endPoint.getY();
+        Point position = new Point(xPosition, yPosition);
+        setOrigin(getCurrentPosition());
+        setEndPoint(position);
         setSpeed(10.0);
         calculateSpeedVector();
         updatePosition();

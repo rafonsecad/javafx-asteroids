@@ -5,59 +5,66 @@
  */
 package asteroids.shapes;
 
+import asteroids.configuration.GraphicsLoader;
 import asteroids.elements.Element;
 import asteroids.elements.ShipElement;
+import asteroids.rockengine.Point;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.paint.Color;
 
 /**
  *
  * @author rafael
  */
-public class SpaceShip extends Shape{
-    
-    public SpaceShip(){
+public class SpaceShip extends Shape {
+
+    public SpaceShip() {
         List<Element> elements = new ArrayList<>();
         setElements(elements);
         init();
     }
-    
-    public void moveForward(){
-        for(Element element : getElements()){
-            ShipElement shipElement = (ShipElement) element;
-            shipElement.moveForward();
+
+    public void moveForward() {
+        List<Point> positions = new ArrayList<>();
+        for (int index=1; index < getElements().size(); index++){
+            positions.add(getElements().get(index).getCurrentPosition());
+        }
+        ShipElement boundary = (ShipElement) this.getBoundary();
+        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
+        boundary.moveForward();
+        
+        for (int index = 1; index < getElements().size(); index++) {
+            ShipElement shipElement = (ShipElement) getElements().get(index);
+            shipElement.moveForward(vectors.get(index-1), boundary.getHead());
         }
     }
-    
-    public void init(){
-        ShipElement boundary = new ShipElement();
-        boundary.getPoints().clear();
-        Double [] boundaryPoints = new Double []{
-            100.0, 2.0,
-            102.0, 4.0,
-            104.0, 8.0,
-            104.0, 12.0,
-            106.0, 20.0,
-            108.0, 22.0,
-            109.0, 24.0,
-            110.0, 25.0,
-            116.0, 28.0,
-            116.0, 34.0,
-            108.0, 34.0,
-            108.0, 36.0,
-            92.0, 36.0,
-            92.0, 34.0,
-            84.0, 34.0,
-            84.0, 28.0,
-            90.0, 25.0,
-            91.0, 24.0,
-            92.0, 22.0,
-            94.0, 20.0,
-            96.0, 12.0,
-            96.0, 8.0,
-            98.0, 4.0        
-        };
-        boundary.initialize(boundaryPoints);
-        getElements().add(boundary);
+
+    public void init() {
+
+        GraphicsLoader graphic = Shape.getGraphicsFromKey("spaceship");
+        List<Color> colors = graphic.getPathColors();
+        List<Double[]> pathPoints = graphic.getPathPoints();
+
+        for (int index = 0; index < colors.size(); index++) {
+            ShipElement sElement = new ShipElement();
+            sElement.setPoints(pathPoints.get(index));
+            sElement.setColor(colors.get(index));
+            getElements().add(sElement);
+        }
+        
+        List<Point> positions = new ArrayList<>();
+        
+        for (int index=1; index < getElements().size(); index++){
+            positions.add(getElements().get(index).getCurrentPosition());
+        }
+        ShipElement boundary = (ShipElement) this.getBoundary();
+        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
+        boundary.initialize(pathPoints.get(0));
+        
+        for (int index = 1; index < getElements().size(); index++){
+            ShipElement sElement = (ShipElement) getElements().get(index);
+            sElement.initialize(pathPoints.get(index), vectors.get(index-1), boundary.getCurrentPosition());
+        }
     }
 }

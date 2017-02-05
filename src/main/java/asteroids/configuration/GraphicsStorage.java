@@ -30,6 +30,15 @@ public class GraphicsStorage {
         value.parse();
         this.library.put(key, value);
         
+        value = new GraphicsLoader();
+        try{
+        value = new GraphicsLoader("/images/spaceship-icon.svg");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        value.parse();
+        this.library.put("spaceship", value);
+        
     }
     
     public Map<String, GraphicsLoader> getLibrary() {
