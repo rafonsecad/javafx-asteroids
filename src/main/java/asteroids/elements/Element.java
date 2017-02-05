@@ -84,7 +84,7 @@ public class Element extends Polygon {
         move(deltaX, deltaY);
     }
 
-    public Point getCentroid() {
+    protected Point getCentroid() {
         List<Point> points = Point.buildList(getPoints());
         if (points.isEmpty()) {
             return new Point(0, 0);
