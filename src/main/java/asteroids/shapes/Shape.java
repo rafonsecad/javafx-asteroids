@@ -8,6 +8,8 @@ package asteroids.shapes;
 import asteroids.configuration.GraphicsLoader;
 import asteroids.configuration.GraphicsStorage;
 import asteroids.elements.Element;
+import asteroids.rockengine.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +33,24 @@ public class Shape {
     public void rotate (double degrees){
         for(Element element : elements){
             element.rotate(degrees);
+        }
+        
+        if (elements.size() == 1){
+            return;
+        }
+        
+        double radians = Math.toRadians(degrees);
+        List<Point> currentPositions = new ArrayList<>();
+        for(int index=1; index <elements.size(); index++){
+            currentPositions.add(elements.get(index).getCurrentPosition());
+        }
+        List<Point> vectors = this.getBoundary().getCurrentPosition().changeOrigin(currentPositions);
+        Point origin = this.getBoundary().getCurrentPosition();
+        List<Point> vectorsUpdated = origin.rotateVectors(vectors, radians);
+        
+        for (int index=1; index<elements.size(); index++){
+            elements.get(index).setCurrentPosition(vectorsUpdated.get(index-1));
+            elements.get(index).moveToCurrentPosition();
         }
     }
     

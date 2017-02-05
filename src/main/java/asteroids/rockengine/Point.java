@@ -79,6 +79,23 @@ public class Point {
         return result;
     }
 
+    public List<Point> rotateVectors(List<Point> vectors, double radians) {
+        
+        List<Point> pointsUpdated = new ArrayList<>();
+        for (Point vector : vectors) {
+            double sqrX = Math.pow(vector.getX(), 2);
+            double sqrY = Math.pow(vector.getY(), 2);
+
+            double magnitude = Math.sqrt(sqrX + sqrY);
+            double angle = Math.atan2(vector.getY(), vector.getX()) + radians;
+
+            double x = magnitude * Math.cos(angle) + this.getX();
+            double y = magnitude * Math.sin(angle) + this.getY();
+            pointsUpdated.add(new Point(x, y));
+        }
+        return pointsUpdated;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

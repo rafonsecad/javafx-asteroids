@@ -144,10 +144,4 @@ public class AsteroidElement extends Element {
         setSpeed(main.getSpeed());
         calculateSpeedVector();
     }
-    
-    public void setPoints (Double [] coordinates){
-        getPoints().clear();
-        getPoints().addAll(coordinates);
-        setCurrentPosition(getCentroid());
-    }
 }
