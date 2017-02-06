@@ -77,45 +77,20 @@ public class RockEngine extends TimerTask {
         }
     }
 
-    public void removeAsteroids(List<Integer> indexes) {
+    public void removeShapes(List<Integer> indexes) {
         Collections.sort(indexes);
         Collections.reverse(indexes);
-        List<AsteroidElement> removedAsteroids = new ArrayList<>();
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
             checkIfGameIsOver(index);
             if (this.shapes.get(index).getBoundary() instanceof AsteroidElement) {
-//                AsteroidElement asteroid = (AsteroidElement) this.elements.get(index);
                 score++;
-//                removedAsteroids.add(asteroid.copy());
-//                removedAsteroids.add(asteroid.copy());
             }
             this.shapes.remove(index);
         }
         resetRoot();
-        //fadeRemovedAsteroids(removedAsteroids);
     }
 
-//    private void fadeRemovedAsteroids(List<AsteroidElement> removedAsteroids) {
-//        for (int i = 0; i < removedAsteroids.size(); i++) {
-//            setTransitionOnAsteroid(removedAsteroids, i);
-//        }
-//    }
-//
-//    private void setTransitionOnAsteroid(List<AsteroidElement> removedAsteroids, int index) {
-//        AsteroidElement asteroid = removedAsteroids.get(index);
-//        this.root.draw(asteroid);
-//        if (index % 2 != 1 && index != 1) {
-//            return;
-//        }
-//        FillTransition ft = getFillTransition(asteroid);
-//        ft.play();
-//        if (index == removedAsteroids.size() - 1) {
-//            ft.setOnFinished((ActionEvent event) -> {
-//                resetRoot();
-//            });
-//        }
-//    }
     @Override
     public void run() {
         Platform.runLater(() -> {
@@ -129,7 +104,7 @@ public class RockEngine extends TimerTask {
                 List<Set<Integer>> indexes = collisionDetector.getCrashedElements();
                 List<Integer> indexOfCrashedElements = new ArrayList<>(getCleanSet(indexes));
                 if (!indexOfCrashedElements.isEmpty()) {
-                    removeAsteroids(indexOfCrashedElements);
+                    removeShapes(indexOfCrashedElements);
                 }
                 getCollisionDetector().clearElements();
                 resetFrameCounter();
@@ -210,11 +185,6 @@ public class RockEngine extends TimerTask {
     }
 
     private void showScore() {
-//        scoreText = new Text();
-//        scoreText.setText("Score: " + score);
-//        scoreText.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-//        scoreText.setFill(Color.RED);
-//        root.draw(scoreText);
     }
 
     private void checkIfGameIsOver(int index) {
