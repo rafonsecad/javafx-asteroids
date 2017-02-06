@@ -61,7 +61,6 @@ public class SpaceShip extends Shape {
         ShipElement boundary = (ShipElement) this.getBoundary();
         List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
         boundary.initialize(pathPoints.get(0));
-        
         for (int index = 1; index < getElements().size(); index++){
             ShipElement sElement = (ShipElement) getElements().get(index);
             sElement.initialize(pathPoints.get(index), vectors.get(index-1), boundary.getCurrentPosition());

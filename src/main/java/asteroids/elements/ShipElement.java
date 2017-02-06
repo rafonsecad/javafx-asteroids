@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  * @author rafael
  */
 public class ShipElement extends Element {
-
+    
     public ShipElement() {
     }
 
@@ -73,7 +73,7 @@ public class ShipElement extends Element {
     @Override
     public void updatePosition(){
         super.updatePosition();
-        keepPositionInScreen();
+//      keepPositionInScreen();
     }
     
     public void keepPositionInScreen(){
