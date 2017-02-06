@@ -18,13 +18,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TimerTask;
-import javafx.animation.FillTransition;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 /**
  *
@@ -45,7 +43,6 @@ public class RockEngine extends TimerTask {
 
     private final int MaxNumberOfFrames = 1000;
 
-    //final static Logger logger = Logger.getLogger(RockEngine.class);
     public RockEngine(Drawable root) {
         this.frameCounter = 0;
         this.root = root;
@@ -253,10 +250,6 @@ public class RockEngine extends TimerTask {
 
     public boolean isGameOver() {
         return this.gameOver;
-    }
-
-    protected FillTransition getFillTransition(AsteroidElement asteroid) {
-        return new FillTransition(Duration.millis(800), asteroid, Color.rgb(180, 180, 180), Color.BLACK);
     }
 
     public RockEngine getEngine() {
