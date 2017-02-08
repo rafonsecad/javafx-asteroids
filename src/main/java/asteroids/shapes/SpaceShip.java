@@ -66,4 +66,44 @@ public class SpaceShip extends Shape {
             sElement.initialize(pathPoints.get(index), vectors.get(index-1), boundary.getCurrentPosition());
         }
     }
+    
+    @Override
+    public void updatePosition(){
+        super.updatePosition();
+        this.keepPositionInScreen();
+    }
+    
+    public void keepPositionInScreen(){
+        List<Point> positions = new ArrayList<>();
+        for (int index=1; index < getElements().size(); index++){
+            positions.add(getElements().get(index).getCurrentPosition());
+        }
+        ShipElement boundary = (ShipElement) getBoundary();
+        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
+        int [] coordinates = boundary.getMaxValues();
+        Point startingPoint = boundary.getCurrentPosition();
+        int offset = 40;
+        
+        if (coordinates[0] > boundary.getPropertiesImpl().getWidth() + offset){
+            startingPoint = new Point(-10, boundary.getCurrentPosition().getY());
+        }
+        if (coordinates[1] < (-1*offset)){
+            startingPoint = new Point(boundary.getPropertiesImpl().getWidth(), boundary.getCurrentPosition().getY());
+        }
+        if (coordinates[2] > boundary.getPropertiesImpl().getHeight() + offset){
+            startingPoint = new Point (boundary.getCurrentPosition().getX(), -10);
+        }
+        if (coordinates[3] < (-1*offset)){
+            startingPoint = new Point (boundary.getCurrentPosition().getX(), boundary.getPropertiesImpl().getHeight());
+        }
+        boundary.setCurrentPosition(startingPoint);
+        boundary.moveToCurrentPosition();
+        for (int index=1; index < getElements().size(); index++){
+            double x = vectors.get(index-1).getX() + startingPoint.getX();
+            double y = vectors.get(index-1).getY() + startingPoint.getY();
+            getElements().get(index).setCurrentPosition(new Point(x,y));
+            getElements().get(index).moveToCurrentPosition();
+        }
+        
+    }
 }

@@ -60,7 +60,7 @@ public class RockEngine extends TimerTask {
         root.draw(ship.getElements());
     }
 
-    private void updateElementsPositions() {
+    private void updatePositions() {
         for (int i = 0; i < shapes.size(); i++) {
             shapes.get(i).updatePosition();
         }
@@ -96,7 +96,7 @@ public class RockEngine extends TimerTask {
                     showEndGame();
                     return;
                 }
-                updateElementsPositions();
+                updatePositions();
                 processCollisionDetector();
                 List<Set<Integer>> indexes = collisionDetector.getCrashedElements();
                 List<Integer> indexOfCrashedElements = new ArrayList<>(getCleanSet(indexes));
