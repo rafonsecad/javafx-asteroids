@@ -49,14 +49,7 @@ public class SpaceShip extends Shape {
             sElement.setColor(colors.get(index));
             getElements().add(sElement);
         }
-
-        List<Point> vectors = this.getVectorsFromBoundary();
-        ShipElement boundary = (ShipElement) this.getBoundary();
-        boundary.initialize(pathPoints.get(0));
-        for (int index = 1; index < getElements().size(); index++) {
-            ShipElement sElement = (ShipElement) getElements().get(index);
-            sElement.initialize(pathPoints.get(index), vectors.get(index - 1), boundary.getCurrentPosition());
-        }
+        this.moveToCenter();
     }
 
     @Override
@@ -96,6 +89,16 @@ public class SpaceShip extends Shape {
             double y = vectors.get(index - 1).getY() + origin.getY();
             getElements().get(index).setCurrentPosition(new Point(x, y));
             getElements().get(index).moveToCurrentPosition();
+        }
+    }
+
+    private void moveToCenter() {
+        List<Point> vectors = this.getVectorsFromBoundary();
+        ShipElement boundary = (ShipElement) this.getBoundary();
+        boundary.initialize();
+        for (int index = 1; index < getElements().size(); index++) {
+            ShipElement sElement = (ShipElement) getElements().get(index);
+            sElement.initialize(vectors.get(index - 1), boundary.getCurrentPosition());
         }
     }
 }

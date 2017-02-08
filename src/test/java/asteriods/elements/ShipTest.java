@@ -35,7 +35,8 @@ public class ShipTest {
     public ShipTest() {
         ship = new ShipElement();
         ship.getPoints().clear();
-        ship.initialize(coordinates);
+        ship.setPoints(coordinates);
+        ship.initialize();
     }
 
     @BeforeClass
@@ -79,7 +80,8 @@ public class ShipTest {
             }
         });
         ship.getPoints().clear();
-        ship.initialize(coordinates);
+        ship.setPoints(coordinates);
+        ship.initialize();
         ship.rotate(20.0);
         List<Point> expectedPoints = new ArrayList<>();
         expectedPoints.add(new Point(302.0521, 294.3618));

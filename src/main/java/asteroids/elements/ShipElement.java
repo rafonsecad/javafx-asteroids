@@ -19,26 +19,21 @@ public class ShipElement extends Element {
     public ShipElement() {
     }
 
-    public void initialize(Double [] points) {
-        getPoints().clear();
-        getPoints().addAll(points);
+    public void initialize() {
         int centerX = getPropertiesImpl().getWidth() / 2;
         int centerY = getPropertiesImpl().getHeight() / 2;
         Point currentPosition = new Point(centerX, centerY);
-        setCurrentPosition(currentPosition);
-        moveToCurrentPosition();
-        setSpeed(0.0);
-        setOrigin(getCurrentPosition());
-        setEndPoint(getHead());
-        calculateSpeedVector();
+        this.init(currentPosition);
     }
     
-    public void initialize (Double [] points, Point vectorPosition, Point origin){
-        getPoints().clear();
-        getPoints().addAll(points);
+    public void initialize (Point vectorPosition, Point origin){
         double xPosition = vectorPosition.getX() + origin.getX();
         double yPosition = vectorPosition.getY() + origin.getY();
         Point position = new Point(xPosition, yPosition);
+        this.init(position);
+    }
+    
+    private void init(Point position){
         setCurrentPosition(position);
         moveToCurrentPosition();
         setSpeed(0.0);
