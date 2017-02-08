@@ -17,43 +17,46 @@ import java.util.List;
  * @author rafael
  */
 public class Shape {
+
     private List<Element> elements;
     private static GraphicsStorage graphics;
 
-    public Element getBoundary(){
+    public Element getBoundary() {
         return elements.get(0);
     }
-    
-    public void updatePosition(){
-        for (Element element: elements){
+
+    public void updatePosition() {
+        for (Element element : elements) {
             element.updatePosition();
         }
     }
-    
-    public void rotate (double degrees){
-        for(Element element : elements){
+
+    public void rotate(double degrees) {
+        for (Element element : elements) {
             element.rotate(degrees);
         }
-        
-        if (elements.size() == 1){
-            return;
-        }
-        
+
         double radians = Math.toRadians(degrees);
-        List<Point> currentPositions = new ArrayList<>();
-        for(int index=1; index <elements.size(); index++){
-            currentPositions.add(elements.get(index).getCurrentPosition());
-        }
-        List<Point> vectors = this.getBoundary().getCurrentPosition().changeOrigin(currentPositions);
+        List<Point> vectors = getVectorsFromBoundary();
         Point origin = this.getBoundary().getCurrentPosition();
         List<Point> vectorsUpdated = origin.rotateVectors(vectors, radians);
-        
-        for (int index=1; index<elements.size(); index++){
-            elements.get(index).setCurrentPosition(vectorsUpdated.get(index-1));
+
+        for (int index = 1; index < elements.size(); index++) {
+            elements.get(index).setCurrentPosition(vectorsUpdated.get(index - 1));
             elements.get(index).moveToCurrentPosition();
         }
     }
-    
+
+    public List<Point> getVectorsFromBoundary() {
+        List<Point> currentPositions = new ArrayList<>();
+        for (int index = 1; index < elements.size(); index++) {
+            currentPositions.add(elements.get(index).getCurrentPosition());
+        }
+        Point mainCurrentPosition = this.getBoundary().getCurrentPosition();
+        List<Point> vectors = mainCurrentPosition.changeOrigin(currentPositions);
+        return vectors;
+    }
+
     public List<Element> getElements() {
         return elements;
     }
@@ -61,12 +64,12 @@ public class Shape {
     public void setElements(List<Element> elements) {
         this.elements = elements;
     }
-    
-    public static void setGraphics(GraphicsStorage g){
+
+    public static void setGraphics(GraphicsStorage g) {
         graphics = g;
     }
-    
-    public static GraphicsLoader getGraphicsFromKey(String key){
+
+    public static GraphicsLoader getGraphicsFromKey(String key) {
         return graphics.getLibrary().get(key);
     }
 }

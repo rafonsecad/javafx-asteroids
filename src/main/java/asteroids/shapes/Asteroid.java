@@ -29,11 +29,7 @@ public class Asteroid extends Shape {
     public void setRandomPath() {
         List<Element> elements = getElements();
         AsteroidElement boundary = (AsteroidElement) this.getBoundary();
-        List<Point> positions = new ArrayList<>();
-        for (int index = 1; index < elements.size(); index++) {
-            positions.add(elements.get(index).getCurrentPosition());
-        }
-        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
+        List<Point> vectors = this.getVectorsFromBoundary();
         boundary.setRandomPath();
         for (int index = 1; index < elements.size(); index++) {
             AsteroidElement asteroidElement = (AsteroidElement) elements.get(index);

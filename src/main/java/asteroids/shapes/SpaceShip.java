@@ -6,6 +6,7 @@
 package asteroids.shapes;
 
 import asteroids.configuration.GraphicsLoader;
+import asteroids.configuration.Properties;
 import asteroids.elements.Element;
 import asteroids.elements.ShipElement;
 import asteroids.rockengine.Point;
@@ -26,17 +27,13 @@ public class SpaceShip extends Shape {
     }
 
     public void moveForward() {
-        List<Point> positions = new ArrayList<>();
-        for (int index=1; index < getElements().size(); index++){
-            positions.add(getElements().get(index).getCurrentPosition());
-        }
+        List<Point> vectors = this.getVectorsFromBoundary();
         ShipElement boundary = (ShipElement) this.getBoundary();
-        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
         boundary.moveForward();
-        
+
         for (int index = 1; index < getElements().size(); index++) {
             ShipElement shipElement = (ShipElement) getElements().get(index);
-            shipElement.moveForward(vectors.get(index-1), boundary.getHead());
+            shipElement.moveForward(vectors.get(index - 1), boundary.getHead());
         }
     }
 
@@ -52,58 +49,53 @@ public class SpaceShip extends Shape {
             sElement.setColor(colors.get(index));
             getElements().add(sElement);
         }
-        
-        List<Point> positions = new ArrayList<>();
-        
-        for (int index=1; index < getElements().size(); index++){
-            positions.add(getElements().get(index).getCurrentPosition());
-        }
+
+        List<Point> vectors = this.getVectorsFromBoundary();
         ShipElement boundary = (ShipElement) this.getBoundary();
-        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
         boundary.initialize(pathPoints.get(0));
-        for (int index = 1; index < getElements().size(); index++){
+        for (int index = 1; index < getElements().size(); index++) {
             ShipElement sElement = (ShipElement) getElements().get(index);
-            sElement.initialize(pathPoints.get(index), vectors.get(index-1), boundary.getCurrentPosition());
+            sElement.initialize(pathPoints.get(index), vectors.get(index - 1), boundary.getCurrentPosition());
         }
     }
-    
+
     @Override
-    public void updatePosition(){
+    public void updatePosition() {
         super.updatePosition();
         this.keepPositionInScreen();
     }
-    
-    public void keepPositionInScreen(){
-        List<Point> positions = new ArrayList<>();
-        for (int index=1; index < getElements().size(); index++){
-            positions.add(getElements().get(index).getCurrentPosition());
-        }
+
+    public void keepPositionInScreen() {
+        List<Point> vectors = this.getVectorsFromBoundary();
         ShipElement boundary = (ShipElement) getBoundary();
-        List<Point> vectors = boundary.getCurrentPosition().changeOrigin(positions);
-        int [] coordinates = boundary.getMaxValues();
+        int[] coordinates = boundary.getMaxValues();
         Point startingPoint = boundary.getCurrentPosition();
+        Properties properties = boundary.getPropertiesImpl();
         int offset = 40;
-        
-        if (coordinates[0] > boundary.getPropertiesImpl().getWidth() + offset){
-            startingPoint = new Point(-10, boundary.getCurrentPosition().getY());
+
+        if (coordinates[0] > properties.getWidth() + offset) {
+            startingPoint = new Point(-10, startingPoint.getY());
         }
-        if (coordinates[1] < (-1*offset)){
-            startingPoint = new Point(boundary.getPropertiesImpl().getWidth(), boundary.getCurrentPosition().getY());
+        if (coordinates[1] < (-1 * offset)) {
+            startingPoint = new Point(properties.getWidth(), startingPoint.getY());
         }
-        if (coordinates[2] > boundary.getPropertiesImpl().getHeight() + offset){
-            startingPoint = new Point (boundary.getCurrentPosition().getX(), -10);
+        if (coordinates[2] > properties.getHeight() + offset) {
+            startingPoint = new Point(startingPoint.getX(), -10);
         }
-        if (coordinates[3] < (-1*offset)){
-            startingPoint = new Point (boundary.getCurrentPosition().getX(), boundary.getPropertiesImpl().getHeight());
+        if (coordinates[3] < (-1 * offset)) {
+            startingPoint = new Point(startingPoint.getX(), properties.getHeight());
         }
         boundary.setCurrentPosition(startingPoint);
         boundary.moveToCurrentPosition();
-        for (int index=1; index < getElements().size(); index++){
-            double x = vectors.get(index-1).getX() + startingPoint.getX();
-            double y = vectors.get(index-1).getY() + startingPoint.getY();
-            getElements().get(index).setCurrentPosition(new Point(x,y));
+        this.moveShipElements(vectors, startingPoint);
+    }
+
+    private void moveShipElements(List<Point> vectors, Point origin) {
+        for (int index = 1; index < getElements().size(); index++) {
+            double x = vectors.get(index - 1).getX() + origin.getX();
+            double y = vectors.get(index - 1).getY() + origin.getY();
+            getElements().get(index).setCurrentPosition(new Point(x, y));
             getElements().get(index).moveToCurrentPosition();
         }
-        
     }
 }
