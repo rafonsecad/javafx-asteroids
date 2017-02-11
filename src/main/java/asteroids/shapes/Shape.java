@@ -7,6 +7,8 @@ package asteroids.shapes;
 
 import asteroids.configuration.GraphicsLoader;
 import asteroids.configuration.GraphicsStorage;
+import asteroids.effects.Effect;
+import asteroids.effects.ShapeState;
 import asteroids.elements.Element;
 import asteroids.rockengine.Point;
 import java.util.ArrayList;
@@ -20,7 +22,13 @@ public class Shape {
 
     private List<Element> elements;
     private static GraphicsStorage graphics;
+    private ShapeState state;
 
+    public Shape (){
+        state = new ShapeState();
+        state.setEffect(Effect.NORMAL);
+    }
+    
     public Element getBoundary() {
         return elements.get(0);
     }
@@ -71,5 +79,13 @@ public class Shape {
 
     public static GraphicsLoader getGraphicsFromKey(String key) {
         return graphics.getLibrary().get(key);
+    }
+
+    public ShapeState getState() {
+        return state;
+    }
+
+    public void setState(ShapeState state) {
+        this.state = state;
     }
 }
