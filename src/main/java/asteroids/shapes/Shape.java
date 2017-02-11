@@ -65,6 +65,30 @@ public class Shape {
         return vectors;
     }
 
+    public void explode(){
+        this.getState().setEffect(Effect.EXPLODING);
+        for (Element element : elements){
+            element.setSpeed(0.0);
+            element.calculateSpeedVector();
+        }
+    }
+    
+    public void destroy(){
+        this.getState().setEffect(Effect.DESTROYED);
+    }
+    
+    public boolean isDestroyed(){
+        return this.getState().getEffect() == Effect.DESTROYED;
+    }
+    
+    public boolean isExploding(){
+        return this.getState().getEffect() == Effect.EXPLODING;
+    }
+    
+    public boolean isNormal(){
+        return this.getState().getEffect() == Effect.NORMAL;
+    }
+    
     public List<Element> getElements() {
         return elements;
     }

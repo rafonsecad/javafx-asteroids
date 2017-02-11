@@ -5,6 +5,7 @@
  */
 package asteroids.shapes;
 
+import asteroids.effects.Effect;
 import asteroids.elements.BulletElement;
 import asteroids.elements.Element;
 import java.util.ArrayList;
@@ -24,5 +25,10 @@ public class Bullet extends Shape{
     
     public void addBulletElement(BulletElement be){
         getElements().add(be);
+    }
+    
+    @Override
+    public void explode(){
+        this.getState().setEffect(Effect.DESTROYED);
     }
 }
