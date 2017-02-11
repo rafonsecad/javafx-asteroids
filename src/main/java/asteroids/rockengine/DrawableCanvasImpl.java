@@ -6,11 +6,13 @@
 package asteroids.rockengine;
 
 import asteroids.configuration.Properties;
+import asteroids.effects.Effect;
+import asteroids.effects.ShapeState;
 import asteroids.elements.Element;
+import asteroids.shapes.Shape;
 import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 /**
  *
@@ -44,7 +46,29 @@ public class DrawableCanvasImpl implements Drawable {
     }
 
     @Override
-    public void draw(List<Element> elements) {
+    public void draw(Shape shape) {
+        List<Element> elements = shape.getElements();
+        context.setGlobalAlpha(1.0);
+        if (shape.getState().getEffect() == Effect.EXPLODING){
+            int frames = shape.getState().getFrames();
+            if(frames >= 10 ){
+                ShapeState state = new ShapeState();
+                state.setEffect(Effect.DESTROYED);
+                state.setFrames(frames);
+                shape.setState(state);
+            }
+            shape.getState().setFrames(frames + 1);
+            context.setGlobalAlpha(0.6 - (frames*0.6/10));
+            for (Element element: elements){
+                element.setSpeed(0.0);
+                element.calculateSpeedVector();
+            }
+        }
+        
+        if (shape.getState().getEffect() == Effect.DESTROYED){
+            context.setGlobalAlpha(0);
+        }
+        
         for (Element element : elements) {
             drawElement(element);
         }

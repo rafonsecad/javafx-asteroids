@@ -32,6 +32,11 @@ public class VectorCollisionDetector implements Detectable {
     }
 
     @Override
+    public List<Element> getElements(){
+        return elements;
+    }
+    
+    @Override
     public List<Set<Integer>> getCrashedElements() {
         List<Set<Integer>> indexesOfBoxes = getOverlappedBoxes();
         List<Set<Integer>> indexesOfCrashedElements = new ArrayList<>();
@@ -65,7 +70,7 @@ public class VectorCollisionDetector implements Detectable {
 
     @Override
     public void clearElements() {
-        elements.clear();
+        elements = new ArrayList<>();
     }
 
     public List<Set<Integer>> getOverlappedBoxes() {

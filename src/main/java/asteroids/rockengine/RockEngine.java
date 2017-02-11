@@ -7,9 +7,12 @@ package asteroids.rockengine;
 
 import asteroids.configuration.Properties;
 import asteroids.configuration.PropertiesImpl;
+import asteroids.effects.Effect;
+import asteroids.effects.ShapeState;
 import asteroids.elements.AsteroidElement;
 import asteroids.elements.ShipElement;
 import asteroids.shapes.Asteroid;
+import asteroids.shapes.Bullet;
 import asteroids.shapes.Shape;
 import asteroids.shapes.SpaceShip;
 import java.util.ArrayList;
@@ -57,7 +60,7 @@ public class RockEngine extends TimerTask {
         createAsteroids(numberOfInitialAsteroids);
         ship = new SpaceShip();
         shapes.add(ship);
-        root.draw(ship.getElements());
+        root.draw(ship);
     }
 
     private void updatePositions() {
@@ -69,8 +72,11 @@ public class RockEngine extends TimerTask {
 
     public void processCollisionDetector() {
 
-        for (int i = 0; i < this.shapes.size(); i++) {
-            this.collisionDetector.addElement(shapes.get(i).getBoundary());
+//        for (int i = 0; i < this.shapes.size(); i++) {
+        for (Shape shape : this.shapes){
+            if (shape.getState().getEffect() == Effect.NORMAL){
+                this.collisionDetector.addElement(shape.getBoundary());
+            }
         }
     }
 
@@ -79,12 +85,29 @@ public class RockEngine extends TimerTask {
         Collections.reverse(indexes);
         for (int i = 0; i < indexes.size(); i++) {
             int index = (int) indexes.get(i);
-            checkIfGameIsOver(index);
-            if (this.shapes.get(index).getBoundary() instanceof AsteroidElement) {
-                score++;
+            for (int j = 0; j < this.shapes.size(); j++){
+                if (getCollisionDetector().getElements().get(index) == this.shapes.get(j).getBoundary()){
+                    checkIfGameIsOver(j);
+                    if (this.shapes.get(j).getBoundary() instanceof AsteroidElement) {
+                        score++;
+                    }
+                    ShapeState state = new ShapeState();
+                    state.setEffect(Effect.EXPLODING);
+                    if (this.shapes.get(j) instanceof Bullet){
+                        state.setEffect(Effect.DESTROYED);
+                    }
+                    this.shapes.get(j).setState(state);
+                    break;
+                }
             }
-            this.shapes.remove(index);
         }
+        
+        for (int index = this.shapes.size() - 1; index > 0 ; index--){
+            if (this.shapes.get(index).getState().getEffect() == Effect.DESTROYED){
+                this.shapes.remove(index);
+            }
+        }
+        
         resetRoot();
     }
 
@@ -128,7 +151,7 @@ public class RockEngine extends TimerTask {
 
     private boolean isFullOfAsteroids(Set<Integer> indexesSet) {
         for (Integer index : indexesSet) {
-            if (!(shapes.get(index).getBoundary() instanceof AsteroidElement)) {
+            if (!(getCollisionDetector().getElements().get(index) instanceof AsteroidElement)) {
                 return false;
             }
         }
@@ -137,7 +160,7 @@ public class RockEngine extends TimerTask {
 
     public void addShape(Shape shape) {
         shapes.add(shape);
-        root.draw(shape.getElements());
+        root.draw(shape);
     }
 
     private void addAsteroids(int numberOfAsteroids) {
@@ -152,7 +175,7 @@ public class RockEngine extends TimerTask {
         for (int i = 0; i < numberOfAsteroids; i++) {
             Asteroid asteroid = asteroidFactory.getRandomAsteroid();
             shapes.add(asteroid);
-            root.draw(asteroid.getElements());
+            root.draw(asteroid);
         }
     }
 
@@ -240,7 +263,7 @@ public class RockEngine extends TimerTask {
     public void resetRoot() {
         root.clear();
         for (Shape shape : shapes) {
-            root.draw(shape.getElements());
+            root.draw(shape);
         }
         showScore();
         if (endGameText != null) {

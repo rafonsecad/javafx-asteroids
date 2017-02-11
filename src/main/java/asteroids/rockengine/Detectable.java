@@ -17,4 +17,5 @@ public interface Detectable {
     public void addElement(Element e);
     public void clearElements();
     public List<Set<Integer>> getCrashedElements();
+    public List<Element> getElements();
 }
